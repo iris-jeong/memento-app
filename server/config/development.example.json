@@ -1,0 +1,7 @@
+{
+	"port": 3001,
+	"db": {
+		"name": "your_dev_db_name",
+		"uri": "mongodb://localhost:27017/your_dev_db_name"
+	}
+}

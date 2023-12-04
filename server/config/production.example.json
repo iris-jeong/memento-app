@@ -1,0 +1,7 @@
+{
+	"port": 8080,
+	"db": {
+		"name": "your_prod_db_name",
+		"uri": "mongodb+srv://your_username:your_password@your_mongodb_host/your_prod_db_name?retryWrites=true&w=majority"
+	}
+}
