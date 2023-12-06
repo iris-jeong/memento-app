@@ -1,25 +1,32 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { User } from '../../../models/user';
+import bcrypt from 'bcrypt';
+
+let mongoServer;
+
+// Setup
+beforeAll(async () => {
+	mongoServer = await MongoMemoryServer.create();
+	const uri = mongoServer.getUri();
+	await mongoose.connect(uri);
+});
+
+// Clear the collection after each test
+afterEach(async () => {
+	await mongoose.connection.dropDatabase();
+});
+
+// Teardown
+afterAll(async () => {
+	await mongoose.disconnect();
+	await mongoServer.stop();
+});
 
 describe('User Model Test', () => {
-	let mongoServer;
-
-	beforeAll(async () => {
-		mongoServer = await MongoMemoryServer.create();
-		const uri = mongoServer.getUri();
-		await mongoose.connect(uri);
-	});
-
-	afterAll(async () => {
-		await mongoose.disconnect();
-		await mongoServer.stop();
-	});
-
-	// Create and save a new user
-	test('should create and save a new user', async () => {
+	// Create and save a new user successfully
+	test('should create and save a new user successfully', async () => {
 		const userData = {
-			_id: new mongoose.Types.ObjectId(),
 			firstName: 'testFirstName',
 			lastName: 'testLastName',
 			email: 'testEmail',
@@ -33,6 +40,11 @@ describe('User Model Test', () => {
 		expect(validUser.firstName).toBe(userData.firstName);
 		expect(validUser.lastName).toBe(userData.lastName);
 		expect(validUser.email).toBe(userData.email);
-		expect(validUser.password).toBe(userData.password);
+
+		const isPasswordMatch = await bcrypt.compare(
+			userData.password,
+			savedUser.password
+		);
+		expect(isPasswordMatch).toBeTruthy();
 	});
 });
