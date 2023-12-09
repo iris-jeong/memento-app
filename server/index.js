@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import debug from 'debug';
-import users from './routes/users.js';
+import auth from './routes/auth.js';
 
 // Initialize the Express app
 const app = express();
@@ -33,7 +33,7 @@ mongoose
 app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
-app.use('/users', users);
+app.use('/api/auth', auth);
 
 // Start the server
 const PORT = config.get('port');

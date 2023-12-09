@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -20,15 +19,4 @@ userSchema.pre('save', async function (next) {
 
 const User = mongoose.model('User', userSchema);
 
-function validateUser(user) {
-	const schema = Joi.object({
-		firstName: Joi.string().min(2).max(20).required(),
-		lastName: Joi.string().min(2).max(20).required(),
-		email: Joi.string().email().required(),
-		password: Joi.string().min(5).max(20).required(),
-	});
-
-	return schema.validate(user);
-}
-
-export { User, validateUser };
+export { User };
