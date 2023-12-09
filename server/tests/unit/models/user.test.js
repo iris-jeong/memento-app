@@ -1,4 +1,5 @@
-import { User, validateUser } from '../../../models/user';
+import { User } from '../../../models/user';
+import { validateUser } from '../../../validators/userValidators';
 
 describe('User Model Validation Tests', () => {
 	// Valid user
