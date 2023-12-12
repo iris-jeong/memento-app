@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { validateEntry } from '../../../validation/entryValidation';
+import { validateEntry } from '../../../validation/entryValidation.js';
 
 describe('Entry Model Tests', () => {
 	// Valid entry

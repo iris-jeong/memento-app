@@ -1,4 +1,4 @@
-import { validateTag } from '../../../validation/tagValidation';
+import { validateTag } from '../../../validation/tagValidation.js';
 
 describe('Tag Model Validation Tests', () => {
 	// Valid tag
