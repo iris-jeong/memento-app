@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import debug from 'debug';
 import auth from './routes/auth.js';
 import entries from './routes/entries.js';
+import { error } from './middleware/error.js';
 
 // Initialize the Express app
 const app = express();
@@ -36,6 +37,8 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', auth);
 app.use('/api/entries', entries);
+
+app.use(error);
 
 // Start the server
 const PORT = config.get('port');
