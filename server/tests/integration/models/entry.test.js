@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { Entry } from '../../../models/Entry.js';
-import { Tag } from '../../../models/Tag.js';
+import { Entry } from '../../../models/Entry';
+import { Tag } from '../../../models/Tag';
 
 let mongoServer;
 

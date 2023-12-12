@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import bcrypt from 'bcrypt';
-import { User } from '../../../models/User.js';
+import { User } from '../../../models/User';
 
 let mongoServer;
 
