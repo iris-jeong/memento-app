@@ -5,11 +5,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-// Register User
+// Register user
 const register = asyncHandler(async (req, res) => {
 	const { error } = validateUser(req.body);
-	if (error)
+	if (error) {
 		return res.status(400).json({ message: error.details[0].message });
+	}
 
 	const { firstName, lastName, email, password } = req.body;
 
@@ -50,15 +51,10 @@ const login = asyncHandler(async (req, res) => {
 		{ expiresIn: '12h' }
 	);
 
-	// Set token in authorization header
-	res.header('Authorization', `Bearer ${token}`).json({
+	res.json({
 		message: 'Login successful',
+		token,
 	});
 });
 
-// Log out user
-const logout = asyncHandler(async (req, res) => {
-	res.send('logged in user');
-});
-
-export { register, login, logout };
+export { register, login };

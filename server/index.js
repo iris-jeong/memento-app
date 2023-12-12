@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import debug from 'debug';
 import auth from './routes/auth.js';
+import entries from './routes/entries.js';
 
 // Initialize the Express app
 const app = express();
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 app.use('/api/auth', auth);
+app.use('/api/entries', entries);
 
 // Start the server
 const PORT = config.get('port');
