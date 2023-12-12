@@ -2,5 +2,8 @@
 	"port": "PORT",
 	"db": {
 		"uri": "MONGO_URI"
+	},
+	"jwt": {
+		"secret": "JWT_SECRET"
 	}
 }

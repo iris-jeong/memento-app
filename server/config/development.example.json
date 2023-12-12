@@ -3,5 +3,9 @@
 	"db": {
 		"name": "your_dev_db_name",
 		"uri": "mongodb://localhost:27017/your_dev_db_name"
+	},
+	"jwt": {
+		"secret": "development_jwt_secret",
+		"expiresIn": "12h"
 	}
 }

@@ -1,7 +1,9 @@
 import { User } from '../models/user.js';
-import { validateLogin, validateUser } from '../validators/userValidators.js';
+import { validateLogin, validateUser } from '../validation/userValidation.js';
 import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from 'config';
 
 // Register User
 const register = asyncHandler(async (req, res) => {
@@ -41,8 +43,17 @@ const login = asyncHandler(async (req, res) => {
 	if (!validPassword)
 		return res.status(400).json({ message: 'Invalid password or email' });
 
-	// Generate a token and send it back
-	res.json({ message: 'Logged in successfully' });
+	// Generate JSON web token
+	const token = jwt.sign(
+		{ _id: user._id, email: user.email },
+		config.get('jwt.secret'),
+		{ expiresIn: '12h' }
+	);
+
+	// Set token in authorization header
+	res.header('Authorization', `Bearer ${token}`).json({
+		message: 'Login successful',
+	});
 });
 
 // Log out user
