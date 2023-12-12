@@ -1,9 +1,10 @@
 import express from 'express';
+import { createEntry } from '../controllers/EntryController.js';
 
 const router = express.Router();
 
-router.post('/'); // Create a new entry
 router.get('/'); // Retrieve all entries of a logged-in user
+router.post('/', createEntry); // Create a new entry
 router.get('/:id'); // Retrieve a single entry by its ID
 router.put('/:id'); // Update a specific entry
 router.delete('/:id'); // Delete a specific entry
