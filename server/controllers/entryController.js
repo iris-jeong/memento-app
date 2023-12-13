@@ -38,9 +38,33 @@ const getEntryById = asyncHandler(async (req, res) => {
 });
 
 // Update a specific entry
+const updateEntry = asyncHandler(async (req, res) => {
+	const entry = await Entry.findOneAndUpdate(
+		{ _id: req.params.id, userId: req.user._id },
+		req.body,
+		{ new: true }
+	);
+	if (!entry) {
+		res.status(404).json({ message: 'Entry not found' });
+	} else {
+		res.json(entry);
+	}
+});
+
 // Delete a specific entry
+const deleteEntry = asyncHandler(async (req, res) => {
+	const entry = await Entry.findOneAndDelete({
+		_id: req.params.id,
+		userId: req.user._id,
+	});
+	if (!entry) {
+		res.status(404).json({ message: 'Entry not found' });
+	} else {
+		res.status(204).send();
+	}
+});
 // Add tags to an entry
 // Retrieve entries by tag
 // Remove a tag from an entry
 
-export { createEntry, getAllEntries, getEntryById };
+export { createEntry, getAllEntries, getEntryById, updateEntry, deleteEntry };
