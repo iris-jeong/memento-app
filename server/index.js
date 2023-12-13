@@ -7,6 +7,7 @@ import debug from 'debug';
 import auth from './routes/auth.js';
 import entries from './routes/entries.js';
 import { error } from './middleware/error.js';
+import authMiddleware from './middleware/auth.js';
 
 // Initialize the Express app
 const app = express();
@@ -36,7 +37,7 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 app.use('/api/auth', auth);
-app.use('/api/entries', entries);
+app.use('/api/entries', authMiddleware, entries);
 
 app.use(error);
 
