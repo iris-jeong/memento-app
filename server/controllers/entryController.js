@@ -1,5 +1,7 @@
 import { Entry } from '../models/Entry.js';
 import { validateEntry } from '../validation/entryValidation.js';
+import { validateDate } from '../validation/dateValidation.js';
+import { validateTagIds } from '../validation/tagValidation.js';
 import asyncHandler from 'express-async-handler';
 
 const createEntry = asyncHandler(async (req, res) => {
@@ -9,6 +11,12 @@ const createEntry = asyncHandler(async (req, res) => {
 	}
 
 	const { userId, content, date, tagIds } = req.body;
+
+	// Validate the tag IDs
+	const validation = await validateTagIds(tagIds);
+	if (!validation.isValid) {
+		return res.status(400).json({ message: validation.message });
+	}
 
 	// Create and save new entry
 	const entry = new Entry({ userId, content, date, tagIds });
@@ -30,6 +38,7 @@ const getEntryById = asyncHandler(async (req, res) => {
 		_id: req.params.id,
 		userId: req.user._id,
 	});
+
 	if (!entry) {
 		res.status(404).json({ message: 'Entry not found' });
 	} else {
@@ -44,6 +53,7 @@ const updateEntry = asyncHandler(async (req, res) => {
 		req.body,
 		{ new: true }
 	);
+
 	if (!entry) {
 		res.status(404).json({ message: 'Entry not found' });
 	} else {
@@ -57,6 +67,7 @@ const deleteEntry = asyncHandler(async (req, res) => {
 		_id: req.params.id,
 		userId: req.user._id,
 	});
+
 	if (!entry) {
 		res.status(404).json({ message: 'Entry not found' });
 	} else {
@@ -67,6 +78,11 @@ const deleteEntry = asyncHandler(async (req, res) => {
 // Add tags to an entry
 const addTagsToEntry = asyncHandler(async (req, res) => {
 	const { tagIds } = req.body;
+
+	const validation = await validateTagIds(tagIds);
+	if (!validation.isValid) {
+		return res.status(400).json({ message: validation.message });
+	}
 
 	const entry = await Entry.findByIdAndUpdate(
 		req.params.id,
@@ -85,6 +101,11 @@ const addTagsToEntry = asyncHandler(async (req, res) => {
 const removeTagFromEntry = asyncHandler(async (req, res) => {
 	const { tagIds } = req.body;
 
+	const validation = await validateTagIds(tagIds);
+	if (!validation.isValid) {
+		return res.status(400).json({ message: validation.message });
+	}
+
 	const entry = await Entry.findByIdAndUpdate(
 		req.params.id,
 		{ $pull: { tagIds: { $in: tagIds } } },
@@ -98,7 +119,45 @@ const removeTagFromEntry = asyncHandler(async (req, res) => {
 	res.json(entry);
 });
 
-// Retrieve entries by tag
+// Retrieve entries by date and/or tags
+const searchEntries = asyncHandler(async (req, res) => {
+	const { year, month, day, tags } = req.query;
+
+	// Year, month, day validation
+	if (!year) {
+		return res.status(400).json({ message: 'Year is required' });
+	}
+	const dateError = validateDate(year, month, day);
+	if (dateError) {
+		return res.status(400).json({ message: dateError });
+	}
+
+	let query = { user: req.userId };
+
+	// Construct a date query if any date components are provided
+	if (year || month || day) {
+		let startDate = new Date(year, month ? month - 1 : 0, day || 1);
+		let endDate = new Date(year, month ? month : 12, day ? day : 31);
+
+		query.date = {
+			$gte: startDate,
+			$lte: endDate,
+		};
+	}
+
+	// Validate and add tags to query if provided
+	if (tags) {
+		const validation = await validateTagIds(tags);
+		if (!validation.isValid) {
+			return res.status(400).json({ message: validation.message });
+		}
+		query.tagIds = { $all: validation.tagIds };
+	}
+
+	// Execute query
+	const entries = await Entry.find(query);
+	res.json(entries);
+});
 
 export {
 	createEntry,
@@ -108,4 +167,5 @@ export {
 	deleteEntry,
 	addTagsToEntry,
 	removeTagFromEntry,
+	searchEntries,
 };
