@@ -7,15 +7,21 @@ import asyncHandler from 'express-async-handler';
 const createEntry = asyncHandler(async (req, res) => {
 	const { error } = validateEntry(req.body);
 	if (error) {
-		return res.status(400).json({ message: error.details[0].message });
+		return res.status(400).json({
+			error: 'Invalid entry data',
+			message: error.details[0].message,
+		});
 	}
 
-	const { userId, content, date, tagIds } = req.body;
+	const { content, date, tagIds } = req.body;
+	const userId = req.user._id;
 
 	// Validate the tag IDs
 	const validation = await validateTagIds(tagIds);
 	if (!validation.isValid) {
-		return res.status(400).json({ message: validation.message });
+		return res
+			.status(400)
+			.json({ error: 'Invalid tag IDs', message: validation.message });
 	}
 
 	// Create and save new entry
@@ -23,13 +29,17 @@ const createEntry = asyncHandler(async (req, res) => {
 	await entry.save();
 
 	// Add location header and send response
-	res.location(`/api/entries/${entry._id}`).status(201).json(entry);
+	const location = `/api/entries/${entry._id}`;
+	res.location(location).status(201).json({ success: true, location, entry });
 });
 
 // Retrieve all entries of a logged-in user
 const getAllEntries = asyncHandler(async (req, res) => {
-	const entries = await Entry.find({ user: req.user._id });
-	res.json(entries);
+	const entries = await Entry.find({ userId: req.user._id }).sort({
+		date: -1,
+	});
+
+	res.status(200).json(entries);
 });
 
 // Retrieve a single entry by its ID
@@ -40,10 +50,9 @@ const getEntryById = asyncHandler(async (req, res) => {
 	});
 
 	if (!entry) {
-		res.status(404).json({ message: 'Entry not found' });
-	} else {
-		res.json(entry);
+		return res.status(404).json({ message: 'Entry not found' });
 	}
+	res.status(200).json(entry);
 });
 
 // Update a specific entry
@@ -55,10 +64,9 @@ const updateEntry = asyncHandler(async (req, res) => {
 	);
 
 	if (!entry) {
-		res.status(404).json({ message: 'Entry not found' });
-	} else {
-		res.json(entry);
+		return res.status(404).json({ message: 'Entry not found' });
 	}
+	res.status(200).json(entry);
 });
 
 // Delete a specific entry
@@ -69,10 +77,9 @@ const deleteEntry = asyncHandler(async (req, res) => {
 	});
 
 	if (!entry) {
-		res.status(404).json({ message: 'Entry not found' });
-	} else {
-		res.status(204).send();
+		return res.status(404).json({ message: 'Entry not found' });
 	}
+	res.status(204).send();
 });
 
 // Add tags to an entry
@@ -93,7 +100,6 @@ const addTagsToEntry = asyncHandler(async (req, res) => {
 	if (!entry) {
 		return res.status(404).json({ message: 'Entry not found' });
 	}
-
 	res.json(entry);
 });
 
@@ -103,7 +109,9 @@ const removeTagFromEntry = asyncHandler(async (req, res) => {
 
 	const validation = await validateTagIds(tagIds);
 	if (!validation.isValid) {
-		return res.status(400).json({ message: validation.message });
+		return res
+			.status(400)
+			.json({ error: 'Invalid tags', message: validation.message });
 	}
 
 	const entry = await Entry.findByIdAndUpdate(
@@ -115,7 +123,6 @@ const removeTagFromEntry = asyncHandler(async (req, res) => {
 	if (!entry) {
 		return res.status(404).json({ message: 'Entry not found' });
 	}
-
 	res.json(entry);
 });
 
@@ -149,14 +156,16 @@ const searchEntries = asyncHandler(async (req, res) => {
 	if (tags) {
 		const validation = await validateTagIds(tags);
 		if (!validation.isValid) {
-			return res.status(400).json({ message: validation.message });
+			return res
+				.status(400)
+				.json({ error: 'Invalid tags', message: validation.message });
 		}
 		query.tagIds = { $all: validation.tagIds };
 	}
 
 	// Execute query
 	const entries = await Entry.find(query);
-	res.json(entries);
+	res.status(200).json(entries);
 });
 
 export {
