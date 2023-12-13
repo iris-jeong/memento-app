@@ -63,8 +63,49 @@ const deleteEntry = asyncHandler(async (req, res) => {
 		res.status(204).send();
 	}
 });
-// Add tags to an entry
-// Retrieve entries by tag
-// Remove a tag from an entry
 
-export { createEntry, getAllEntries, getEntryById, updateEntry, deleteEntry };
+// Add tags to an entry
+const addTagsToEntry = asyncHandler(async (req, res) => {
+	const { tagIds } = req.body;
+
+	const entry = await Entry.findByIdAndUpdate(
+		req.params.id,
+		{ $addToSet: { tagIds: { $each: tagIds } } },
+		{ new: true }
+	);
+
+	if (!entry) {
+		return res.status(404).json({ message: 'Entry not found' });
+	}
+
+	res.json(entry);
+});
+
+// Remove a tag from an entry
+const removeTagFromEntry = asyncHandler(async (req, res) => {
+	const { tagIds } = req.body;
+
+	const entry = await Entry.findByIdAndUpdate(
+		req.params.id,
+		{ $pull: { tagIds: { $in: tagIds } } },
+		{ new: true }
+	);
+
+	if (!entry) {
+		return res.status(404).json({ message: 'Entry not found' });
+	}
+
+	res.json(entry);
+});
+
+// Retrieve entries by tag
+
+export {
+	createEntry,
+	getAllEntries,
+	getEntryById,
+	updateEntry,
+	deleteEntry,
+	addTagsToEntry,
+	removeTagFromEntry,
+};
