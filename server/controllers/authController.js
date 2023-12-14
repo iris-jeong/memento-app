@@ -20,9 +20,9 @@ const register = asyncHandler(async (req, res) => {
 
 	// Create and store new user
 	const userObject = {
-		firstName,
-		lastName,
-		email,
+		firstName: firstName.trim(),
+		lastName: lastName.trim(),
+		email: email.trim().toLowerCase(),
 		password: await bcrypt.hash(password, 10),
 	};
 	await new User(userObject).save();
@@ -33,16 +33,20 @@ const register = asyncHandler(async (req, res) => {
 // Log in user
 const login = asyncHandler(async (req, res) => {
 	const { error } = validateLogin(req.body);
-	if (error) return res.status(400).send(error.details[0].message);
+	if (error)
+		return res.status(400).json({ message: error.details[0].message });
 
-	const { email, password } = req.body;
+	let { email, password } = req.body;
+	email = email.trim().toLowerCase();
 
-	let user = await User.findOne({ email });
-	if (!user) return res.status(400).send('Invalid email or password');
+	const user = await User.findOne({ email });
+	if (!user)
+		return res.status(400).json({ message: 'Invalid email or password' });
 
 	const validPassword = await bcrypt.compare(password, user.password);
-	if (!validPassword)
+	if (!validPassword) {
 		return res.status(400).json({ message: 'Invalid password or email' });
+	}
 
 	// Generate JSON web token
 	const token = jwt.sign(

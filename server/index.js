@@ -34,6 +34,8 @@ mongoose
 
 // Routes
 app.get('/', (req, res) => {
+	console.log(process.env.NODE_ENV);
+
 	res.send('Hello World!');
 });
 app.use('/api/auth', auth);
