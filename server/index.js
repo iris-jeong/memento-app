@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import debug from 'debug';
 import auth from './routes/auth.js';
 import entries from './routes/entries.js';
+import tags from './routes/tags.js';
 import { error } from './middleware/error.js';
 import authMiddleware from './middleware/auth.js';
 
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', auth);
 app.use('/api/entries', authMiddleware, entries);
+app.use('/api/tags', tags);
 
 app.use(error);
 
