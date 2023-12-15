@@ -24,4 +24,24 @@ const getAllTags = asyncHandler(async (req, res) => {
 	res.status(200).json(tags);
 });
 
-export { createTag, getAllTags };
+const updateTag = asyncHandler(async (req, res) => {
+	const tag = await Tag.findOneAndUpdate({ _id: req.params.id }, req.body, {
+		new: true,
+	});
+	if (!tag) {
+		return res.status(404).json({ message: 'Tag not found' });
+	}
+
+	res.status(200).json(tag);
+});
+
+const deleteTag = asyncHandler(async (req, res) => {
+	const tag = await Tag.findOneAndDelete({ _id: req.params.id });
+
+	if (!tag) {
+		return res.status(404).json({ message: 'Tag not found' });
+	}
+	res.status(200).json({ message: 'Tag deleted successfully' });
+});
+
+export { createTag, getAllTags, updateTag, deleteTag };
