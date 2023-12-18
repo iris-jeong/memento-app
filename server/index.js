@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', auth);
 app.use('/api/entries', authMiddleware, entries);
-app.use('/api/tags', tags);
+app.use('/api/tags', authMiddleware, tags);
 
 app.use(error);
 
