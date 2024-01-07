@@ -26,10 +26,10 @@ const Header: React.FC = () => {
 		};
 	}, [navRef]);
 	return (
-		<header className="flex justify-between items-center p-6 lg:px-12">
+		<header className="flex justify-between items-center p-6">
 			<div className="flex">
 				<Image src={WaveIcon} alt="Hand wave icon" width={22} height={22} />
-				<p className="ml-2 font-medium">Welcome, Iris!</p>
+				<p className="ml-2 font-medium sm:text-lg md:text-xl">Welcome, Iris!</p>
 			</div>
 			<nav ref={navRef} className="relative flex justify-end" role="navigation">
 				<button

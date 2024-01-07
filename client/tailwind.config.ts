@@ -16,6 +16,9 @@ const config: Config = {
 			fontFamily: {
 				sourceserif: ['Source Serif', 'serif'],
 			},
+			screens: {
+				xs: '586px',
+			},
 		},
 	},
 	plugins: [],
