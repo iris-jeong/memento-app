@@ -3,31 +3,23 @@ import Image from 'next/image';
 import AddIcon from '../../public/add.svg';
 import CloseIcon from '../../public/close.svg';
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import TagMenu from './TagMenu';
+import Tag from './Tag';
 
 type Tag = 'Event' | 'Conversation' | 'Feeling' | 'Realization' | 'Observation';
 
 export default function EntryForm() {
 	const [isTagsOpen, setIsTagsOpen] = useState<boolean>(false);
 	const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-	const [charCount, setCharCount] = useState<number>(0);
+	const [text, setText] = useState<string>('');
 	const tagListRef = useRef<HTMLDivElement>(null);
 
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		const newText = event.target.value;
-		setCharCount(newText.length);
+		setText(event.target.value);
 	};
 
 	const toggleTagMenu = (): void => {
-		console.log(`toggling from  ${isTagsOpen} to ${!isTagsOpen}`);
 		setIsTagsOpen((prevIsTagsOpen) => !prevIsTagsOpen);
-	};
-
-	const handleTagChange = (tag: Tag, isChecked: boolean): void => {
-		if (isChecked && selectedTags.length < 3) {
-			setSelectedTags((prevTags) => [...prevTags, tag]);
-		} else {
-			setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
-		}
 	};
 
 	const removeTag = (tag: Tag): void => {
@@ -75,9 +67,10 @@ export default function EntryForm() {
 						placeholder="Today's entry..."
 						className="w-full border-solid border-2 border-[#E8E8E8] rounded-md bg-[#F6F6F6] p-4 mb-4 focus:outline-none resize-none"
 						onChange={handleTextChange}
+						value={text}
 					></textarea>
 					<div className="flex text-xs absolute right-0 bottom-8 right-3 text-[#838383]">
-						<span>{charCount}</span>
+						<span>{text.length}</span>
 						<span>/300</span>
 					</div>
 				</div>
@@ -94,107 +87,20 @@ export default function EntryForm() {
 								<p className="pl-1 font-semibold">Tags</p>
 							</button>
 
-							{selectedTags.map((tag) => (
-								<div
-									key={tag}
-									className="flex items-center border-solid border-2 bg-[#F9F9F9] rounded-full px-3 py-1 text-xs mr-2 mb-2 font-sans"
-								>
-									<p>#{tag}</p>
-									<button type="button" onClick={() => removeTag(tag)}>
-										<Image
-											src={CloseIcon}
-											alt="Close icon"
-											width={14}
-											className="ml-2"
-										/>
-									</button>
-								</div>
-							))}
+							<ul>
+								{selectedTags.map((tag) => (
+									<Tag key={tag} tag={tag} removeTag={removeTag} />
+								))}
+							</ul>
 						</div>
 					</div>
 
 					{isTagsOpen && (
-						<div
+						<TagMenu
 							ref={tagListRef}
-							className="absolute border-solid border-2 border-[#E8E8E8] bg-[#FFFFFF] rounded-md py-4 pl-4 pr-12 shadow"
-						>
-							<ul className="px-2 xs:text-lg">
-								<li className="mb-2">
-									<input
-										type="checkbox"
-										id="tag-event"
-										className="mr-3 scale-125"
-										onChange={(e) => handleTagChange('Event', e.target.checked)}
-										checked={selectedTags.includes('Event')}
-										disabled={
-											selectedTags.length >= 3 &&
-											!selectedTags.includes('Event')
-										}
-									/>
-									<label htmlFor="tag-event">Event</label>
-								</li>
-								<li className="mb-2">
-									<input
-										type="checkbox"
-										id="tag-conversation"
-										className="mr-3 scale-125"
-										checked={selectedTags.includes('Conversation')}
-										onChange={(e) =>
-											handleTagChange('Conversation', e.target.checked)
-										}
-										disabled={
-											selectedTags.length >= 3 &&
-											!selectedTags.includes('Conversation')
-										}
-									/>
-									<label htmlFor="tag-conversation">Conversation</label>
-								</li>
-								<li className="mb-2">
-									<input
-										type="checkbox"
-										id="tag-feeling"
-										className="mr-3 scale-125"
-										checked={selectedTags.includes('Feeling')}
-										onChange={(e) =>
-											handleTagChange('Feeling', e.target.checked)
-										}
-									/>
-									<label htmlFor="tag-feeling">Feeling</label>
-								</li>
-								<li className="mb-2">
-									<input
-										type="checkbox"
-										id="tag-realization"
-										className="mr-3 scale-125"
-										checked={selectedTags.includes('Realization')}
-										onChange={(e) =>
-											handleTagChange('Realization', e.target.checked)
-										}
-										disabled={
-											selectedTags.length >= 3 &&
-											!selectedTags.includes('Realization')
-										}
-									/>
-									<label htmlFor="tag-realization">Realization</label>
-								</li>
-								<li className="">
-									<input
-										type="checkbox"
-										id="tag-observation"
-										className="mr-3 scale-125"
-										checked={selectedTags.includes('Observation')}
-										onChange={(e) =>
-											handleTagChange('Observation', e.target.checked)
-										}
-										disabled={
-											selectedTags.length >= 3 &&
-											!selectedTags.includes('Observation')
-										}
-									/>
-									<label htmlFor="tag-observation">Observation</label>
-								</li>
-							</ul>
-						</div>
+							selectedTags={selectedTags}
+							setSelectedTags={setSelectedTags}
+						/>
 					)}
 				</div>
 
