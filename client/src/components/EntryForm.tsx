@@ -37,7 +37,7 @@ export default function EntryForm() {
 	};
 
 	return (
-		<section className="w-5/6 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12">
+		<section className="w-7/8 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12">
 			<form
 				action=""
 				method="POST"
@@ -46,7 +46,7 @@ export default function EntryForm() {
 				<p className="text-center text-[#1945E2] font-semibold text-lg sm:text-xl md:2xl lg:3xl">
 					1.2.24
 				</p>
-				<h1 className="text-center text-lg xs:text-2xl md:text-3xl mt-2 mb-6">
+				<h1 className="text-center text-xl xs:text-2xl md:text-3xl mt-2 mb-6">
 					Write 1-3 sentences about the most memorable event, conversation,
 					feeling, realization, or observation that happened today.
 				</h1>
@@ -54,12 +54,12 @@ export default function EntryForm() {
 					<textarea
 						id="entry-input"
 						name="entry-input"
-						rows={5}
 						maxLength={300}
 						required
 						aria-label="Entry input"
 						placeholder="Today's entry..."
-						className="w-full border-solid border-2 border-[#E8E8E8] rounded-md bg-[#F6F6F6] p-4 mb-4 focus:outline-none resize-none"
+						className="w-full border-solid border-2 border-[#E8E8E8] rounded-md bg-[#F6F6F6] p-5 mb-4 focus:outline-none resize-none
+						h-60 xs:h-40 md:h-36"
 						onChange={handleTextChange}
 						value={text}
 					></textarea>
