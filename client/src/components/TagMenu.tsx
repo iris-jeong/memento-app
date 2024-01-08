@@ -33,7 +33,7 @@ const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
 		>
 			<ul className="px-2 xs:text-lg">
 				{tags.map((tag) => (
-					<>
+					<li key={tag}>
 						<input
 							type="checkbox"
 							id={`tag-${tag.toLowerCase()}`}
@@ -42,8 +42,8 @@ const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
 							checked={selectedTags.includes(tag)}
 							disabled={selectedTags.length >= 3 && !selectedTags.includes(tag)}
 						/>
-						<label htmlFor={`tag-${tag.toLowerCase()}`}>Event</label>
-					</>
+						<label htmlFor={`tag-${tag.toLowerCase()}`}>{tag}</label>
+					</li>
 				))}
 			</ul>
 		</div>

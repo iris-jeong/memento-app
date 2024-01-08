@@ -2,15 +2,20 @@
 import Image from 'next/image';
 import AddIcon from '../../public/add.svg';
 import CloseIcon from '../../public/close.svg';
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent, useCallback } from 'react';
 import TagMenu from './TagMenu';
 import Tag from './Tag';
 
-type Tag = 'Event' | 'Conversation' | 'Feeling' | 'Realization' | 'Observation';
+type TagType =
+	| 'Event'
+	| 'Conversation'
+	| 'Feeling'
+	| 'Realization'
+	| 'Observation';
 
 export default function EntryForm() {
 	const [isTagsOpen, setIsTagsOpen] = useState<boolean>(false);
-	const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 	const [text, setText] = useState<string>('');
 	const tagListRef = useRef<HTMLDivElement>(null);
 
@@ -22,25 +27,28 @@ export default function EntryForm() {
 		setIsTagsOpen((prevIsTagsOpen) => !prevIsTagsOpen);
 	};
 
-	const removeTag = (tag: Tag): void => {
+	const removeTag = (tag: TagType): void => {
 		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
 	};
 
-	useEffect(() => {
-		function handleClickOutside(event: MouseEvent): void {
+	const handleClickOutside = useCallback(
+		(event: MouseEvent) => {
 			if (
 				tagListRef.current &&
 				!tagListRef.current.contains(event.target as Node)
 			) {
 				setIsTagsOpen(false);
 			}
-		}
+		},
+		[tagListRef]
+	);
 
+	useEffect(() => {
 		document.addEventListener('mousedown', handleClickOutside);
 		return (): void => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [tagListRef]);
+	}, [handleClickOutside, tagListRef]);
 
 	return (
 		<section className="w-5/6 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12">
@@ -87,7 +95,7 @@ export default function EntryForm() {
 								<p className="pl-1 font-semibold">Tags</p>
 							</button>
 
-							<ul>
+							<ul className="flex">
 								{selectedTags.map((tag) => (
 									<Tag key={tag} tag={tag} removeTag={removeTag} />
 								))}
