@@ -5,6 +5,7 @@ import CloseIcon from '../../public/close.svg';
 import { useState, useEffect, useRef, ChangeEvent, useCallback } from 'react';
 import TagMenu from './TagMenu';
 import Tag from './Tag';
+import useClickOutside from '@/hooks/useClickOutside';
 
 type TagType =
 	| 'Event'
@@ -19,6 +20,10 @@ export default function EntryForm() {
 	const [text, setText] = useState<string>('');
 	const tagListRef = useRef<HTMLDivElement>(null);
 
+	useClickOutside(tagListRef, () => {
+		setIsTagsOpen(false);
+	});
+
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(event.target.value);
 	};
@@ -30,25 +35,6 @@ export default function EntryForm() {
 	const removeTag = (tag: TagType): void => {
 		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
 	};
-
-	const handleClickOutside = useCallback(
-		(event: MouseEvent) => {
-			if (
-				tagListRef.current &&
-				!tagListRef.current.contains(event.target as Node)
-			) {
-				setIsTagsOpen(false);
-			}
-		},
-		[tagListRef]
-	);
-
-	useEffect(() => {
-		document.addEventListener('mousedown', handleClickOutside);
-		return (): void => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [handleClickOutside, tagListRef]);
 
 	return (
 		<section className="w-5/6 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12">
