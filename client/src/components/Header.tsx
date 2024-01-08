@@ -4,27 +4,18 @@ import WaveIcon from '../../public/wave.svg';
 import MenuIcon from '../../public/menu.svg';
 import LogOutIcon from '../../public/logout.svg';
 import { useState, useRef, useEffect } from 'react';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const Header: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const navRef = useRef<HTMLDivElement>(null);
 
+	useClickOutside(navRef, () => {
+		setIsOpen(false);
+	});
+
 	const toggleMenu = (): void => setIsOpen((prevIsOpen) => !prevIsOpen);
 
-	useEffect(() => {
-		function handleClickOutside(event: MouseEvent): void {
-			if (navRef.current && !navRef.current.contains(event.target as Node)) {
-				setIsOpen(false);
-			}
-		}
-
-		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
-		return (): void => {
-			// Unbind the event listener on clean up
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [navRef]);
 	return (
 		<header className="flex justify-between items-center p-6">
 			<div className="flex">
