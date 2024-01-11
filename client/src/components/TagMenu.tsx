@@ -4,10 +4,11 @@ type Tag = 'Event' | 'Conversation' | 'Feeling' | 'Realization' | 'Observation';
 type TagMenuProps = {
 	selectedTags: Tag[];
 	setSelectedTags: (tags: Tag[] | ((prevTags: Tag[]) => Tag[])) => void;
+	position: string;
 };
 
 const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
-	{ selectedTags, setSelectedTags },
+	{ selectedTags, setSelectedTags, position },
 	ref
 ) {
 	const tags: Tag[] = [
@@ -29,11 +30,11 @@ const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
 	return (
 		<div
 			ref={ref}
-			className="absolute border-solid border-2 border-[#E8E8E8] bg-[#FFFFFF] rounded-md py-4 pl-4 pr-12 shadow"
+			className={`absolute border-solid border-2 border-[#E8E8E8] bg-[#FFFFFF] rounded-md py-4 pl-4 pr-12 shadow ${position}`}
 		>
 			<ul className="px-2 xs:text-lg">
 				{tags.map((tag) => (
-					<li key={tag}>
+					<li key={tag} className="flex items-center">
 						<input
 							type="checkbox"
 							id={`tag-${tag.toLowerCase()}`}

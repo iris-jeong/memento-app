@@ -94,6 +94,7 @@ export default function EntryForm() {
 							ref={tagListRef}
 							selectedTags={selectedTags}
 							setSelectedTags={setSelectedTags}
+							position=""
 						/>
 					)}
 				</div>
