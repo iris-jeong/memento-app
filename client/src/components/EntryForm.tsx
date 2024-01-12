@@ -37,7 +37,7 @@ export default function EntryForm() {
 	};
 
 	return (
-		<section className="w-7/8 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12">
+		<section className="w-7/8 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12 px-4">
 			<form
 				action=""
 				method="POST"

@@ -1,9 +1,17 @@
 import { forwardRef } from 'react';
 
-type Tag = 'Event' | 'Conversation' | 'Feeling' | 'Realization' | 'Observation';
+export type TagType =
+	| 'Event'
+	| 'Conversation'
+	| 'Feeling'
+	| 'Realization'
+	| 'Observation';
+
 type TagMenuProps = {
-	selectedTags: Tag[];
-	setSelectedTags: (tags: Tag[] | ((prevTags: Tag[]) => Tag[])) => void;
+	selectedTags: TagType[];
+	setSelectedTags: (
+		tags: TagType[] | ((prevTags: TagType[]) => TagType[])
+	) => void;
 	position: string;
 };
 
@@ -11,7 +19,7 @@ const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
 	{ selectedTags, setSelectedTags, position },
 	ref
 ) {
-	const tags: Tag[] = [
+	const tags: TagType[] = [
 		'Event',
 		'Conversation',
 		'Feeling',
@@ -19,7 +27,7 @@ const TagMenu = forwardRef<HTMLDivElement, TagMenuProps>(function TagMenu(
 		'Observation',
 	];
 
-	const handleTagChange = (tag: Tag, isChecked: boolean): void => {
+	const handleTagChange = (tag: TagType, isChecked: boolean): void => {
 		if (isChecked && selectedTags.length < 3) {
 			setSelectedTags((prevTags) => [...prevTags, tag]);
 		} else {

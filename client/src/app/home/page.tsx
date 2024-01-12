@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<div className="font-sourceserif">
 			<Header />
-			<main className="w-11/12 mx-auto">
+			<main className="">
 				<EntryForm />
 				<DailyEntries />
 			</main>

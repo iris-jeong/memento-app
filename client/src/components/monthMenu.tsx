@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-type Month =
+export type MonthType =
 	| 'January'
 	| 'February'
 	| 'March'
@@ -13,10 +13,11 @@ type Month =
 	| 'October'
 	| 'November'
 	| 'December';
+
 type MonthMenuProps = {
-	selectedMonths: Month[];
+	selectedMonths: MonthType[];
 	setSelectedMonths: (
-		tags: Month[] | ((prevMonths: Month[]) => Month[])
+		tags: MonthType[] | ((prevMonths: MonthType[]) => MonthType[])
 	) => void;
 };
 
@@ -24,7 +25,7 @@ const MonthMenu = forwardRef<HTMLDivElement, MonthMenuProps>(function MonthMenu(
 	{ selectedMonths, setSelectedMonths },
 	ref
 ) {
-	const months: Month[] = [
+	const months: MonthType[] = [
 		'January',
 		'February',
 		'March',
@@ -39,7 +40,7 @@ const MonthMenu = forwardRef<HTMLDivElement, MonthMenuProps>(function MonthMenu(
 		'December',
 	];
 
-	const handleMonthChange = (month: Month, isChecked: boolean): void => {
+	const handleMonthChange = (month: MonthType, isChecked: boolean): void => {
 		if (isChecked && selectedMonths.length < 3) {
 			setSelectedMonths((prevMonths) => [...prevMonths, month]);
 		} else {
