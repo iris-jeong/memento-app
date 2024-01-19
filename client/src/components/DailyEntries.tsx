@@ -74,33 +74,37 @@ export default function DailyEntries() {
 	];
 
 	return (
-		<section className="daily-entries bg-[#F2F2F2] border-solid border-2 w-full mx-0">
-			<div className="rounded-md p-1 xs:p-2">
-				<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2">
-					<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
+		<section className="daily-entries bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
+			<div className="max-w-[1200px] mx-auto">
+				<div className=" rounded-md p-1 xs:px-4">
+					<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2 xs:p-0 xs:my-4 mx-auto">
+						<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
 
-					<Filters
-						tagsFilter={tagsFilter}
-						monthsFilter={monthsFilter}
-						daysFilter={daysFilter}
-						yearsFilter={yearsFilter}
-						tagListRef={tagListRef}
-						monthListRef={monthListRef}
-						dayListRef={dayListRef}
-						yearListRef={yearListRef}
-					/>
+						<Filters
+							tagsFilter={tagsFilter}
+							monthsFilter={monthsFilter}
+							daysFilter={daysFilter}
+							yearsFilter={yearsFilter}
+							tagListRef={tagListRef}
+							monthListRef={monthListRef}
+							dayListRef={dayListRef}
+							yearListRef={yearListRef}
+						/>
+					</div>
 				</div>
-			</div>
 
-			<div className="entries">
-				{entries.map((entry, index) => (
-					<Entry
-						key={index}
-						date={entry.date}
-						text={entry.text}
-						tags={entry.tags}
-					/>
-				))}
+				<div className="entries w-full">
+					<div className="w-full md:flex md:flex-wrap md:justify-between">
+						{entries.map((entry, index) => (
+							<Entry
+								key={index}
+								date={entry.date}
+								text={entry.text}
+								tags={entry.tags}
+							/>
+						))}
+					</div>
+				</div>
 			</div>
 		</section>
 	);

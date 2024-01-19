@@ -82,7 +82,7 @@ export default function Filters({
 				</div>
 			</div>
 
-			<div className="relative">
+			<div className="relative ml-2">
 				<div className="border-solid border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1">
 					<button
 						type="button"
@@ -102,7 +102,7 @@ export default function Filters({
 				</div>
 			</div>
 
-			<div className="relative">
+			<div className="relative ml-2">
 				<div className="border-solid border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1">
 					<button
 						type="button"
@@ -122,7 +122,7 @@ export default function Filters({
 				</div>
 			</div>
 
-			<div className="relative">
+			<div className="relative ml-2">
 				<div className="border-solid border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1">
 					<button
 						type="button"
