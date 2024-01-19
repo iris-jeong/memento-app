@@ -56,13 +56,28 @@ export default function DailyEntries() {
 			text: 'my first entry',
 			tags: ['Conversation', 'Realization', 'Observation'],
 		},
+		{
+			date: new Date(),
+			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+			tags: ['Conversation', 'Realization', 'Observation'],
+		},
+		{
+			date: new Date(),
+			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+			tags: ['Conversation', 'Realization', 'Observation'],
+		},
+		{
+			date: new Date(),
+			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape. Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+			tags: ['Conversation', 'Realization', 'Observation'],
+		},
 	];
 
 	return (
 		<section className="daily-entries bg-[#F2F2F2] border-solid border-2 w-full mx-0">
-			<div className="rounded-md xs:p-8">
-				<div className="flex flex-wrap xs:justify-between p-2">
-					<h1 className="font-bold">My Entries</h1>
+			<div className="rounded-md p-1 xs:p-2">
+				<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2">
+					<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
 
 					<Filters
 						tagsFilter={tagsFilter}
