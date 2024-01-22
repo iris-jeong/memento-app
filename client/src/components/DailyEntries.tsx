@@ -1,11 +1,13 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import Filters from './Filters';
 import Entry from './Entry';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import { TagType } from './TagMenu';
 import { MonthType } from './monthMenu';
+import Modal from './Modal';
+import useClickOutside from '@/hooks/useClickOutside';
 
 type EntryType = {
 	date: Date;
@@ -14,10 +16,12 @@ type EntryType = {
 };
 
 export default function DailyEntries() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const tagListRef = useRef<HTMLDivElement>(null);
 	const monthListRef = useRef<HTMLDivElement>(null);
 	const dayListRef = useRef<HTMLDivElement>(null);
 	const yearListRef = useRef<HTMLDivElement>(null);
+	const modalRef = useRef<HTMLDivElement>(null);
 
 	const tagsFilter = useFilter<TagType>([]);
 	const monthsFilter = useFilter<MonthType>([]);
@@ -30,24 +34,12 @@ export default function DailyEntries() {
 		{ ref: dayListRef, handler: () => daysFilter.closeFilter() },
 		{ ref: yearListRef, handler: () => yearsFilter.closeFilter() },
 	];
-	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-	const [selectedMonths, setSelectedMonths] = useState<MonthType[]>([]);
-	const [selectedDays, setSelectedDays] = useState<number[]>([]);
-	const [selectedYears, setSelectedYears] = useState<number[]>([]);
 
 	useMultipleClickOutside(clickOutsideConfigs);
+	useClickOutside(modalRef, () => setIsModalOpen(false));
 
-	const removeTag = (tag: TagType): void => {
-		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
-	};
-	const removeMonth = (month: MonthType): void => {
-		setSelectedMonths((prevMonths) => prevMonths.filter((m) => m !== month));
-	};
-	const removeDay = (day: number): void => {
-		setSelectedDays((prevDays) => prevDays.filter((d) => d !== day));
-	};
-	const removeYear = (year: number): void => {
-		setSelectedYears((prevYears) => prevYears.filter((y) => y !== year));
+	const handleEntryClick = (id: number): void => {
+		setIsModalOpen(true);
 	};
 
 	const entries: EntryType[] = [
@@ -74,7 +66,13 @@ export default function DailyEntries() {
 	];
 
 	return (
-		<section className="daily-entries bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
+		<section className="relative bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
+			{isModalOpen && (
+				<div className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10">
+					<Modal ref={modalRef} setIsModalOpen={setIsModalOpen} />
+				</div>
+			)}
+
 			<div className="max-w-[1200px] mx-auto">
 				<div className=" rounded-md p-1 xs:px-4">
 					<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2 xs:p-0 xs:my-4 mx-auto">
@@ -101,6 +99,7 @@ export default function DailyEntries() {
 								date={entry.date}
 								text={entry.text}
 								tags={entry.tags}
+								handleEntryClick={() => handleEntryClick(index)}
 							/>
 						))}
 					</div>
