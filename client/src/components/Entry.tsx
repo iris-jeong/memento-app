@@ -14,7 +14,7 @@ export default function Entry({ date, text, tags }: EntryProps) {
 	const truncatedText = useMultilineEllipsis(textRef, text, maxHeight);
 
 	return (
-		<div className="border-solid border-2 p-4 mx-3 h-[300px] md:w-[46.85%] xl:w-[31%] bg-white rounded-lg mb-4">
+		<div className="border-solid border-2 p-4 mx-3 h-[300px] md:w-[46.85%] xl:w-[31%] bg-white rounded-md mb-4 hover:shadow hover:cursor-pointer">
 			<p className="font-bold mb-2">{formattedDate}</p>
 			<p ref={textRef} className="h-[200px] overflow-hidden mb-2">
 				{truncatedText}
