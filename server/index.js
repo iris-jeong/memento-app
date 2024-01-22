@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import config from 'config';
 import morgan from 'morgan';
@@ -12,6 +13,7 @@ import authMiddleware from './middleware/auth.js';
 
 // Initialize the Express app
 const app = express();
+app.use(cors());
 
 // Create debug instances for different parts of the application
 const dbDebug = debug('app:db');
