@@ -3,7 +3,7 @@ import Image from 'next/image';
 import WaveIcon from '../../public/wave.svg';
 import MenuIcon from '../../public/menu.svg';
 import LogOutIcon from '../../public/logout.svg';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
 
 const Header: React.FC = () => {
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
 	return (
 		<header className="flex justify-between items-center p-6">
 			<div className="flex">
-				<Image src={WaveIcon} alt="Hand wave icon" width={22} height={22} />
+				<Image src={WaveIcon} alt="Hand wave icon" width={22} />
 				<p className="ml-2 font-medium sm:text-lg md:text-xl">Welcome, Iris!</p>
 			</div>
 			<nav ref={navRef} className="relative flex justify-end" role="navigation">
@@ -33,6 +33,7 @@ const Header: React.FC = () => {
 						alt="Hamburger menu icon"
 						width={28}
 						height={28}
+						priority
 					/>
 				</button>
 

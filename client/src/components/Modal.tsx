@@ -12,8 +12,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	({ setIsModalOpen }, ref) => {
 		return (
 			<div
-				className="mx-2 p-4 xs:w-3/5 bg-white border-solid border-2 rounded-lg"
-				ref={ref} // Now accepts ref from parent component
+				className="mx-2 p-4 xs:max-w-[600px] bg-white border-solid border-2 rounded-lg"
+				ref={ref}
 			>
 				<div className="flex justify-end">
 					<span className="hover:cursor-pointer">
