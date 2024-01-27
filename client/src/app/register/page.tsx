@@ -1,0 +1,85 @@
+export default function Register() {
+	return (
+		<div>
+			<header className="flex justify-between items-center p-4 sm:px-12 sm:py-8">
+				<a href="" className="mr-4 font-bold text-lg">
+					Memento
+					<span className="ml-2 text-base font-thin">
+						- * Under Construction *
+					</span>
+				</a>
+			</header>
+			<main className="flex justify-center">
+				<div className="bg-[#fafafa] w-full xs:w-3/5 rounded-xl mb-18">
+					<div className="my-12">
+						<h1 className="text-3xl text-center font-bold">Sign Up</h1>
+						<p className="text-center mt-4">
+							Create an account to get started.
+						</p>
+					</div>
+
+					<form
+						method="POST"
+						action="#"
+						className="flex flex-col items-center mb-12"
+					>
+						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+							<label htmlFor="firstName" className="text-sm mb-1 tracking-wide">
+								First Name:
+							</label>
+							<input
+								id="firstName"
+								name="firstName"
+								type="text"
+								className="border-2 rounded h-14 px-2 text-lg"
+							/>
+						</div>
+
+						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+							<label htmlFor="lastName" className="text-sm mb-1 tracking-wide">
+								Last Name:
+							</label>
+							<input
+								id="lastName"
+								name="lastName"
+								type="text"
+								className="border-2 rounded h-14 px-2 text-lg"
+							/>
+						</div>
+
+						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+							<label htmlFor="email" className="text-sm mb-1 tracking-wide">
+								Email:
+							</label>
+							<input
+								id="email"
+								name="email"
+								type="text"
+								className="border-2 rounded h-14 px-2 text-lg"
+							/>
+						</div>
+
+						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+							<label htmlFor="password" className="text-sm mb-1 tracking-wide">
+								Password:
+							</label>
+							<input
+								id="password"
+								name="password"
+								type="password"
+								className="border-2 rounded h-14 px-2 text-lg"
+							/>
+						</div>
+
+						<button
+							type="submit"
+							className="bg-[#1945e2] w-3/4 px-8 py-4 rounded text-white font-semibold text-xl mt-8"
+						>
+							Sign Up
+						</button>
+					</form>
+				</div>
+			</main>
+		</div>
+	);
+}
