@@ -1,4 +1,48 @@
+'use client';
+import { ChangeEvent, useState, FormEvent } from 'react';
+
+type FormData = {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+};
+
 export default function Register() {
+	const [formData, setFormData] = useState<FormData>({
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+	});
+
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log(formData);
+		try {
+			const response = await fetch('http://localhost:3001/api/auth/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				console.error('Registration failed:', errorData);
+			}
+
+			const result = await response.json();
+			console.log(result);
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
 	return (
 		<div>
 			<header className="flex justify-between items-center p-4 sm:px-12 sm:py-8">
@@ -19,9 +63,8 @@ export default function Register() {
 					</div>
 
 					<form
-						method="POST"
-						action="#"
 						className="flex flex-col items-center mb-12"
+						onSubmit={handleSubmit}
 					>
 						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
 							<label htmlFor="firstName" className="text-sm mb-1 tracking-wide">
@@ -32,6 +75,8 @@ export default function Register() {
 								name="firstName"
 								type="text"
 								className="border-2 rounded h-14 px-2 text-lg"
+								value={formData.firstName}
+								onChange={handleChange}
 							/>
 						</div>
 
@@ -44,6 +89,8 @@ export default function Register() {
 								name="lastName"
 								type="text"
 								className="border-2 rounded h-14 px-2 text-lg"
+								value={formData.lastName}
+								onChange={handleChange}
 							/>
 						</div>
 
@@ -56,6 +103,8 @@ export default function Register() {
 								name="email"
 								type="text"
 								className="border-2 rounded h-14 px-2 text-lg"
+								value={formData.email}
+								onChange={handleChange}
 							/>
 						</div>
 
@@ -68,6 +117,8 @@ export default function Register() {
 								name="password"
 								type="password"
 								className="border-2 rounded h-14 px-2 text-lg"
+								value={formData.password}
+								onChange={handleChange}
 							/>
 						</div>
 

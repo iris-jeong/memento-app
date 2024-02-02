@@ -33,8 +33,7 @@ const register = asyncHandler(async (req, res) => {
 // Log in user
 const login = asyncHandler(async (req, res) => {
 	const { error } = validateLogin(req.body);
-	if (error)
-		return res.status(400).json({ message: error.details[0].message });
+	if (error) return res.status(400).json({ message: error.details[0].message });
 
 	let { email, password } = req.body;
 	email = email.trim().toLowerCase();
