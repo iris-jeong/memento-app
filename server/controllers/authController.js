@@ -25,9 +25,27 @@ const register = asyncHandler(async (req, res) => {
 		email: email.trim().toLowerCase(),
 		password: await bcrypt.hash(password, 10),
 	};
-	await new User(userObject).save();
+	const savedUser = await new User(userObject).save();
 
-	res.status(201).json({ message: `New user ${email} created` });
+	// Generate token
+	const token = jwt.sign(
+		{ userId: savedUser._id, email: savedUser.email },
+		config.get('jwt.secret'),
+		{ expiresIn: '1h' }
+	);
+
+	res
+		.status(201)
+		.json({
+			message: `New user ${email} created`,
+			token,
+			user: {
+				id: savedUser._id,
+				firstName: savedUser.firstName,
+				lastName: savedUser.lastName,
+				email: savedUser.email,
+			},
+		});
 });
 
 // Log in user

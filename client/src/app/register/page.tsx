@@ -1,4 +1,5 @@
 'use client';
+import { useAuth } from '@/hooks/useAuth';
 import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
 
 type FormData = {
@@ -25,6 +26,7 @@ export default function Register() {
 
 	const [formErrors, setFormErrors] = useState<FormErrors>({});
 	const [hasErrors, setHasErrors] = useState<boolean>(true);
+	const auth = useAuth();
 
 	useEffect(() => {
 		const fieldsFilled =
@@ -84,13 +86,21 @@ export default function Register() {
 				body: JSON.stringify(formData),
 			});
 
+			const result = await response.json();
+
 			if (!response.ok) {
-				const errorData = await response.json();
-				console.error('Registration failed:', errorData);
+				console.error('Registration failed:', result);
+				return;
 			}
 
-			const result = await response.json();
-			console.log(result);
+			console.log('Registration successful', result);
+
+			// Store the token & user
+			const { token, user } = result;
+			if (token && user) {
+				localStorage.setItem('token', token);
+				auth.login(token, user);
+			}
 		} catch (error) {
 			console.error('Error:', error);
 		}
