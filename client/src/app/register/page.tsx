@@ -1,11 +1,18 @@
 'use client';
-import { ChangeEvent, useState, FormEvent } from 'react';
+import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
 
 type FormData = {
 	firstName: string;
 	lastName: string;
 	email: string;
 	password: string;
+};
+
+type FormErrors = {
+	firstName?: string;
+	lastName?: string;
+	email?: string;
+	password?: string;
 };
 
 export default function Register() {
@@ -16,13 +23,58 @@ export default function Register() {
 		password: '',
 	});
 
+	const [formErrors, setFormErrors] = useState<FormErrors>({});
+	const [hasErrors, setHasErrors] = useState<boolean>(true);
+
+	useEffect(() => {
+		const fieldsFilled =
+			formData.firstName.trim() &&
+			formData.lastName.trim() &&
+			formData.email.trim() &&
+			formData.password.trim();
+		const errorExists = Object.values(formErrors).some(
+			(error) => error !== undefined && error !== ''
+		);
+		setHasErrors(!fieldsFilled || errorExists);
+	}, [formData, formErrors]);
+
+	const validateField = (name: string, value: string) => {
+		const errors: FormErrors = { ...formErrors };
+
+		switch (name) {
+			case 'firstName':
+				errors.firstName = value.trim() ? '' : 'First name must not be empty';
+				break;
+			case 'lastName':
+				errors.lastName = value.trim() ? '' : 'Last name must not be empty';
+				break;
+			case 'email':
+				const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+				const emailValid = regex.test(value);
+				errors.email = value.trim() && emailValid ? '' : 'Email is invalid.';
+				break;
+			case 'password':
+				errors.password =
+					value.trim() && value.length >= 6
+						? ''
+						: 'Password must be at least 6 characters long';
+				break;
+			default:
+				break;
+		}
+
+		setFormErrors(errors);
+	};
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+		validateField(name, value);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(formData);
+
 		try {
 			const response = await fetch('http://localhost:3001/api/auth/register', {
 				method: 'POST',
@@ -78,6 +130,9 @@ export default function Register() {
 								value={formData.firstName}
 								onChange={handleChange}
 							/>
+							{formErrors.firstName && (
+								<small className="text-red-600">{formErrors.firstName}</small>
+							)}
 						</div>
 
 						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
@@ -92,6 +147,9 @@ export default function Register() {
 								value={formData.lastName}
 								onChange={handleChange}
 							/>
+							{formErrors.lastName && (
+								<small className="text-red-600">{formErrors.lastName}</small>
+							)}
 						</div>
 
 						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
@@ -106,6 +164,9 @@ export default function Register() {
 								value={formData.email}
 								onChange={handleChange}
 							/>
+							{formErrors.email && (
+								<small className="text-red-600">{formErrors.email}</small>
+							)}
 						</div>
 
 						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
@@ -120,11 +181,17 @@ export default function Register() {
 								value={formData.password}
 								onChange={handleChange}
 							/>
+							{formErrors.password && (
+								<small className="text-red-600">{formErrors.password}</small>
+							)}
 						</div>
 
 						<button
 							type="submit"
-							className="bg-[#1945e2] w-3/4 px-8 py-4 rounded text-white font-semibold text-xl mt-8"
+							className={`bg-[#1945e2] w-3/4 px-8 py-4 rounded text-white font-semibold text-xl mt-8 ${
+								hasErrors ? 'opacity-50 cursor-none' : 'cursor-pointer'
+							}`}
+							disabled={hasErrors}
 						>
 							Sign Up
 						</button>
