@@ -1,6 +1,7 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
 import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 type FormData = {
 	firstName: string;
@@ -27,6 +28,7 @@ export default function Register() {
 	const [formErrors, setFormErrors] = useState<FormErrors>({});
 	const [hasErrors, setHasErrors] = useState<boolean>(true);
 	const auth = useAuth();
+	const router = useRouter();
 
 	useEffect(() => {
 		const fieldsFilled =
@@ -97,9 +99,10 @@ export default function Register() {
 
 			// Store the token & user
 			const { token, user } = result;
-			if (token && user) {
+			if (token) {
 				localStorage.setItem('token', token);
 				auth.login(token, user);
+				router.push('/home');
 			}
 		} catch (error) {
 			console.error('Error:', error);
