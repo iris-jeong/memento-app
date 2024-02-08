@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useState, PropsWithChildren } from 'react';
+import { createContext, useState, PropsWithChildren, useEffect } from 'react';
 
 interface User {
 	firstName: string;
@@ -19,7 +19,12 @@ export type AuthContextType = {
 	logout: () => void;
 };
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType>({
+	isAuthenticated: false,
+	user: null,
+	login: () => {},
+	logout: () => {},
+});
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [authState, setAuthState] = useState<AuthState>({
@@ -27,13 +32,24 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		user: null,
 	});
 
+	useEffect(() => {
+		// Rehydrate state from local storage
+		const token = localStorage.getItem('token');
+		const userData = localStorage.getItem('user');
+		if (token && userData) {
+			setAuthState({ isAuthenticated: true, user: JSON.parse(userData) });
+		}
+	}, []);
+
 	const login = (token: string, user: User) => {
 		localStorage.setItem('token', token);
+		localStorage.setItem('user', JSON.stringify(user));
 		setAuthState({ isAuthenticated: true, user });
 	};
 
 	const logout = () => {
 		localStorage.removeItem('token');
+		localStorage.removeItem('user');
 		setAuthState({ isAuthenticated: false, user: null });
 	};
 

@@ -5,10 +5,12 @@ import MenuIcon from '../../public/menu.svg';
 import LogOutIcon from '../../public/logout.svg';
 import { useState, useRef } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
+import { useAuth } from '@/hooks/useAuth';
 
 const Header: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const navRef = useRef<HTMLDivElement>(null);
+	const { user, isAuthenticated } = useAuth();
 
 	useClickOutside(navRef, () => {
 		setIsOpen(false);
@@ -20,7 +22,9 @@ const Header: React.FC = () => {
 		<header className="flex justify-between items-center p-6">
 			<div className="flex">
 				<Image src={WaveIcon} alt="Hand wave icon" width={22} />
-				<p className="ml-2 font-medium sm:text-lg md:text-xl">Welcome, Iris!</p>
+				{isAuthenticated && (
+					<p className="ml-2 font-medium sm:text-lg md:text-xl">{`Welcome, ${user?.firstName}!`}</p>
+				)}
 			</div>
 			<nav ref={navRef} className="relative flex justify-end" role="navigation">
 				<button
