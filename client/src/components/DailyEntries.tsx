@@ -15,7 +15,11 @@ type EntryType = {
 	tags: TagType[];
 };
 
-export default function DailyEntries() {
+interface DailyEntriesProps {
+	entries: EntryType[];
+}
+
+export default function DailyEntries({ entries }: DailyEntriesProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const tagListRef = useRef<HTMLDivElement>(null);
 	const monthListRef = useRef<HTMLDivElement>(null);
@@ -42,28 +46,28 @@ export default function DailyEntries() {
 		setIsModalOpen(true);
 	};
 
-	const entries: EntryType[] = [
-		{
-			date: new Date(),
-			text: 'my first entry',
-			tags: ['Conversation', 'Realization', 'Observation'],
-		},
-		{
-			date: new Date(),
-			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-			tags: ['Conversation', 'Realization', 'Observation'],
-		},
-		{
-			date: new Date(),
-			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-			tags: ['Conversation', 'Realization', 'Observation'],
-		},
-		{
-			date: new Date(),
-			text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape. Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-			tags: ['Conversation', 'Realization', 'Observation'],
-		},
-	];
+	// const entries: EntryType[] = [
+	// 	{
+	// 		date: new Date(),
+	// 		text: 'my first entry',
+	// 		tags: ['Conversation', 'Realization', 'Observation'],
+	// 	},
+	// 	{
+	// 		date: new Date(),
+	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+	// 		tags: ['Conversation', 'Realization', 'Observation'],
+	// 	},
+	// 	{
+	// 		date: new Date(),
+	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+	// 		tags: ['Conversation', 'Realization', 'Observation'],
+	// 	},
+	// 	{
+	// 		date: new Date(),
+	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape. Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
+	// 		tags: ['Conversation', 'Realization', 'Observation'],
+	// 	},
+	// ];
 
 	return (
 		<section className="relative bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
@@ -93,15 +97,25 @@ export default function DailyEntries() {
 
 				<div className="entries w-full">
 					<div className="w-full md:flex md:flex-wrap md:justify-between">
-						{entries.map((entry, index) => (
-							<Entry
-								key={index}
-								date={entry.date}
-								text={entry.text}
-								tags={entry.tags}
-								handleEntryClick={() => handleEntryClick(index)}
-							/>
-						))}
+						{entries.length !== 0 ? (
+							entries.map((entry, index) => (
+								<Entry
+									key={index}
+									date={entry.date}
+									text={entry.text}
+									tags={entry.tags}
+									handleEntryClick={() => handleEntryClick(index)}
+								/>
+							))
+						) : (
+							<div className="h-[400px] w-full flex flex-col justify-center items-center">
+								<h2 className="text-xl font-bold">No entries added yet</h2>
+								<p className="w-[370px] text-center">
+									You have not added any entries yet. Add an entry in the form
+									above to view it here.
+								</p>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

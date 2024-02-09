@@ -31,21 +31,19 @@ const register = asyncHandler(async (req, res) => {
 	const token = jwt.sign(
 		{ userId: savedUser._id, email: savedUser.email },
 		config.get('jwt.secret'),
-		{ expiresIn: '1h' }
+		{ expiresIn: '48h' }
 	);
 
-	res
-		.status(201)
-		.json({
-			message: `New user ${email} created`,
-			token,
-			user: {
-				id: savedUser._id,
-				firstName: savedUser.firstName,
-				lastName: savedUser.lastName,
-				email: savedUser.email,
-			},
-		});
+	res.status(201).json({
+		message: `New user ${email} created`,
+		token,
+		user: {
+			id: savedUser._id,
+			firstName: savedUser.firstName,
+			lastName: savedUser.lastName,
+			email: savedUser.email,
+		},
+	});
 });
 
 // Log in user
