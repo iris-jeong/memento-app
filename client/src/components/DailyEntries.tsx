@@ -46,29 +46,6 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 		setIsModalOpen(true);
 	};
 
-	// const entries: EntryType[] = [
-	// 	{
-	// 		date: new Date(),
-	// 		text: 'my first entry',
-	// 		tags: ['Conversation', 'Realization', 'Observation'],
-	// 	},
-	// 	{
-	// 		date: new Date(),
-	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-	// 		tags: ['Conversation', 'Realization', 'Observation'],
-	// 	},
-	// 	{
-	// 		date: new Date(),
-	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-	// 		tags: ['Conversation', 'Realization', 'Observation'],
-	// 	},
-	// 	{
-	// 		date: new Date(),
-	// 		text: "Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape. Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.Today, during my usual morning walk, I noticed the first daffodil of the season blooming in my neighbor's garden. It was a vivid yellow, standing out against the dull winter landscape.",
-	// 		tags: ['Conversation', 'Realization', 'Observation'],
-	// 	},
-	// ];
-
 	return (
 		<section className="relative bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
 			{isModalOpen && (

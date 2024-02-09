@@ -22,7 +22,6 @@ export default function Home() {
 
 				if (!response.ok) {
 					console.error(`HTTP error! status: ${response.status}`);
-					// throw new Error('Network response was not ok');
 				}
 				const data = await response.json();
 				setEntries(data);
