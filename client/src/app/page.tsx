@@ -32,7 +32,7 @@ export default function Landing() {
 							<a href="#">About</a>
 						</li>
 						<li className="ml-8">
-							<a href="#">Sign In</a>
+							<a href="/login">Sign In</a>
 						</li>
 						<li className="ml-8">
 							<a href="/register">Sign Up</a>

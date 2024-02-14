@@ -23,7 +23,7 @@ const register = asyncHandler(async (req, res) => {
 		firstName: firstName.trim(),
 		lastName: lastName.trim(),
 		email: email.trim().toLowerCase(),
-		password: await bcrypt.hash(password, 10),
+		password: password,
 	};
 	const savedUser = await new User(userObject).save();
 
@@ -49,16 +49,21 @@ const register = asyncHandler(async (req, res) => {
 // Log in user
 const login = asyncHandler(async (req, res) => {
 	const { error } = validateLogin(req.body);
-	if (error) return res.status(400).json({ message: error.details[0].message });
+	if (error) {
+		return res.status(400).json({ message: error.details[0].message });
+	}
 
 	let { email, password } = req.body;
 	email = email.trim().toLowerCase();
 
 	const user = await User.findOne({ email });
-	if (!user)
+
+	if (!user) {
 		return res.status(400).json({ message: 'Invalid email or password' });
+	}
 
 	const validPassword = await bcrypt.compare(password, user.password);
+
 	if (!validPassword) {
 		return res.status(400).json({ message: 'Invalid password or email' });
 	}
@@ -73,6 +78,12 @@ const login = asyncHandler(async (req, res) => {
 	res.json({
 		message: 'Login successful',
 		token,
+		user: {
+			id: user._id,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			email: user.email,
+		},
 	});
 });
 
