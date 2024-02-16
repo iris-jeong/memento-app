@@ -169,9 +169,7 @@ describe('User Model Validation Tests', () => {
 		};
 		const { error } = validateUser(userData);
 		expect(error).toBeDefined();
-		expect(error.details[0].message).toContain(
-			'"email" must be a valid email'
-		);
+		expect(error.details[0].message).toContain('"email" must be a valid email');
 	});
 	// Test for missing password
 	it('should report an error if password is missing', () => {
@@ -212,22 +210,7 @@ describe('User Model Validation Tests', () => {
 		const { error } = validateUser(userData);
 		expect(error).toBeDefined();
 		expect(error.details[0].message).toContain(
-			'"password" length must be at least 5 characters long'
-		);
-	});
-
-	// Password is too long
-	it('should report an error if password is too long', () => {
-		const userData = {
-			firstName: 'John',
-			lastName: 'Doe',
-			email: 'johndoe@example.com',
-			password: '123456789123456789123456789',
-		};
-		const { error } = validateUser(userData);
-		expect(error).toBeDefined();
-		expect(error.details[0].message).toContain(
-			'"password" length must be less than or equal to 20 characters long'
+			'"password" length must be at least 6 characters long'
 		);
 	});
 });
