@@ -36,6 +36,14 @@ export default function EntryForm() {
 		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
 	};
 
+	const formatDate = (date: Date): string => {
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear().toString().slice(-2);
+
+		return `${month}.${day}.${year}`;
+	};
+
 	return (
 		<section className="w-7/8 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12 px-4">
 			<form
@@ -44,7 +52,7 @@ export default function EntryForm() {
 				className="flex flex-col align-center justify-center"
 			>
 				<p className="text-center text-[#1945E2] font-semibold text-lg sm:text-xl md:2xl lg:3xl">
-					1.2.24
+					{formatDate(new Date())}
 				</p>
 				<h1 className="text-center text-xl xs:text-2xl md:text-3xl mt-2 mb-6">
 					Write 1-3 sentences about the most memorable event, conversation,
