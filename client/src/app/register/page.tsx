@@ -70,10 +70,21 @@ export default function Register() {
 		setFormErrors(errors);
 	};
 
+	const formatName = (str: string) => {
+		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+	};
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-		validateField(name, value);
+		let formattedValue = value;
+
+		// Format name
+		if (name === 'firstName' || name === 'lastName') {
+			formattedValue = formatName(value);
+		}
+
+		setFormData({ ...formData, [name]: formattedValue });
+		validateField(name, formattedValue);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
