@@ -8,13 +8,13 @@ import {
 	removeTagFromEntry,
 	searchEntries,
 	updateEntry,
-} from '../controllers/EntryController.js';
+} from '../controllers/entryController.js';
 
 const router = express.Router();
 
 router.get('/search', searchEntries); // Retrieve entries by date and/or tags
 router.get('/', getAllEntries); // Retrieve all entries of a logged-in user
-router.post('/', createEntry); // Create a new entry
+router.post('/new', createEntry); // Create a new entry
 router.get('/:id', getEntryById); // Retrieve a single entry by its ID
 router.put('/:id', updateEntry); // Update a specific entry
 router.delete('/:id', deleteEntry); // Delete a specific entry
