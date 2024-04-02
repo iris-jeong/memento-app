@@ -4,7 +4,7 @@ import Filters from './Filters';
 import Entry from './Entry';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
-import { TagType } from './TagMenu';
+import { TagType } from './Tag';
 import { MonthType } from './monthMenu';
 import Modal from './Modal';
 import useClickOutside from '@/hooks/useClickOutside';
