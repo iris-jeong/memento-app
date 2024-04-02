@@ -30,7 +30,7 @@ export default function Entry({
 			</p>
 			<div className="flex -ml-1">
 				{tags.map((tag) => (
-					<Tag key={tag} tag={tag} />
+					<Tag key={tag._id} tag={tag} />
 				))}
 			</div>
 		</div>
