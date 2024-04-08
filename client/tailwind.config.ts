@@ -14,7 +14,8 @@ const config: Config = {
 					'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 			},
 			fontFamily: {
-				sourceserif: ['Source Serif', 'serif'],
+				sourceSerif: ['Source Serif', 'serif'],
+				sourceSansPro: ['Source Sans Pro', 'sans serif'],
 			},
 			screens: {
 				xs: '586px',

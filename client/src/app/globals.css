@@ -6,6 +6,24 @@
 	font-family: 'Source Serif';
 	src: url('/fonts/Source_Serif_4/SourceSerif4-VariableFont.ttf');
 }
+@font-face {
+	font-family: 'Source Sans Pro';
+	src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.otf');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Source Sans Pro';
+	src: url('/fonts/Source_Sans_Pro/SourceSansPro-Semibold.otf');
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Source Sans Pro';
+	src: url('/fonts/Source_Sans_Pro/SourceSansPro-Bold.otf');
+	font-weight: 700;
+	font-style: normal;
+}
 
 :root {
 	--blue: 0, 123, 255;
@@ -15,5 +33,5 @@
 
 body {
 	color: rgb(var(--black));
-	font-family: 'Source Serif', serif;
+	font-family: 'Source Sans Pro', serif;
 }
