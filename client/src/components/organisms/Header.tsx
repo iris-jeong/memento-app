@@ -35,7 +35,7 @@ export default function Header() {
 				{isAuthenticated ? (
 					<>
 						<Image src={WaveIcon} alt="" aria-hidden="true" width={22} />
-						<p className="ml-2 font-medium sm:text-lg md:text-xl">
+						<p className="ml-2 text-lg font-sourceSerif">
 							Welcome, {user?.firstName || 'user'}!
 						</p>
 					</>
