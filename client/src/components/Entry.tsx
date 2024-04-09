@@ -2,22 +2,23 @@ import React, { useRef } from 'react';
 import Tag, { TagType } from './Tag';
 import useMultilineEllipsis from '@/hooks/useMultilineEllipsis';
 interface EntryProps {
-	date: Date;
-	text: string;
-	tags: TagType[];
+	date: string;
+	content: string;
+	tags?: TagType[];
 	handleEntryClick: () => void;
 }
 
 export default function Entry({
 	date,
-	text,
+	content,
 	tags,
 	handleEntryClick,
 }: EntryProps) {
-	const formattedDate = date.toLocaleDateString();
+	const dateObj = new Date(date);
+	const formattedDate = dateObj.toLocaleDateString();
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const maxHeight = 200;
-	const truncatedText = useMultilineEllipsis(textRef, text, maxHeight);
+	const truncatedText = useMultilineEllipsis(textRef, content, maxHeight);
 
 	return (
 		<div
@@ -29,9 +30,7 @@ export default function Entry({
 				{truncatedText}
 			</p>
 			<div className="flex -ml-1">
-				{tags.map((tag) => (
-					<Tag key={tag._id} tag={tag} />
-				))}
+				{tags && tags.map((tag) => <Tag key={tag._id} tag={tag} />)}
 			</div>
 		</div>
 	);
