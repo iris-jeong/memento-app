@@ -1,6 +1,6 @@
 import DownArrow from '../../public/down.svg';
 import Image from 'next/image';
-import TagMenu, { TagType } from './TagMenu';
+import TagMenu, { TagType } from './Tag';
 import MonthMenu, { MonthType } from './monthMenu';
 import DayMenu from './DayMenu';
 import YearMenu from './YearMenu';
@@ -71,14 +71,14 @@ export default function Filters({
 						<Image src={DownArrow} alt="Down arrow icon" width={18} />
 					</button>
 
-					{tagsFilter.isOpen && (
+					{/* {tagsFilter.isOpen && (
 						<TagMenu
 							ref={tagListRef}
 							selectedTags={tagsFilter.selectedFilters}
 							setSelectedTags={tagsFilter.handleFilterChange}
 							position="top-10 left-0"
 						/>
-					)}
+					)} */}
 				</div>
 			</div>
 
