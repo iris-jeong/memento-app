@@ -1,24 +1,24 @@
-import { NavLinksProps, NavLink } from '@/types/navigation';
+import { NavLinksProps } from '@/types/navigation';
 
-const navLinks: NavLink[] = [
-	{ href: '#', label: 'About' },
-	{ href: '/login', label: 'Log In' },
-	{ href: '/register', label: 'Sign Up' },
-];
-
-export default function NavLinks({ isMobile = false }: NavLinksProps) {
-	const defaultUlClasses = `flex font-semibold ${
-		isMobile ? 'flex-col items-center text-xl' : 'sm:flex-row'
+export default function NavLinks({ links, isMobile = false }: NavLinksProps) {
+	const defaultUlClasses = `h-full flex font-semibold ${
+		isMobile ? 'flex-col justify-center items-center text-2xl' : 'sm:flex-row'
 	}`;
-	const defaultLiClasses = `hover:text-[#1945E2] ${
-		isMobile ? 'mb-12' : 'ml-8'
-	}`;
+	const defaultLiClasses = `w-full text-center ${isMobile ? 'mb-6' : 'ml-8'}`;
 
 	return (
 		<ul className={defaultUlClasses}>
-			{navLinks.map((link) => (
+			{links.map((link) => (
 				<li key={link.label} className={defaultLiClasses}>
-					<a href={link.href}>{link.label}</a>
+					<a
+						href={link.href}
+						onClick={link.onClick}
+						className={`hover:text-[#1945E2] ${
+							isMobile ? 'block px-16 py-5' : 'text-nowrap'
+						}`}
+					>
+						{link.label}
+					</a>
 				</li>
 			))}
 		</ul>

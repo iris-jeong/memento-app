@@ -1,19 +1,14 @@
 import { StaticImageData } from 'next/image';
-import { RefObject } from 'react';
 
 export interface NavLinksProps {
+	links: NavLink[];
 	isMobile: boolean;
 }
 
 export interface NavLink {
 	href: string;
 	label: string;
-}
-
-export interface MobileNavProps {
-	menuRef: RefObject<HTMLDivElement>;
-	isMenuOpen: boolean;
-	onClick: () => void;
+	onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
 export interface IconButtonProps {
@@ -22,4 +17,12 @@ export interface IconButtonProps {
 	onClick: () => void;
 	width?: number;
 	height?: number;
+}
+
+export interface DesktopNavProps {
+	links: NavLink[];
+}
+
+export interface MobileNavProps {
+	links: NavLink[];
 }

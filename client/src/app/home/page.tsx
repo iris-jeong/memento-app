@@ -1,7 +1,7 @@
 'use client';
 import DailyEntries from '@/components/DailyEntries';
 import EntryForm from '@/components/EntryForm';
-import Header from '@/components/Header';
+import Header from '@/components/organisms/Header';
 import '../globals.css';
 import { useEffect, useState } from 'react';
 

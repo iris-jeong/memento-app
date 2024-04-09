@@ -9,7 +9,12 @@ export default function IconButton({
 	height,
 }: IconButtonProps) {
 	return (
-		<button type="button" aria-label={alt} onClick={onClick}>
+		<button
+			type="button"
+			className="relative z-50"
+			aria-label={alt}
+			onClick={onClick}
+		>
 			<Image src={icon} alt={alt} width={width} height={height} />
 		</button>
 	);
