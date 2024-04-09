@@ -10,8 +10,8 @@ import Modal from './Modal';
 import useClickOutside from '@/hooks/useClickOutside';
 
 type EntryType = {
-	date: Date;
-	text: string;
+	date: string;
+	content: string;
 	tags: TagType[];
 };
 
@@ -79,7 +79,7 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 								<Entry
 									key={index}
 									date={entry.date}
-									text={entry.text}
+									content={entry.content}
 									tags={entry.tags}
 									handleEntryClick={() => handleEntryClick(index)}
 								/>
