@@ -5,7 +5,7 @@ import Close from '../../../public/close-black.svg';
 import NavLinks from '../atoms/NavLinks';
 import useClickOutside from '@/hooks/useClickOutside';
 import useTrapFocus from '@/hooks/useTrapFocus';
-import { MobileNavProps, NavLink } from '@/types/navigation';
+import { MobileNavProps } from '@/types/navigation';
 
 export default function MobileNav({ links }: MobileNavProps) {
 	const menuRef = useRef<HTMLDivElement>(null);

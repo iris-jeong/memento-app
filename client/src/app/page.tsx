@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Journal from '../../public/journaling.svg';
 import Header from '@/components/organisms/Header';
+import Button from '@/components/atoms/Buttons';
 
 export default function Landing() {
 	return (
@@ -18,12 +19,7 @@ export default function Landing() {
 							</h1>
 							<h2>Notice the meaningful moments in everyday life.</h2>
 						</div>
-						<a
-							href="#"
-							className="border-2 px-6 py-4 rounded-full text-white font-semibold bg-[#2A2A2A] hover:bg-[#242424] shadow-lg"
-						>
-							Get Started
-						</a>
+						<Button label="Get Started" href="/register" />
 					</div>
 				</main>
 			</div>
