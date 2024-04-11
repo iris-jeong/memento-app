@@ -1,3 +1,5 @@
+import { ButtonProps } from '@/types/button';
+
 export default function Button({
 	label,
 	href,

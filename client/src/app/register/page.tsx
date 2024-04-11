@@ -1,21 +1,9 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
-import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
+import { ChangeEvent, useState, FormEvent, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-
-type FormData = {
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
-};
-
-type FormErrors = {
-	firstName?: string;
-	lastName?: string;
-	email?: string;
-	password?: string;
-};
+import { FormData, FormErrors } from '@/types/forms';
+import { formatName, validateFormField } from '@/utils/formUtils';
 
 export default function Register() {
 	const [formData, setFormData] = useState<FormData>({
@@ -26,66 +14,37 @@ export default function Register() {
 	});
 
 	const [formErrors, setFormErrors] = useState<FormErrors>({});
-	const [hasErrors, setHasErrors] = useState<boolean>(true);
 	const auth = useAuth();
 	const router = useRouter();
 
-	useEffect(() => {
-		const fieldsFilled =
-			formData.firstName.trim() &&
-			formData.lastName.trim() &&
-			formData.email.trim() &&
-			formData.password.trim();
-		const errorExists = Object.values(formErrors).some(
-			(error) => error !== undefined && error !== ''
+	// Calculate whether the form has errors if the form's data or errors change.
+	const hasErrors = useMemo(() => {
+		return (
+			!Object.values(formData).every((value) => value.trim()) ||
+			Object.values(formErrors).some((error) => error)
 		);
-		setHasErrors(!fieldsFilled || errorExists);
 	}, [formData, formErrors]);
 
-	const validateField = (name: string, value: string) => {
-		const errors: FormErrors = { ...formErrors };
+	const handleValidation = useCallback((fieldName: string, value: string) => {
+		const error = validateFormField(fieldName, value);
+		setFormErrors((prevErrors) => ({ ...prevErrors, [fieldName]: error }));
+	}, []);
 
-		switch (name) {
-			case 'firstName':
-				errors.firstName = value.trim() ? '' : 'First name must not be empty';
-				break;
-			case 'lastName':
-				errors.lastName = value.trim() ? '' : 'Last name must not be empty';
-				break;
-			case 'email':
-				const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-				const emailValid = regex.test(value);
-				errors.email = value.trim() && emailValid ? '' : 'Email is invalid.';
-				break;
-			case 'password':
-				errors.password =
-					value.trim() && value.length >= 6
-						? ''
-						: 'Password must be at least 6 characters long';
-				break;
-			default:
-				break;
-		}
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const { name, value } = e.target;
+			let formattedValue = value;
 
-		setFormErrors(errors);
-	};
+			if (name === 'firstName' || name === 'lastName') {
+				formattedValue = formatName(value);
+			}
 
-	const formatName = (str: string) => {
-		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-	};
-
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		let formattedValue = value;
-
-		// Format name
-		if (name === 'firstName' || name === 'lastName') {
-			formattedValue = formatName(value);
-		}
-
-		setFormData({ ...formData, [name]: formattedValue });
-		validateField(name, formattedValue);
-	};
+			// Update the form data and form errors.
+			setFormData((prevData) => ({ ...prevData, [name]: formattedValue }));
+			handleValidation(name, formattedValue);
+		},
+		[handleValidation]
+	);
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
