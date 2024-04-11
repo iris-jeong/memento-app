@@ -15,14 +15,15 @@ const register = asyncHandler(async (req, res) => {
 	const { firstName, lastName, email, password } = req.body;
 
 	// Check for duplicate
-	const duplicate = await User.findOne({ email });
+	const emailNormalized = email.trim().toLowerCase();
+	const duplicate = await User.findOne({ emailNormalized });
 	if (duplicate) return res.status(409).json({ message: 'Duplicate email' });
 
 	// Create and store new user
 	const userObject = {
 		firstName: firstName.trim(),
 		lastName: lastName.trim(),
-		email: email.trim().toLowerCase(),
+		email: emailNormalized,
 		password: password,
 	};
 	const savedUser = await new User(userObject).save();

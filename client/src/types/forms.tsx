@@ -11,3 +11,8 @@ export type FormErrors = {
 	email?: string;
 	password?: string;
 };
+
+export interface UseFormProps {
+	initialValues: FormData;
+	onSubmit: (formData: FormData) => void;
+}

@@ -1,54 +1,20 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
-import { ChangeEvent, useState, FormEvent, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { FormData, FormErrors } from '@/types/forms';
-import { formatName, validateFormField } from '@/utils/formUtils';
+import { FormData } from '@/types/forms';
+import useForm from '@/hooks/useForm';
 
 export default function Register() {
-	const [formData, setFormData] = useState<FormData>({
+	const initialValues: FormData = {
 		firstName: '',
 		lastName: '',
 		email: '',
 		password: '',
-	});
-
-	const [formErrors, setFormErrors] = useState<FormErrors>({});
+	};
 	const auth = useAuth();
 	const router = useRouter();
 
-	// Calculate whether the form has errors if the form's data or errors change.
-	const hasErrors = useMemo(() => {
-		return (
-			!Object.values(formData).every((value) => value.trim()) ||
-			Object.values(formErrors).some((error) => error)
-		);
-	}, [formData, formErrors]);
-
-	const handleValidation = useCallback((fieldName: string, value: string) => {
-		const error = validateFormField(fieldName, value);
-		setFormErrors((prevErrors) => ({ ...prevErrors, [fieldName]: error }));
-	}, []);
-
-	const handleChange = useCallback(
-		(e: ChangeEvent<HTMLInputElement>) => {
-			const { name, value } = e.target;
-			let formattedValue = value;
-
-			if (name === 'firstName' || name === 'lastName') {
-				formattedValue = formatName(value);
-			}
-
-			// Update the form data and form errors.
-			setFormData((prevData) => ({ ...prevData, [name]: formattedValue }));
-			handleValidation(name, formattedValue);
-		},
-		[handleValidation]
-	);
-
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
+	const onSubmit = async (formData: FormData) => {
 		try {
 			const response = await fetch('http://localhost:3001/api/auth/register', {
 				method: 'POST',
@@ -78,6 +44,13 @@ export default function Register() {
 			console.error('Error:', error);
 		}
 	};
+
+	const { formData, handleChange, handleSubmit, hasErrors, formErrors } =
+		useForm({
+			initialValues,
+			onSubmit,
+		});
+
 	return (
 		<div>
 			<header className="flex justify-between items-center p-4 sm:px-12 sm:py-8">
