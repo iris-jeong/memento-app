@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { FormData, FormErrors, UseFormProps } from '@/types/forms';
-import { formatName, validateFormField } from '@/utils/formUtils';
+import { normalizeFormData, validateFormField } from '@/utils/formUtils';
 
 const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
 	const [formData, setFormData] = useState<FormData>(initialValues);
@@ -22,13 +22,10 @@ const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
 	const handleChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const { name, value } = e.target;
-			let formattedValue = value;
-			if (name === 'firstName' || name === 'lastName') {
-				formattedValue = formatName(value);
-			}
+
 			// Update the form data and form errors.
-			setFormData((prevData) => ({ ...prevData, [name]: formattedValue }));
-			handleValidation(name, formattedValue);
+			setFormData((prevData) => ({ ...prevData, [name]: value }));
+			handleValidation(name, value);
 		},
 		[handleValidation]
 	);
@@ -37,11 +34,7 @@ const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 
-			const normalizedFormData = {
-				...formData,
-				email: formData.email.trim().toLowerCase(),
-			};
-
+			const normalizedFormData = normalizeFormData(formData);
 			onSubmit(normalizedFormData);
 		},
 		[formData, onSubmit]
