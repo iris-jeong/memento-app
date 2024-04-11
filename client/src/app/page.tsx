@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Journal from '../../public/journaling.svg';
 import Header from '@/components/organisms/Header';
-import Button from '@/components/atoms/Buttons';
+import Button from '@/components/atoms/Button';
 
 export default function Landing() {
 	return (
