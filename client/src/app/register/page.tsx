@@ -3,6 +3,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FormData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
+import { registerUser } from '@/api/auth';
 
 export default function Register() {
 	const initialValues: FormData = {
@@ -16,26 +17,10 @@ export default function Register() {
 
 	const onSubmit = async (formData: FormData) => {
 		try {
-			const response = await fetch('http://localhost:3001/api/auth/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
-
-			const result = await response.json();
-
-			if (!response.ok) {
-				console.error('Registration failed:', result);
-				return;
-			}
-
-			console.log('Registration successful', result);
+			const { token, user } = await registerUser(formData);
 
 			// Store the token & user
-			const { token, user } = result;
-			if (token) {
+			if (token && user) {
 				localStorage.setItem('token', token);
 				auth.login(token, user);
 				router.push('/home');
