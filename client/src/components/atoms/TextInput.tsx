@@ -1,0 +1,26 @@
+import { TextInputProps } from '@/types/forms';
+
+export default function TextInput({
+	id,
+	label,
+	value,
+	error,
+	onChange,
+}: TextInputProps) {
+	return (
+		<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+			<label htmlFor={id} className="text-sm mb-1 tracking-wide">
+				{label}
+			</label>
+			<input
+				id={id}
+				name={id}
+				type="text"
+				className="border-2 rounded h-14 px-2 text-lg"
+				value={value}
+				onChange={onChange}
+			/>
+			{error && <small className="text-red-600">{error}</small>}
+		</div>
+	);
+}

@@ -5,6 +5,7 @@ import { FormData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { registerUser } from '@/api/auth';
 import Header from '@/components/organisms/Header';
+import TextInput from '@/components/atoms/TextInput';
 
 export default function Register() {
 	const initialValues: FormData = {
@@ -13,6 +14,12 @@ export default function Register() {
 		email: '',
 		password: '',
 	};
+	const formFields = [
+		{ id: 'firstName', label: 'First Name' },
+		{ id: 'lastName', label: 'Last Name' },
+		{ id: 'email', label: 'Email' },
+		{ id: 'password', label: 'Password' },
+	];
 	const auth = useAuth();
 	const router = useRouter();
 
@@ -53,74 +60,20 @@ export default function Register() {
 						className="flex flex-col items-center mb-12"
 						onSubmit={handleSubmit}
 					>
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="firstName" className="text-sm mb-1 tracking-wide">
-								First Name:
-							</label>
-							<input
-								id="firstName"
-								name="firstName"
-								type="text"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.firstName}
+						{formFields.map((field) => (
+							<TextInput
+								key={field.id}
+								id={field.id}
+								label={field.label}
+								value={formData[field.id as keyof FormData]}
+								error={
+									formErrors[field.id as keyof FormData]
+										? formErrors[field.id as keyof FormData]
+										: ''
+								}
 								onChange={handleChange}
 							/>
-							{formErrors.firstName && (
-								<small className="text-red-600">{formErrors.firstName}</small>
-							)}
-						</div>
-
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="lastName" className="text-sm mb-1 tracking-wide">
-								Last Name:
-							</label>
-							<input
-								id="lastName"
-								name="lastName"
-								type="text"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.lastName}
-								onChange={handleChange}
-							/>
-							{formErrors.lastName && (
-								<small className="text-red-600">{formErrors.lastName}</small>
-							)}
-						</div>
-
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="email" className="text-sm mb-1 tracking-wide">
-								Email:
-							</label>
-							<input
-								id="email"
-								name="email"
-								type="text"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.email}
-								onChange={handleChange}
-							/>
-							{formErrors.email && (
-								<small className="text-red-600">{formErrors.email}</small>
-							)}
-						</div>
-
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="password" className="text-sm mb-1 tracking-wide">
-								Password:
-							</label>
-							<input
-								id="password"
-								name="password"
-								type="password"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.password}
-								onChange={handleChange}
-							/>
-							{formErrors.password && (
-								<small className="text-red-600">{formErrors.password}</small>
-							)}
-						</div>
-
+						))}
 						<button
 							type="submit"
 							className={`bg-[#1945e2] w-3/4 px-8 py-4 rounded text-white font-semibold text-xl mt-8 ${
