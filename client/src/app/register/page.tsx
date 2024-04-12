@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FormData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { registerUser } from '@/api/auth';
+import Header from '@/components/organisms/Header';
 
 export default function Register() {
 	const initialValues: FormData = {
@@ -38,16 +39,9 @@ export default function Register() {
 
 	return (
 		<div>
-			<header className="flex justify-between items-center p-4 sm:px-12 sm:py-8">
-				<a href="" className="mr-4 font-bold text-lg">
-					Memento
-					<span className="ml-2 text-base font-thin">
-						- * Under Construction *
-					</span>
-				</a>
-			</header>
+			<Header />
 			<main className="flex justify-center">
-				<div className="bg-[#fafafa] w-full xs:w-3/5 rounded-xl mb-18">
+				<div className="bg-[#fafafa] w-full xs:w-3/5 xs:min-w-[500px] max-w-[600px] rounded-xl mb-18">
 					<div className="my-12">
 						<h1 className="text-3xl text-center font-bold">Sign Up</h1>
 						<p className="text-center mt-4">

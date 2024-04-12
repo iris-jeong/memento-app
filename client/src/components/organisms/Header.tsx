@@ -1,7 +1,7 @@
 import DesktopNav from '@/components/molecules/DesktopNav';
 import MobileNav from '@/components/molecules/MobileNav';
 import { MouseEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { NavLink } from '@/types/navigation';
 import Image from 'next/image';
@@ -29,6 +29,12 @@ export default function Header() {
 
 	const links = isAuthenticated ? homePageLinks : landingPageLinks;
 
+	// Determine if the current page is the login or sign up page
+	const pathname = usePathname();
+	const isLoginPage = pathname === '/login';
+	const isSignUpPage = pathname === '/register';
+	const shouldHideNav = isLoginPage || isSignUpPage;
+
 	return (
 		<header className="h-[110px] flex justify-between items-center px-6 py-4 xs:py-8 sm:px-12">
 			<div className="flex items-center">
@@ -46,8 +52,12 @@ export default function Header() {
 				)}
 			</div>
 
-			<DesktopNav links={links} />
-			<MobileNav links={links} />
+			{!shouldHideNav && (
+				<>
+					<DesktopNav links={links} />
+					<MobileNav links={links} />
+				</>
+			)}
 		</header>
 	);
 }
