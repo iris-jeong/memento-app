@@ -1,25 +1,38 @@
 import { ButtonProps } from '@/types/button';
 
 export default function Button({
-	label,
+	children,
+	type = 'button',
+	variant = 'primary',
+	className = '',
 	href,
-	className,
 	onClick,
+	disabled = false,
 }: ButtonProps) {
-	const baseClass =
-		'inline-block px-6 py-4 rounded-full text-white font-semibold bg-[#1945E2] hover:bg-[#0B3AE1] shadow-lg';
+	const baseStyles =
+		'px-8 py-4 bg-[#1945E2] hover:bg-[#0B3AE1] text-lg text-white font-semibold shadow-xl';
+	const variantStyles = {
+		primary: 'rounded-full mt-8',
+		secondary: 'rounded w-full',
+	};
+	const styles = `${baseStyles} ${variantStyles[variant]} ${className}`;
 
 	if (href) {
 		return (
-			<a href={href} className={`${baseClass} ${className}`}>
-				{label}
+			<a href={href} className={styles}>
+				{children}
 			</a>
 		);
 	}
 
 	return (
-		<button className={`${baseClass} ${className}`} onClick={onClick}>
-			{label}
+		<button
+			type={type}
+			className={styles}
+			onClick={onClick}
+			disabled={disabled}
+		>
+			{children}
 		</button>
 	);
 }

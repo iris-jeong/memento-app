@@ -8,7 +8,7 @@ export default function TextInput({
 	onChange,
 }: TextInputProps) {
 	return (
-		<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
+		<div className="flex flex-col w-full mb-8">
 			<label htmlFor={id} className="text-sm mb-1 tracking-wide">
 				{label}
 			</label>

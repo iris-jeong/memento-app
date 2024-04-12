@@ -19,12 +19,6 @@ export interface UseFormProps {
 	onSubmit: (formData: FormData) => void;
 }
 
-export interface FormProps {
-	children: ReactNode;
-	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-	hasErrors: boolean;
-}
-
 export interface TextInputProps {
 	id: string;
 	label: string;

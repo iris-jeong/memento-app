@@ -1,6 +1,9 @@
 export interface ButtonProps {
-	label: string;
-	href?: string;
+	children: React.ReactNode;
+	type?: 'button' | 'submit';
+	variant?: 'primary' | 'secondary';
 	className?: string;
-	onClick?: () => void;
+	href?: string;
+	onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+	disabled?: boolean;
 }
