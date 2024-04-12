@@ -1,3 +1,5 @@
+import { ChangeEvent, FormEvent, ReactNode } from 'react';
+
 export type FormData = {
 	firstName: string;
 	lastName: string;
@@ -15,4 +17,18 @@ export type FormErrors = {
 export interface UseFormProps {
 	initialValues: FormData;
 	onSubmit: (formData: FormData) => void;
+}
+
+export interface FormProps {
+	children: ReactNode;
+	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+	hasErrors: boolean;
+}
+
+export interface TextInputProps {
+	id: string;
+	label: string;
+	value: string;
+	error?: string;
+	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
