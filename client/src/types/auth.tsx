@@ -5,7 +5,7 @@ export interface User {
 	email: string;
 }
 
-export interface RegisterResponse {
+export interface Response {
 	token: string;
 	user: User;
 }

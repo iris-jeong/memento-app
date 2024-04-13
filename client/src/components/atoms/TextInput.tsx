@@ -2,6 +2,7 @@ import { TextInputProps } from '@/types/forms';
 
 export default function TextInput({
 	id,
+	type,
 	label,
 	value,
 	error,
@@ -15,7 +16,7 @@ export default function TextInput({
 			<input
 				id={id}
 				name={id}
-				type="text"
+				type={type}
 				className="border-2 rounded h-14 px-2 text-lg"
 				value={value}
 				onChange={onChange}

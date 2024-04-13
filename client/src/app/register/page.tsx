@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { FormData } from '@/types/forms';
+import { RegisterFormData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { registerUser } from '@/api/auth';
 import Header from '@/components/organisms/Header';
@@ -9,22 +9,26 @@ import TextInput from '@/components/atoms/TextInput';
 import Button from '@/components/atoms/Button';
 
 export default function Register() {
-	const initialValues: FormData = {
+	const initialValues: RegisterFormData = {
 		firstName: '',
 		lastName: '',
 		email: '',
 		password: '',
 	};
-	const formFields = [
-		{ id: 'firstName', label: 'First Name' },
-		{ id: 'lastName', label: 'Last Name' },
-		{ id: 'email', label: 'Email' },
-		{ id: 'password', label: 'Password' },
+	const formFields: Array<{
+		id: keyof RegisterFormData;
+		label: string;
+		type: string;
+	}> = [
+		{ id: 'firstName', label: 'First Name', type: 'text' },
+		{ id: 'lastName', label: 'Last Name', type: 'text' },
+		{ id: 'email', label: 'Email', type: 'text' },
+		{ id: 'password', label: 'Password', type: 'password' },
 	];
 	const auth = useAuth();
 	const router = useRouter();
 
-	const onSubmit = async (formData: FormData) => {
+	const onSubmit = async (formData: RegisterFormData) => {
 		try {
 			const { token, user } = await registerUser(formData);
 
@@ -46,7 +50,7 @@ export default function Register() {
 		});
 
 	return (
-		<div>
+		<>
 			<Header />
 
 			<main className="flex justify-center">
@@ -67,13 +71,10 @@ export default function Register() {
 								<TextInput
 									key={field.id}
 									id={field.id}
+									type={field.type}
 									label={field.label}
-									value={formData[field.id as keyof FormData]}
-									error={
-										formErrors[field.id as keyof FormData]
-											? formErrors[field.id as keyof FormData]
-											: ''
-									}
+									value={formData[field.id]}
+									error={formErrors[field.id] || ''}
 									onChange={handleChange}
 								/>
 							))}
@@ -94,6 +95,6 @@ export default function Register() {
 					</div>
 				</div>
 			</main>
-		</div>
+		</>
 	);
 }

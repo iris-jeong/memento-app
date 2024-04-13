@@ -1,167 +1,105 @@
 'use client';
+import { loginUser } from '@/api/auth';
+import Button from '@/components/atoms/Button';
+import TextInput from '@/components/atoms/TextInput';
+import Header from '@/components/organisms/Header';
 import { useAuth } from '@/hooks/useAuth';
+import useForm from '@/hooks/useForm';
+import { LoginFormData } from '@/types/forms';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-
-type FormData = {
-	email: string;
-	password: string;
-};
-
-type FormErrors = {
-	email?: string;
-	password?: string;
-};
+import { useState } from 'react';
 
 export default function Login() {
-	const [formData, setFormData] = useState<FormData>({
+	const initialValues: LoginFormData = {
 		email: '',
 		password: '',
-	});
-	const [formErrors, setFormErrors] = useState<FormErrors>({});
-	const [hasErrors, setHasErrors] = useState<boolean>(true);
+	};
+	const formFields: Array<{
+		id: keyof LoginFormData;
+		label: string;
+		type: string;
+	}> = [
+		{ id: 'email', label: 'Email', type: 'text' },
+		{ id: 'password', label: 'Password', type: 'password' },
+	];
 	const [loginError, setLoginError] = useState<string>('');
 	const auth = useAuth();
 	const router = useRouter();
 
-	useEffect(() => {
-		const fieldsFilled = formData.email.trim() && formData.password.trim();
-		const errorExists = Object.values(formErrors).some(
-			(error) => error !== undefined && error !== ''
-		);
-		setHasErrors(!fieldsFilled || errorExists);
-	}, [formData, formErrors]);
-
-	const validateField = (name: string, value: string) => {
-		const errors: FormErrors = { ...formErrors };
-
-		switch (name) {
-			case 'email':
-				const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-				const emailValid = regex.test(value);
-				errors.email = value.trim() && emailValid ? '' : 'Email is invalid.';
-				break;
-			case 'password':
-				errors.password =
-					value.trim() && value.length > 0 ? '' : 'Password cannot be empty';
-				break;
-			default:
-				break;
-		}
-
-		setFormErrors(errors);
-	};
-
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-		validateField(name, value);
-	};
-
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
+	const onSubmit = async (formData: LoginFormData) => {
 		try {
-			const response = await fetch('http://localhost:3001/api/auth/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
-
-			const result = await response.json();
-
-			if (!response.ok) {
-				const { message } = result;
-				setLoginError(message);
-				console.error('Sign in failed:', result);
-				return;
-			}
-			console.log('Sign in successful', result);
+			const { token, user } = await loginUser(formData);
 
 			// Store the token & user
-			const { token, user } = result;
-			if (token) {
+			if (token && user) {
 				localStorage.setItem('token', token);
 				localStorage.setItem('user', JSON.stringify(user));
 				auth.login(token, user);
 				router.push('/home');
 			}
 		} catch (error) {
+			setLoginError('Invalid email or password');
 			console.error('Error before or during fetch:', error);
 		}
 	};
 
+	const { formData, handleChange, handleSubmit, hasErrors, formErrors } =
+		useForm({
+			initialValues,
+			onSubmit,
+			onFieldChange: () => setLoginError(''),
+		});
+
 	return (
-		<div>
-			<header className="flex justify-between items-center p-4 sm:px-12 sm:py-8">
-				<a href="" className="mr-4 font-bold text-lg">
-					Memento
-					<span className="ml-2 text-base font-thin">
-						- * Under Construction *
-					</span>
-				</a>
-			</header>
-			<main className="flex justify-center">
-				<div className="bg-[#fafafa] w-full xs:w-3/5 rounded-xl mb-18">
-					<div className="my-12 flex flex-col items-center">
-						<h1 className="text-3xl font-bold">Sign In</h1>
-						<p className="mt-4">Welcome back! Please sign in to continue.</p>
-					</div>
+		<>
+			<Header />
 
-					<form
-						className="flex flex-col items-center mb-12"
-						onSubmit={handleSubmit}
-					>
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="email" className="text-sm mb-1 tracking-wide">
-								Email:
-							</label>
-							<input
-								id="email"
-								name="email"
-								type="text"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.email}
-								onChange={handleChange}
-							/>
-							{formErrors.email && (
-								<small className="text-red-600">{formErrors.email}</small>
-							)}
+			<main className="h-screen flex justify-center xs:pt-16">
+				<div className="bg-[#fafafa] w-full h-screen xs:h-fit xs:w-3/5 xs:min-w-[500px] max-w-[600px] rounded-xl flex justify-center">
+					<div className="flex flex-col w-4/5 py-4 xs:py-16">
+						<div className="mb-8">
+							<h1 className="text-3xl text-center font-bold">Sign In</h1>
+							<p className="text-center mt-4">
+								Welcome back! Please sign in to continue.
+							</p>
 						</div>
 
-						<div className="flex flex-col w-4/5 xs:w-3/4 mb-8">
-							<label htmlFor="password" className="text-sm mb-1 tracking-wide">
-								Password:
-							</label>
-							<input
-								id="password"
-								name="password"
-								type="password"
-								className="border-2 rounded h-14 px-2 text-lg"
-								value={formData.password}
-								onChange={handleChange}
-							/>
-							{formErrors.password && (
-								<small className="text-red-600">{formErrors.password}</small>
-							)}
-						</div>
-
-						{loginError && <small className="text-red-600">{loginError}</small>}
-
-						<button
-							type="submit"
-							className={`bg-[#1945e2] w-3/4 px-8 py-4 rounded text-white font-semibold text-xl mt-8 ${
-								hasErrors ? 'opacity-50 cursor-none' : 'cursor-pointer'
-							}`}
-							disabled={hasErrors}
+						<form
+							className="flex flex-col items-center"
+							onSubmit={handleSubmit}
 						>
-							Sign In
-						</button>
-					</form>
+							{formFields.map((field) => (
+								<TextInput
+									key={field.id}
+									id={field.id}
+									type={field.type}
+									label={field.label}
+									value={formData[field.id]}
+									error={formErrors[field.id] || ''}
+									onChange={handleChange}
+								/>
+							))}
+
+							{loginError && (
+								<small className="text-red-600">{loginError}</small>
+							)}
+
+							<Button
+								type="submit"
+								variant="secondary"
+								className={
+									hasErrors
+										? 'opacity-50 cursor-default hover:bg-[#1945E2]'
+										: 'cursor-pointer'
+								}
+								disabled={hasErrors}
+							>
+								Log In
+							</Button>
+						</form>
+					</div>
 				</div>
 			</main>
-		</div>
+		</>
 	);
 }

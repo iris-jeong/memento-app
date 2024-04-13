@@ -1,9 +1,13 @@
 import { useState, useCallback, useMemo } from 'react';
-import { FormData, FormErrors, UseFormProps } from '@/types/forms';
+import { FormErrors, UseFormProps } from '@/types/forms';
 import { normalizeFormData, validateFormField } from '@/utils/formUtils';
 
-const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
-	const [formData, setFormData] = useState<FormData>(initialValues);
+function useForm<T extends Record<string, any>>({
+	initialValues,
+	onSubmit,
+	onFieldChange,
+}: UseFormProps<T>) {
+	const [formData, setFormData] = useState<T>(initialValues);
 	const [formErrors, setFormErrors] = useState<Partial<FormErrors>>({});
 
 	// Calculate whether the form has errors if the form's data or errors change.
@@ -23,11 +27,14 @@ const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const { name, value } = e.target;
 
+			if (onFieldChange) {
+				onFieldChange(name as keyof T);
+			}
 			// Update the form data and form errors.
 			setFormData((prevData) => ({ ...prevData, [name]: value }));
 			handleValidation(name, value);
 		},
-		[handleValidation]
+		[handleValidation, onFieldChange]
 	);
 
 	const handleSubmit = useCallback(
@@ -41,6 +48,6 @@ const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
 	);
 
 	return { formData, handleChange, handleSubmit, hasErrors, formErrors };
-};
+}
 
 export default useForm;
