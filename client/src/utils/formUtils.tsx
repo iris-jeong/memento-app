@@ -1,4 +1,4 @@
-import { FormData } from '@/types/forms';
+import { RegisterFormData, LoginFormData } from '@/types/forms';
 
 export const validateFormField = (fieldName: string, value: string) => {
 	switch (fieldName) {
@@ -25,30 +25,30 @@ export const formatName = (str: string) => {
 	);
 };
 
-export const normalizeFormData = (data: FormData): FormData => {
-	const normalizedData: Partial<FormData> = {};
+export const normalizeFormData = <T extends Record<string, any>>(
+	data: T
+): T => {
+	const normalizedData: Partial<T> = {};
 
 	// Normalize only the existing fields.
 	Object.keys(data).forEach((key) => {
-		const value = data[key as keyof FormData];
+		const value = data[key as keyof T];
 
 		switch (key) {
 			case 'firstName':
 			case 'lastName':
-				normalizedData[key as keyof FormData] = value ? formatName(value) : '';
+				normalizedData[key as keyof T] = formatName(value) as T[keyof T];
 				break;
 			case 'email':
-				normalizedData[key as keyof FormData] = value
+				normalizedData[key as keyof T] = value
 					? value.trim().toLowerCase()
 					: '';
 				break;
-			case 'password':
-				normalizedData[key as keyof FormData] = value;
-				break;
 			default:
+				normalizedData[key as keyof T] = value;
 				break;
 		}
 	});
 
-	return normalizedData as FormData;
+	return normalizedData as T;
 };

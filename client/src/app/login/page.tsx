@@ -75,7 +75,7 @@ export default function Login() {
 									type={field.type}
 									label={field.label}
 									value={formData[field.id]}
-									error={formErrors[field.id] || ''}
+									error={''}
 									onChange={handleChange}
 								/>
 							))}
