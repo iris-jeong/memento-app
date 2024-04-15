@@ -45,3 +45,8 @@ export interface TextInputProps {
 	error?: string;
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface TextAreaInputProps {
+	value: string;
+	onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+}

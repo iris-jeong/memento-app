@@ -11,6 +11,7 @@ import useForm from '@/hooks/useForm';
 import { createEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
 import Button from './atoms/Button';
+import TextAreaInput from './atoms/TextAreaInput';
 
 export default function EntryForm() {
 	const router = useRouter();
@@ -36,7 +37,6 @@ export default function EntryForm() {
 		}
 
 		const user = JSON.parse(storedUser);
-
 		const entryData = {
 			userId: user.id,
 			date: todaysDate,
@@ -79,24 +79,8 @@ export default function EntryForm() {
 					Write 1-3 sentences about the most memorable event, conversation,
 					feeling, realization, or observation that happened today.
 				</h1>
-				<div className="relative w-full">
-					<textarea
-						id="content"
-						name="content"
-						maxLength={300}
-						required
-						aria-label="Entry content"
-						placeholder="Today's entry..."
-						className="w-full border-solid border-2 border-[#E8E8E8] rounded-md bg-[#F6F6F6] p-5 mb-4 focus:outline-none resize-none
-						h-60 xs:h-40 md:h-36"
-						onChange={handleChange}
-						value={formData.content}
-					></textarea>
-					<div className="flex text-xs absolute right-0 bottom-8 right-3 text-[#838383]">
-						<span>{formData.content.length}</span>
-						<span>/300</span>
-					</div>
-				</div>
+
+				<TextAreaInput value={formData.content} onChange={handleChange} />
 
 				<div className="relative -mt-2">
 					<div className="entry-tags flex w-full">
