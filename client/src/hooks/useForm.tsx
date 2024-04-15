@@ -13,8 +13,9 @@ function useForm<T extends Record<string, any>>({
 	// Calculate whether the form has errors if the form's data or errors change.
 	const hasErrors = useMemo(() => {
 		return (
-			!Object.values(formData).every((value) => value.trim()) ||
-			Object.values(formErrors).some((error) => error)
+			!Object.values(formData).every((value) =>
+				typeof value === 'string' ? value.trim() !== '' : true
+			) || Object.values(formErrors).some((error) => error)
 		);
 	}, [formData, formErrors]);
 
@@ -24,7 +25,7 @@ function useForm<T extends Record<string, any>>({
 	}, []);
 
 	const handleChange = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
+		(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 			const { name, value } = e.target;
 
 			if (onFieldChange) {

@@ -52,3 +52,11 @@ export const normalizeFormData = <T extends Record<string, any>>(
 
 	return normalizedData as T;
 };
+
+export const formatDate = (date: Date): string => {
+	const day = date.getDate();
+	const month = date.getMonth() + 1;
+	const year = date.getFullYear().toString().slice(-2);
+
+	return `${month}.${day}.${year}`;
+};

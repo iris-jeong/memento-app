@@ -1,4 +1,16 @@
+import { TagType } from '@/components/Tag';
 import { ChangeEvent } from 'react';
+
+export type EntryFormData = {
+	userId: string;
+	date: Date;
+	content: string;
+	tags: TagType[];
+};
+
+export type EntryContentData = {
+	content: string;
+};
 
 export type RegisterFormData = {
 	firstName: string;

@@ -5,6 +5,7 @@ import { validateTagIds } from '../validation/tagValidation.js';
 import asyncHandler from 'express-async-handler';
 
 const createEntry = asyncHandler(async (req, res) => {
+	console.log(req.body);
 	const { error } = validateEntry(req.body);
 	if (error) {
 		return res.status(400).json({
@@ -13,8 +14,7 @@ const createEntry = asyncHandler(async (req, res) => {
 		});
 	}
 
-	const { content, date, tagIds } = req.body;
-	const userId = req.user._id;
+	const { content, date, tagIds, userId } = req.body;
 
 	// Validate the tag IDs
 	const validation = await validateTagIds(tagIds);

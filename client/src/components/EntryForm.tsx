@@ -1,54 +1,34 @@
 'use client';
 import Image from 'next/image';
 import AddIcon from '../../public/add.svg';
-import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import TagMenu from './TagMenu';
 import Tag, { TagType } from './Tag';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useRouter } from 'next/navigation';
-
-type FormData = {
-	date: Date;
-	content: string;
-	tags: TagType[];
-};
+import { EntryContentData } from '@/types/forms';
+import useForm from '@/hooks/useForm';
+import { createEntry } from '@/api/entries';
+import { formatDate } from '@/utils/formUtils';
+import Button from './atoms/Button';
 
 export default function EntryForm() {
-	const [formData, setFormData] = useState<FormData>({
-		date: new Date(),
+	const router = useRouter();
+	const todaysDate = new Date();
+	const initialValues: EntryContentData = {
 		content: '',
-		tags: [],
-	});
+	};
+	const tagListRef = useRef<HTMLDivElement>(null);
 	const [isTagsOpen, setIsTagsOpen] = useState<boolean>(false);
 	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-	const tagListRef = useRef<HTMLDivElement>(null);
-	const todaysDate = new Date();
-	const router = useRouter();
 
-	useClickOutside(tagListRef, () => {
-		setIsTagsOpen(false);
-	});
+	useClickOutside(tagListRef, () => setIsTagsOpen(false));
 
-	useEffect(() => {
-		// Update the formData tags when selectedTags changes.
-		setFormData((currentFormData) => ({
-			...currentFormData,
-			tags: selectedTags,
-		}));
-	}, [selectedTags]);
-
-	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		setFormData({ ...formData, content: event.target.value });
-	};
-
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		// Retrieve token and user from storage.
+	const onSubmit = async (formData: EntryContentData) => {
 		const token = localStorage.getItem('token');
 		const storedUser = localStorage.getItem('user');
 
-		// If there's no token, redirect user to login page.
+		// If there's no token or user, redirect user to login page.
 		if (!token || !storedUser) {
 			console.error('Authentication required');
 			router.push('/login');
@@ -56,30 +36,16 @@ export default function EntryForm() {
 		}
 
 		const user = JSON.parse(storedUser);
-		const dataToSend = {
-			date: formData.date,
-			content: formData.content,
+
+		const entryData = {
 			userId: user.id,
-			tagIds: selectedTags.map((tag) => tag._id),
+			date: todaysDate,
+			content: formData.content,
+			tags: selectedTags,
 		};
 
 		try {
-			const response = await fetch('http://localhost:3001/api/entries/new', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify(dataToSend),
-			});
-
-			const result = await response.json();
-
-			if (!response.ok) {
-				console.error('Entry submission failed:', result);
-				return;
-			}
-
+			const result = await createEntry(entryData, token);
 			console.log('Entry submission successful', result);
 		} catch (error) {
 			console.error('Error with submission:', error);
@@ -94,13 +60,11 @@ export default function EntryForm() {
 		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
 	};
 
-	const formatDate = (date: Date): string => {
-		const day = date.getDate();
-		const month = date.getMonth() + 1;
-		const year = date.getFullYear().toString().slice(-2);
-
-		return `${month}.${day}.${year}`;
-	};
+	const { formData, handleChange, handleSubmit, hasErrors } =
+		useForm<EntryContentData>({
+			initialValues,
+			onSubmit,
+		});
 
 	return (
 		<section className="w-7/8 sm:4/5 md:3/4 lg:w-2/3 max-w-[640px] mx-auto my-12 px-4">
@@ -125,7 +89,7 @@ export default function EntryForm() {
 						placeholder="Today's entry..."
 						className="w-full border-solid border-2 border-[#E8E8E8] rounded-md bg-[#F6F6F6] p-5 mb-4 focus:outline-none resize-none
 						h-60 xs:h-40 md:h-36"
-						onChange={handleTextChange}
+						onChange={handleChange}
 						value={formData.content}
 					></textarea>
 					<div className="flex text-xs absolute right-0 bottom-8 right-3 text-[#838383]">
@@ -164,12 +128,9 @@ export default function EntryForm() {
 					)}
 				</div>
 
-				<button
-					type="submit"
-					className="rounded-full bg-[#1945E2] w-36 h-14 text-white font-semibold mx-auto mt-8 font-sans"
-				>
+				<Button type="submit" variant="primary" disabled={hasErrors}>
 					Add Entry
-				</button>
+				</Button>
 			</form>
 		</section>
 	);

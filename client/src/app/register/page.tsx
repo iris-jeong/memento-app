@@ -79,16 +79,7 @@ export default function Register() {
 								/>
 							))}
 
-							<Button
-								type="submit"
-								variant="secondary"
-								className={
-									hasErrors
-										? 'opacity-50 cursor-default hover:bg-[#1945E2]'
-										: 'cursor-pointer'
-								}
-								disabled={hasErrors}
-							>
+							<Button type="submit" variant="secondary" disabled={hasErrors}>
 								Sign Up
 							</Button>
 						</form>
