@@ -12,6 +12,7 @@ import { createEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
 import Button from './atoms/Button';
 import TextAreaInput from './atoms/TextAreaInput';
+import TagSelector from './molecules/TagSelector';
 
 export default function EntryForm() {
 	const router = useRouter();
@@ -19,11 +20,7 @@ export default function EntryForm() {
 	const initialValues: EntryContentData = {
 		content: '',
 	};
-	const tagListRef = useRef<HTMLDivElement>(null);
-	const [isTagsOpen, setIsTagsOpen] = useState<boolean>(false);
 	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-
-	useClickOutside(tagListRef, () => setIsTagsOpen(false));
 
 	const onSubmit = async (formData: EntryContentData) => {
 		const token = localStorage.getItem('token');
@@ -52,14 +49,6 @@ export default function EntryForm() {
 		}
 	};
 
-	const toggleTagMenu = (): void => {
-		setIsTagsOpen((prevIsTagsOpen) => !prevIsTagsOpen);
-	};
-
-	const removeTag = (tag: TagType): void => {
-		setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
-	};
-
 	const { formData, handleChange, handleSubmit, hasErrors } =
 		useForm<EntryContentData>({
 			initialValues,
@@ -82,35 +71,10 @@ export default function EntryForm() {
 
 				<TextAreaInput value={formData.content} onChange={handleChange} />
 
-				<div className="relative -mt-2">
-					<div className="entry-tags flex w-full">
-						<div className="flex items-center flex-wrap">
-							<button
-								type="button"
-								className="flex items-center mr-4 mb-2"
-								onClick={toggleTagMenu}
-							>
-								<Image src={AddIcon} alt="Add tags icon" width={20} />
-								<p className="pl-1 font-semibold">Tags</p>
-							</button>
-
-							<ul className="flex">
-								{selectedTags.map((tag) => (
-									<Tag key={tag._id} tag={tag} removeTag={removeTag} />
-								))}
-							</ul>
-						</div>
-					</div>
-
-					{isTagsOpen && (
-						<TagMenu
-							ref={tagListRef}
-							selectedTags={selectedTags}
-							setSelectedTags={setSelectedTags}
-							position="z-50"
-						/>
-					)}
-				</div>
+				<TagSelector
+					selectedTags={selectedTags}
+					setSelectedTags={setSelectedTags}
+				/>
 
 				<Button type="submit" variant="primary" disabled={hasErrors}>
 					Add Entry

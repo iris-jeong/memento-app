@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { IconButtonProps } from '@/types/navigation';
+import { IconButtonProps } from '@/types/button';
 
 export default function IconButton({
 	icon,
