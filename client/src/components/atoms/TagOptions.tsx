@@ -1,4 +1,4 @@
-import { Tag } from '@/types/tags';
+import { TagType } from '@/types/tags';
 import { TagOptionsProps } from '@/types/tags';
 import Image from 'next/image';
 import TagIcon from '../../../public/tag.svg';
@@ -18,7 +18,7 @@ export default function TagOptions({
 	const [searchTerm, setSearchTerm] = useState('');
 	const maxTagsAllowed = 3;
 
-	const handleTagChange = (tag: Tag, isChecked: boolean): void => {
+	const handleTagChange = (tag: TagType, isChecked: boolean): void => {
 		if (isChecked && selectedTags.length < maxTagsAllowed) {
 			setSelectedTags((prevTags) => [...prevTags, tag]);
 		} else {
@@ -28,7 +28,7 @@ export default function TagOptions({
 
 	const handleOnKeyDown = (
 		e: React.KeyboardEvent,
-		tag: Tag,
+		tag: TagType,
 		isChecked: boolean
 	) => {
 		if (e.key === 'Enter' || e.key === ' ') {

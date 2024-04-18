@@ -1,5 +1,10 @@
-import { TagType } from '@/components/Tag';
+import { TagType } from '@/types/tags';
+import { EntryType } from '@/types/entries';
 import { ChangeEvent } from 'react';
+
+export interface EntryFormProps {
+	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
+}
 
 export type EntryFormData = {
 	userId: string;

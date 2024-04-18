@@ -1,12 +1,13 @@
 'use client';
+import '../globals.css';
 import DailyEntries from '@/components/DailyEntries';
 import EntryForm from '@/components/EntryForm';
 import Header from '@/components/organisms/Header';
-import '../globals.css';
+import { EntryType } from '@/types/entries';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-	const [entries, setEntries] = useState([]);
+	const [entries, setEntries] = useState<EntryType[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -25,7 +26,6 @@ export default function Home() {
 				}
 				const data = await response.json();
 				setEntries(data);
-				console.log('data: ', data);
 			} catch (error) {
 				console.error('Error fetching data: ', error);
 			} finally {
@@ -42,7 +42,7 @@ export default function Home() {
 		<div className="font-sourceserif">
 			<Header />
 			<main className="">
-				<EntryForm />
+				<EntryForm setEntries={setEntries} />
 				<DailyEntries entries={entries} />
 			</main>
 		</div>

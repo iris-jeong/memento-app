@@ -1,19 +1,14 @@
 'use client';
 import { useRef, useState } from 'react';
 import Filters from './Filters';
+import Modal from './Modal';
 import Entry from './Entry';
+import { EntryType } from '@/types/entries';
+import { TagType } from '@/types/tags';
+import { MonthType } from './monthMenu';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
-import { TagType } from './Tag';
-import { MonthType } from './monthMenu';
-import Modal from './Modal';
 import useClickOutside from '@/hooks/useClickOutside';
-
-type EntryType = {
-	date: string;
-	content: string;
-	tags: TagType[];
-};
 
 interface DailyEntriesProps {
 	entries: EntryType[];
@@ -42,7 +37,7 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 	useMultipleClickOutside(clickOutsideConfigs);
 	useClickOutside(modalRef, () => setIsModalOpen(false));
 
-	const handleEntryClick = (id: number): void => {
+	const handleEntryClick = (id: string): void => {
 		setIsModalOpen(true);
 	};
 
@@ -75,13 +70,13 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 				<div className="entries w-full">
 					<div className="w-full md:flex md:flex-wrap md:justify-between">
 						{entries.length !== 0 ? (
-							entries.map((entry, index) => (
+							entries.map((entry) => (
 								<Entry
-									key={index}
+									key={entry.id}
 									date={entry.date}
 									content={entry.content}
 									tags={entry.tags}
-									handleEntryClick={() => handleEntryClick(index)}
+									handleEntryClick={() => handleEntryClick(entry.id)}
 								/>
 							))
 						) : (

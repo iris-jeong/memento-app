@@ -1,4 +1,4 @@
-import { TagType } from '@/components/Tag';
+import { TagType } from '@/types/tags';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 

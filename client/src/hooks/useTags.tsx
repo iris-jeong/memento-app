@@ -1,9 +1,9 @@
 import { getTags } from '@/api/tags';
-import { Tag } from '@/types/tags';
+import { TagType } from '@/types/tags';
 import { useEffect, useState } from 'react';
 
-export const useTags = (): [Tag[], boolean] => {
-	const [tags, setTags] = useState<Tag[]>([]);
+export const useTags = (): [TagType[], boolean] => {
+	const [tags, setTags] = useState<TagType[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {

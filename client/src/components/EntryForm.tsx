@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { Tag } from '@/types/tags';
 import { useRouter } from 'next/navigation';
+import { TagType } from '@/types/tags';
+import { EntryFormProps } from '@/types/forms';
 import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { createEntry } from '@/api/entries';
@@ -10,13 +11,13 @@ import Button from './atoms/Button';
 import TextAreaInput from './atoms/TextAreaInput';
 import TagSelector from './molecules/TagSelector';
 
-export default function EntryForm() {
+export default function EntryForm({ setEntries }: EntryFormProps) {
 	const router = useRouter();
 	const todaysDate = new Date();
 	const initialValues: EntryContentData = {
 		content: '',
 	};
-	const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
 	const onSubmit = async (formData: EntryContentData) => {
 		const token = localStorage.getItem('token');
@@ -39,7 +40,11 @@ export default function EntryForm() {
 
 		try {
 			const result = await createEntry(entryData, token);
+
+			setEntries((prevEntries) => [...prevEntries, result.entry]);
 			resetForm();
+			setSelectedTags([]);
+
 			console.log('Entry submission successful', result);
 		} catch (error) {
 			console.error('Error with submission:', error);

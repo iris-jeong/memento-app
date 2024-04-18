@@ -1,12 +1,7 @@
 import React, { useRef } from 'react';
-import Tag, { TagType } from './Tag';
+import Tag from './Tag';
+import { EntryProps } from '@/types/entries';
 import useMultilineEllipsis from '@/hooks/useMultilineEllipsis';
-interface EntryProps {
-	date: string;
-	content: string;
-	tags?: TagType[];
-	handleEntryClick: () => void;
-}
 
 export default function Entry({
 	date,

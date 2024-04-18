@@ -1,16 +1,6 @@
 import Image from 'next/image';
 import CloseIcon from '../../public/close.svg';
-
-export type TagType = {
-	_id: string;
-	name: string;
-	isPredefined: boolean;
-};
-
-type TagProps = {
-	tag: TagType;
-	removeTag?: (tag: TagType) => void;
-};
+import { TagProps } from '@/types/tags';
 
 export default function Tag({ tag, removeTag }: TagProps) {
 	return (

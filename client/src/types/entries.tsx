@@ -1,6 +1,6 @@
-import { TagType } from '@/components/Tag';
+import { TagType } from '@/types/tags';
 
-export interface Entry {
+export interface EntryType {
 	id: string;
 	userId?: string;
 	content: string;
@@ -8,8 +8,15 @@ export interface Entry {
 	tags: TagType[];
 }
 
+export interface EntryProps {
+	date: Date;
+	content: string;
+	tags?: TagType[];
+	handleEntryClick: () => void;
+}
+
 export interface CreateEntryResponse {
-	entry: Entry;
+	entry: EntryType;
 	location: string;
 	success: boolean;
 }

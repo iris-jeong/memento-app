@@ -1,8 +1,8 @@
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import AddIcon from '../../../public/add.svg';
-import { useRef, useState } from 'react';
-import { TagSelector } from '@/types/tags';
-import Tag, { TagType } from '../Tag';
+import Tag from '../Tag';
+import { TagType, TagSelector } from '@/types/tags';
 import TagOptions from '../atoms/TagOptions';
 import useClickOutside from '@/hooks/useClickOutside';
 

@@ -1,9 +1,11 @@
-import { TagType } from '@/components/Tag';
-
-export interface Tag {
+export interface TagType {
 	_id: string;
 	name: string;
 	isPredefined: boolean;
+}
+export interface TagProps {
+	tag: TagType;
+	removeTag?: (tag: TagType) => void;
 }
 
 export interface TagSelector {
