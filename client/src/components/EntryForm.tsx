@@ -1,10 +1,6 @@
 'use client';
-import Image from 'next/image';
-import AddIcon from '../../public/add.svg';
-import { useState, useRef } from 'react';
-import TagMenu from './TagMenu';
-import Tag, { TagType } from './Tag';
-import useClickOutside from '@/hooks/useClickOutside';
+import { useState } from 'react';
+import { Tag } from '@/types/tags';
 import { useRouter } from 'next/navigation';
 import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
@@ -20,7 +16,7 @@ export default function EntryForm() {
 	const initialValues: EntryContentData = {
 		content: '',
 	};
-	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
+	const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
 	const onSubmit = async (formData: EntryContentData) => {
 		const token = localStorage.getItem('token');
@@ -43,13 +39,14 @@ export default function EntryForm() {
 
 		try {
 			const result = await createEntry(entryData, token);
+			resetForm();
 			console.log('Entry submission successful', result);
 		} catch (error) {
 			console.error('Error with submission:', error);
 		}
 	};
 
-	const { formData, handleChange, handleSubmit, hasErrors } =
+	const { formData, handleChange, handleSubmit, hasErrors, resetForm } =
 		useForm<EntryContentData>({
 			initialValues,
 			onSubmit,

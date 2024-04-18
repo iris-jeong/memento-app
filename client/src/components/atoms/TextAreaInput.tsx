@@ -15,6 +15,7 @@ export default function TextAreaInput({ value, onChange }: TextAreaInputProps) {
 				className="w-full h-60 xs:h-40 md:h-36 p-5 mb-4 border-solid border-2 border-[#E8E8E8] bg-[#F6F6F6] rounded-md focus:outline-none resize-none"
 				onChange={onChange}
 				value={value}
+				autoComplete="off"
 			></textarea>
 			<div className="flex absolute right-0 bottom-8 right-3 text-[#838383] text-xs">
 				<span>{`${value.length}/${maxLength}`}</span>

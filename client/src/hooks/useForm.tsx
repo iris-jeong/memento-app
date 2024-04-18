@@ -48,7 +48,18 @@ function useForm<T extends Record<string, any>>({
 		[formData, onSubmit]
 	);
 
-	return { formData, handleChange, handleSubmit, hasErrors, formErrors };
+	const resetForm = () => {
+		setFormData(initialValues);
+	};
+
+	return {
+		formData,
+		handleChange,
+		handleSubmit,
+		hasErrors,
+		formErrors,
+		resetForm,
+	};
 }
 
 export default useForm;
