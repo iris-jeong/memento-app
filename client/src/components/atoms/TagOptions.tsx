@@ -7,6 +7,7 @@ import TagIcon from '../../../public/tag.svg';
 import Checkbox from '../../../public/checkbox.svg';
 import CheckboxChecked from '../../../public/checkbox-checked.svg';
 import CheckboxDisabled from '../../../public/checkbox-disabled.svg';
+import { useTags } from '@/hooks/useTags';
 
 export default function TagOptions({
 	tagOptionsRef,
@@ -14,29 +15,8 @@ export default function TagOptions({
 	setSelectedTags,
 	position,
 }: TagOptionsProps) {
-	const [tags, setTags] = useState<TagType[]>([]);
+	const [tags, loading] = useTags();
 	const maxTagsAllowed = 3;
-
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (!token) {
-			console.error('Authentication required');
-			return;
-		}
-
-		const cachedTags = sessionStorage.getItem('tags');
-		if (cachedTags) {
-			setTags(JSON.parse(cachedTags));
-		} else {
-			getTags(token)
-				.then((fetchedTags) => {
-					sessionStorage.setItem('tags', JSON.stringify(fetchedTags));
-					setTags(fetchedTags);
-					console.log('fetched tags: ', fetchedTags);
-				})
-				.catch(console.error);
-		}
-	}, []);
 
 	const handleTagChange = (tag: TagType, isChecked: boolean): void => {
 		if (isChecked && selectedTags.length < maxTagsAllowed) {
@@ -45,6 +25,8 @@ export default function TagOptions({
 			setSelectedTags((prevTags) => prevTags.filter((t) => t._id !== tag._id));
 		}
 	};
+
+	if (loading) return <div>Loading...</div>;
 
 	return (
 		<div ref={tagOptionsRef} className="absolute z-50 w-[240px]">

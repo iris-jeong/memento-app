@@ -1,5 +1,11 @@
 import { TagType } from '@/components/Tag';
 
+export interface Tag {
+	_id: string;
+	name: string;
+	isPredefined: boolean;
+}
+
 export interface TagSelector {
 	selectedTags: TagType[];
 	setSelectedTags: React.Dispatch<React.SetStateAction<TagType[]>>;
