@@ -49,7 +49,6 @@ export default function TagSelector({
 					tagOptionsRef={tagOptionsRef}
 					selectedTags={selectedTags}
 					setSelectedTags={setSelectedTags}
-					position="z-50"
 				/>
 			)}
 		</div>

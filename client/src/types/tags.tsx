@@ -9,7 +9,7 @@ export interface TagOptionsProps {
 	tagOptionsRef: React.RefObject<HTMLDivElement>;
 	selectedTags: TagType[];
 	setSelectedTags: React.Dispatch<React.SetStateAction<TagType[]>>;
-	position: string;
+	position?: string;
 }
 
 export interface GetTagsResponse {}
