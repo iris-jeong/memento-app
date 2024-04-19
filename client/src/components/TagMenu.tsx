@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react';
-import { TagType } from './Tag';
+import { TagType } from '@/types/tags';
 
 type TagMenuProps = {
 	selectedTags: TagType[];
