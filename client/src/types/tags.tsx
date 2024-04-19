@@ -17,6 +17,7 @@ export interface TagOptionsProps {
 	tagOptionsRef: React.RefObject<HTMLDivElement>;
 	selectedTags: TagType[];
 	setSelectedTags: React.Dispatch<React.SetStateAction<TagType[]>>;
+	tagOptionsIsOpen: boolean;
 	position?: string;
 }
 

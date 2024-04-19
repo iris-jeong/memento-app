@@ -49,6 +49,7 @@ export default function TagSelector({
 					tagOptionsRef={tagOptionsRef}
 					selectedTags={selectedTags}
 					setSelectedTags={setSelectedTags}
+					tagOptionsIsOpen={tagOptionsIsOpen}
 				/>
 			)}
 		</div>

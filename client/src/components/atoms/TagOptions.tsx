@@ -7,11 +7,13 @@ import CheckboxChecked from '../../../public/checkbox-checked.svg';
 import CheckboxDisabled from '../../../public/checkbox-disabled.svg';
 import { useTags } from '@/hooks/useTags';
 import { useMemo, useState } from 'react';
+import useTrapFocus from '@/hooks/useTrapFocus';
 
 export default function TagOptions({
 	tagOptionsRef,
 	selectedTags,
 	setSelectedTags,
+	tagOptionsIsOpen,
 	position,
 }: TagOptionsProps) {
 	const [tags, loading] = useTags();
@@ -40,13 +42,13 @@ export default function TagOptions({
 	const filteredTags = useMemo(() => {
 		if (!searchTerm.trim()) return tags;
 
-		// Regex pattern to match tags containing all letters of searchTerm in any order
+		// Regex pattern to match tags containing all letters of searchTerm in any order.
 		const pattern = searchTerm
 			.trim()
 			.toLowerCase()
 			.split('')
 			.reduce((acc, char) => {
-				// Escape special regex characters just in case they are typed into the search
+				// Escape special regex characters just in case they are typed into the search.
 				const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 				return acc + '(?=.*' + escapedChar + ')';
 			}, '');
@@ -55,6 +57,8 @@ export default function TagOptions({
 
 		return tags.filter((tag) => regex.test(tag.name));
 	}, [tags, searchTerm]);
+
+	useTrapFocus(tagOptionsIsOpen, tagOptionsRef);
 
 	return (
 		<div ref={tagOptionsRef} className="absolute z-50 w-[280px]">
