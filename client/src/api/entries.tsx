@@ -1,7 +1,26 @@
-import { CreateEntryResponse } from '@/types/entries';
+import { CreateEntryResponse, EntryType } from '@/types/entries';
 import { EntryFormData } from '@/types/forms';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+export async function getEntries(token: string): Promise<EntryType[]> {
+	const url = `${BASE_URL}/entries`;
+
+	const response = await fetch('http://localhost:3001/api/entries', {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem('token')}`,
+		},
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		console.error('Error fetching entries', result);
+		throw new Error('Failed to retrieve entries');
+	}
+
+	return result;
+}
 
 export async function createEntry(
 	formData: EntryFormData,
@@ -29,8 +48,6 @@ export async function createEntry(
 		console.error('Entry submission failed:', result);
 		throw new Error('Failed to create a new entry.');
 	}
-
-	console.log('Entry submission successful', result);
 
 	return result;
 }
