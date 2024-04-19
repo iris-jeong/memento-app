@@ -7,9 +7,9 @@ import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { createEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
-import Button from './atoms/Button';
-import TextAreaInput from './atoms/TextAreaInput';
-import TagSelector from './molecules/TagSelector';
+import Button from '../atoms/Button';
+import TextAreaInput from '../atoms/TextAreaInput';
+import TagSelector from '../molecules/TagSelector';
 
 export default function EntryForm({ setEntries }: EntryFormProps) {
 	const router = useRouter();

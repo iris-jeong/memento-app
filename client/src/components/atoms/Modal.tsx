@@ -1,15 +1,11 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import Image from 'next/image';
-import CloseIcon from '../../public/close-2.svg';
-import EditIcon from '../../public/edit.svg';
+import CloseIcon from '../../../public/close-2.svg';
+import EditIcon from '../../../public/edit.svg';
+import { ModalProps } from '@/types/modal';
 
-interface ModalProps {
-	setIsModalOpen: (isOpen: boolean) => void;
-}
-
-// Updated to use forwardRef
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
-	({ setIsModalOpen }, ref) => {
+	({ entry, closeModal }, ref) => {
 		return (
 			<div
 				className="mx-2 p-4 xs:max-w-[600px] bg-white border-solid border-2 rounded-lg"
@@ -25,7 +21,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 							alt="Close icon"
 							width={36}
 							className="hover:cursor-pointer"
-							onClick={() => setIsModalOpen(false)}
+							onClick={() => closeModal()}
 						/>
 					</span>
 				</div>

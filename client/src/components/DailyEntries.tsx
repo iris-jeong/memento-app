@@ -1,7 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import Filters from './Filters';
-import Modal from './Modal';
+import Modal from './atoms/Modal';
 import Entry from './Entry';
 import { EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
@@ -9,18 +9,20 @@ import { MonthType } from './monthMenu';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import useClickOutside from '@/hooks/useClickOutside';
+import { useModal } from '@/hooks/useModal';
 
 interface DailyEntriesProps {
 	entries: EntryType[];
 }
 
 export default function DailyEntries({ entries }: DailyEntriesProps) {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const { isOpen, currentEntry, openModal, closeModal } = useModal();
+	const modalRef = useRef<HTMLDivElement>(null);
+
 	const tagListRef = useRef<HTMLDivElement>(null);
 	const monthListRef = useRef<HTMLDivElement>(null);
 	const dayListRef = useRef<HTMLDivElement>(null);
 	const yearListRef = useRef<HTMLDivElement>(null);
-	const modalRef = useRef<HTMLDivElement>(null);
 
 	const tagsFilter = useFilter<TagType>([]);
 	const monthsFilter = useFilter<MonthType>([]);
@@ -35,17 +37,17 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 	];
 
 	useMultipleClickOutside(clickOutsideConfigs);
-	useClickOutside(modalRef, () => setIsModalOpen(false));
+	useClickOutside(modalRef, closeModal);
 
-	const handleEntryClick = (id: string): void => {
-		setIsModalOpen(true);
+	const handleEntryClick = (entry: EntryType): void => {
+		openModal(entry);
 	};
 
 	return (
 		<section className="relative bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
-			{isModalOpen && (
+			{isOpen && (
 				<div className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10">
-					<Modal ref={modalRef} setIsModalOpen={setIsModalOpen} />
+					<Modal ref={modalRef} entry={currentEntry} closeModal={closeModal} />
 				</div>
 			)}
 
@@ -76,7 +78,7 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 									date={entry.date}
 									content={entry.content}
 									tags={entry.tags}
-									handleEntryClick={() => handleEntryClick(entry.id)}
+									handleEntryClick={() => handleEntryClick(entry)}
 								/>
 							))
 						) : (

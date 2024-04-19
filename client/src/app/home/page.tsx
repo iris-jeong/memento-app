@@ -2,7 +2,7 @@
 import { getEntries } from '@/api/entries';
 import '../globals.css';
 import DailyEntries from '@/components/DailyEntries';
-import EntryForm from '@/components/EntryForm';
+import EntryForm from '@/components/organisms/EntryForm';
 import Header from '@/components/organisms/Header';
 import { EntryType } from '@/types/entries';
 import { useRouter } from 'next/navigation';
