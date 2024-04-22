@@ -4,7 +4,8 @@ const entrySchema = {
 	userId: { type: mongoose.Schema.Types.ObjectId, required: true },
 	content: { type: String, required: true },
 	date: { type: Date, required: true },
-	tagIds: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }] },
+	tags: [{ type: mongoose.Schema.Types.Mixed }],
+	// tags: { type: [tagSchema], default: [] },
 };
 
 const Entry = mongoose.model('Entry', entrySchema);

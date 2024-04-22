@@ -5,7 +5,7 @@ import { validateTagIds } from '../validation/tagValidation.js';
 import asyncHandler from 'express-async-handler';
 
 const createEntry = asyncHandler(async (req, res) => {
-	console.log(req.body);
+	console.log('req body:', req.body);
 	const { error } = validateEntry(req.body);
 	if (error) {
 		return res.status(400).json({
@@ -14,10 +14,10 @@ const createEntry = asyncHandler(async (req, res) => {
 		});
 	}
 
-	const { content, date, tagIds, userId } = req.body;
+	const { content, date, tags, userId } = req.body;
 
 	// Validate the tag IDs
-	const validation = await validateTagIds(tagIds);
+	const validation = await validateTagIds(tags.map((tag) => tag._id));
 	if (!validation.isValid) {
 		return res
 			.status(400)
@@ -25,7 +25,7 @@ const createEntry = asyncHandler(async (req, res) => {
 	}
 
 	// Create and save new entry
-	const entry = new Entry({ userId, content, date, tagIds });
+	const entry = new Entry({ userId, content, date, tags });
 	await entry.save();
 
 	// Add location header and send response

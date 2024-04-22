@@ -8,7 +8,7 @@ function validateEntry(entry) {
 		userId: Joi.objectId().required(),
 		content: Joi.string().min(1).max(300).required(),
 		date: Joi.date().required(),
-		tagIds: Joi.array().items(Joi.objectId()).max(3).optional(),
+		tags: Joi.array().max(3).optional(),
 	});
 
 	return schema.validate(entry);

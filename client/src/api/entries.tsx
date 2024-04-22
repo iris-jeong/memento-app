@@ -38,7 +38,7 @@ export async function createEntry(
 			date: formData.date,
 			content: formData.content,
 			userId: formData.userId,
-			tagIds: formData.tags.map((tag) => tag._id),
+			tags: formData.tags,
 		}),
 	});
 
