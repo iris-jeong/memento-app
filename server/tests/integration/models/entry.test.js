@@ -30,7 +30,7 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: 'Lorem ipsum',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const validEntry = await new Entry(entryData);
@@ -40,9 +40,6 @@ describe('Entry Model Tests', () => {
 		expect(savedEntry.userId.toString()).toBe(entryData.userId);
 		expect(savedEntry.content).toBe(entryData.content);
 		expect(savedEntry.date.getTime()).toBe(entryData.date.getTime());
-		expect(savedEntry.tagIds.map((id) => id.toString())).toEqual(
-			entryData.tagIds
-		);
 	});
 
 	// Update entry successfully
@@ -51,7 +48,7 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: 'Lorem ipsum',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		}).save();
 
 		// Store the original content before updating
@@ -72,7 +69,7 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: 'Lorem ipsum',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		}).save();
 
 		const entryId = entry._id;

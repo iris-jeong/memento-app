@@ -8,7 +8,7 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: 'Lorem ipsum.',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -20,7 +20,7 @@ describe('Entry Model Tests', () => {
 		const entryData = {
 			content: 'Lorem ipsum.',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -34,7 +34,7 @@ describe('Entry Model Tests', () => {
 			userId: '',
 			content: 'Lorem ipsum.',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -49,7 +49,7 @@ describe('Entry Model Tests', () => {
 		const entryData = {
 			userId: new mongoose.Types.ObjectId().toString(),
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -63,7 +63,7 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: '',
 			date: new Date(),
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -78,7 +78,7 @@ describe('Entry Model Tests', () => {
 		const entryData = {
 			userId: new mongoose.Types.ObjectId().toString(),
 			content: 'Lorem ipsum',
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
@@ -92,50 +92,11 @@ describe('Entry Model Tests', () => {
 			userId: new mongoose.Types.ObjectId().toString(),
 			date: 'invalid date',
 			content: 'Lorem ipsum',
-			tagIds: [new mongoose.Types.ObjectId().toString()],
+			tags: [{ name: 'Realization', isPredefined: true }],
 		};
 
 		const { error } = validateEntry(entryData);
 		expect(error).toBeDefined();
-		expect(error.details[0].message).toContain(
-			'"date" must be a valid date'
-		);
-	});
-
-	// Invalid tagIds
-	it('should report an error if the tagId is invalid', () => {
-		const entryData = {
-			userId: new mongoose.Types.ObjectId().toString(),
-			date: new Date(),
-			content: 'Lorem ipsum',
-			tagIds: ['invalid tagId'],
-		};
-
-		const { error } = validateEntry(entryData);
-		expect(error).toBeDefined();
-		expect(error.details[0].message).toContain(
-			'"tagIds[0]" with value "invalid tagId" fails to match the valid mongo id pattern'
-		);
-	});
-
-	// Too many tagIds
-	it('should report an error if there are more than 3 tagIds', () => {
-		const tag1 = new mongoose.Types.ObjectId().toString();
-		const tag2 = new mongoose.Types.ObjectId().toString();
-		const tag3 = new mongoose.Types.ObjectId().toString();
-		const tag4 = new mongoose.Types.ObjectId().toString();
-
-		const entryData = {
-			userId: new mongoose.Types.ObjectId().toString(),
-			date: new Date(),
-			content: 'Lorem ipsum',
-			tagIds: [tag1, tag2, tag3, tag4],
-		};
-
-		const { error } = validateEntry(entryData);
-		expect(error).toBeDefined();
-		expect(error.details[0].message).toContain(
-			'"tagIds" must contain less than or equal to 3 items'
-		);
+		expect(error.details[0].message).toContain('"date" must be a valid date');
 	});
 });
