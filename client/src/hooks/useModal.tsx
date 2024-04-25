@@ -1,14 +1,15 @@
 import { useState, useCallback } from 'react';
 import { EntryType } from '@/types/entries';
 
+const initialValue = {
+	id: '',
+	userId: '',
+	content: '',
+	date: new Date(),
+	tags: [],
+};
+
 export function useModal() {
-	const initialValue = {
-		id: '',
-		userId: '',
-		content: '',
-		date: new Date(),
-		tags: [],
-	};
 	const [isOpen, setIsOpen] = useState(false);
 	const [currentEntry, setCurrentEntry] = useState<EntryType>(initialValue);
 
@@ -16,10 +17,11 @@ export function useModal() {
 		setCurrentEntry(entry);
 		setIsOpen(true);
 	}, []);
+
 	const closeModal = useCallback(() => {
 		setCurrentEntry(initialValue);
 		setIsOpen(false);
-	}, [initialValue]);
+	}, []);
 
 	return { isOpen, currentEntry, openModal, closeModal };
 }
