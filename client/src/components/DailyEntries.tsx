@@ -44,11 +44,11 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 	};
 
 	return (
-		<section className="relative bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
+		<section className="bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
 			{isOpen && (
-				<div className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10">
-					<Modal ref={modalRef} entry={currentEntry} closeModal={closeModal} />
-				</div>
+				// <div className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10">
+				<Modal ref={modalRef} entry={currentEntry} closeModal={closeModal} />
+				// </div>
 			)}
 
 			<div className="max-w-[1200px] mx-auto">

@@ -40,12 +40,12 @@ export default function Home() {
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
-		<>
+		<div className="relative">
 			<Header />
 			<main>
 				<EntryForm setEntries={setEntries} />
 				<DailyEntries entries={entries} />
 			</main>
-		</>
+		</div>
 	);
 }
