@@ -1,21 +1,21 @@
 import React, { forwardRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { ModalProps } from '@/types/modal';
+import { TagType } from '@/types/tags';
+import { EntryContentData } from '@/types/forms';
+import useForm from '@/hooks/useForm';
+import { updateEntry } from '@/api/entries';
+import { formatDate } from '@/utils/formUtils';
+import Tag from '@/components/Tag';
+import TextAreaInput from '@/components/atoms/TextAreaInput';
+import Button from '@/components/atoms/Button';
+import TagSelector from '@/components/molecules/TagSelector';
 import CloseIcon from '../../../public/close-2.svg';
 import CloseIconHover from '../../../public/close-2-hover.svg';
 import EditIcon from '../../../public/edit.svg';
 import EditIconHover from '../../../public/edit-hover.svg';
 import EditIconActive from '../../../public/edit-active.svg';
-import { ModalProps } from '@/types/modal';
-import { TagType } from '@/types/tags';
-import { EntryContentData } from '@/types/forms';
-import Tag from '@/components/Tag';
-import { formatDate } from '@/utils/formUtils';
-import TextAreaInput from './TextAreaInput';
-import TagSelector from '@/components/molecules/TagSelector';
-import useForm from '@/hooks/useForm';
-import Button from './Button';
-import { useRouter } from 'next/navigation';
-import { updateEntry } from '@/api/entries';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	({ entry, closeModal, setEntries }, ref) => {

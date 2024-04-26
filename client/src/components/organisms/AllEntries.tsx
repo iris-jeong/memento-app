@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import Filters from '@/components/Filters';
-import Modal from '@/components/atoms/Modal';
+import Modal from '@/components/molecules/Modal';
 import Entry from '@/components/Entry';
 import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
