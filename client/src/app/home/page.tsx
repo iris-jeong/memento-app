@@ -1,12 +1,11 @@
 'use client';
-import { getEntries } from '@/api/entries';
-import '../globals.css';
-import DailyEntries from '@/components/DailyEntries';
-import EntryForm from '@/components/organisms/EntryForm';
-import Header from '@/components/organisms/Header';
-import { EntryType } from '@/types/entries';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getEntries } from '@/api/entries';
+import { EntryType } from '@/types/entries';
+import Header from '@/components/organisms/Header';
+import EntryForm from '@/components/organisms/EntryForm';
+import AllEntries from '@/components/organisms/AllEntries';
 
 export default function Home() {
 	const [entries, setEntries] = useState<EntryType[]>([]);
@@ -44,7 +43,7 @@ export default function Home() {
 			<Header />
 			<main>
 				<EntryForm setEntries={setEntries} />
-				<DailyEntries entries={entries} setEntries={setEntries} />
+				<AllEntries entries={entries} setEntries={setEntries} />
 			</main>
 		</div>
 	);

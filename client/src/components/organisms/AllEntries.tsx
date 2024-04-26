@@ -1,20 +1,17 @@
 'use client';
-import { useRef, useState } from 'react';
-import Filters from './Filters';
-import Modal from './atoms/Modal';
-import Entry from './Entry';
-import { DailyEntriesProps, EntryType } from '@/types/entries';
+import { useRef } from 'react';
+import Filters from '@/components/Filters';
+import Modal from '@/components/atoms/Modal';
+import Entry from '@/components/Entry';
+import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
-import { MonthType } from './monthMenu';
+import { MonthType } from '@/components/monthMenu';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useModal } from '@/hooks/useModal';
 
-export default function DailyEntries({
-	entries,
-	setEntries,
-}: DailyEntriesProps) {
+export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
 	const modalRef = useRef<HTMLDivElement>(null);
 

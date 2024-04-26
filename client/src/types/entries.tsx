@@ -15,7 +15,7 @@ export interface EntryProps {
 	handleEntryClick: () => void;
 }
 
-export interface DailyEntriesProps {
+export interface AllEntriesProps {
 	entries: EntryType[];
 	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
 }
