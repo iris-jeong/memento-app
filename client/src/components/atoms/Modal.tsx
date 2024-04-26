@@ -7,12 +7,21 @@ import EditIconHover from '../../../public/edit-hover.svg';
 import EditIconActive from '../../../public/edit-active.svg';
 import { ModalProps } from '@/types/modal';
 import { TagType } from '@/types/tags';
+import { EntryContentData } from '@/types/forms';
 import Tag from '@/components/Tag';
 import { formatDate } from '@/utils/formUtils';
+import TextAreaInput from './TextAreaInput';
+import TagSelector from '@/components/molecules/TagSelector';
+import useForm from '@/hooks/useForm';
+import Button from './Button';
+import { useRouter } from 'next/navigation';
+import { updateEntry } from '@/api/entries';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
-	({ entry, closeModal }, ref) => {
+	({ entry, closeModal, setEntries }, ref) => {
+		const router = useRouter();
 		const { date, content, tags } = entry;
+		const initialValues: EntryContentData = { content: content };
 		const [selectedTags, setSelectedTags] = useState<TagType[]>(tags);
 		const [closeIsHovered, setCloseIsHovered] = useState<boolean>(false);
 		const [editIsHovered, setEditIsHovered] = useState<boolean>(false);
@@ -27,9 +36,38 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		const ariaLabel = `${dateLabel} journal entry`;
 		const formattedDate = formatDate(new Date(date));
 
-		const removeTag = (tag: TagType): void => {
-			setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
+		const onSubmit = async (formData: EntryContentData) => {
+			const token = localStorage.getItem('token');
+			const storedUser = localStorage.getItem('user');
+
+			if (!token || !storedUser) {
+				console.error('Authentication required');
+				router.push('/login');
+				return;
+			}
+
+			const user = JSON.parse(storedUser);
+			const updatedEntry = {
+				userId: user.id,
+				date: date,
+				content: formData.content,
+				tags: selectedTags,
+			};
+
+			try {
+				const result = await updateEntry(entry._id, updatedEntry, token);
+				setEntries((prevEntries) =>
+					prevEntries.map((e) => (e._id === entry._id ? result : e))
+				);
+				resetForm();
+				closeModal();
+			} catch (error) {
+				console.error('Error with update');
+			}
 		};
+
+		const { formData, handleChange, handleSubmit, hasErrors, resetForm } =
+			useForm<EntryContentData>({ initialValues, onSubmit });
 
 		return (
 			<div
@@ -40,7 +78,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				tabIndex={-1}
 			>
 				<div
-					className="z-40 mx-2 p-4 sm:p-8 w-full xs:max-w-[650px] min-h-[300px] bg-white border-solid border-2 rounded-lg"
+					className="z-40 mx-2 p-4 sm:p-8 w-full xs:max-w-[650px] min-h-[336px] bg-white border-solid border-2 rounded-lg"
 					ref={ref}
 				>
 					<div className="flex justify-end">
@@ -51,7 +89,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 								width={36}
 								onMouseEnter={() => setEditIsHovered(true)}
 								onMouseLeave={() => setEditIsHovered(false)}
-								onClick={() => setIsEditMode(true)}
+								onClick={() => setIsEditMode((prevVal) => !prevVal)}
 							/>
 						</button>
 						<button type="button" className="ml-2" aria-label="Close modal">
@@ -66,14 +104,36 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 						</button>
 					</div>
 
-					<div className="p-4">
-						<div className="font-semibold text-lg">{formattedDate}</div>
-						<p className="py-4 text-xl">{content}</p>
-						<ul className="flex mt-4">
-							{selectedTags &&
-								selectedTags.map((tag) => <Tag key={tag._id} tag={tag} />)}
-						</ul>
-					</div>
+					{isEditMode ? (
+						<form onSubmit={handleSubmit}>
+							<div className="font-semibold mb-3">{formattedDate}</div>
+
+							<TextAreaInput value={formData.content} onChange={handleChange} />
+
+							<TagSelector
+								selectedTags={selectedTags}
+								setSelectedTags={setSelectedTags}
+							/>
+
+							<Button
+								className="mt-8 py-3"
+								type="submit"
+								variant="secondary"
+								disabled={hasErrors}
+							>
+								Update Entry
+							</Button>
+						</form>
+					) : (
+						<div className="p-4">
+							<div className="font-semibold">{formattedDate}</div>
+							<p className="py-4">{content}</p>
+							<ul className="flex mt-4">
+								{selectedTags &&
+									selectedTags.map((tag) => <Tag key={tag._id} tag={tag} />)}
+							</ul>
+						</div>
+					)}
 				</div>
 			</div>
 		);

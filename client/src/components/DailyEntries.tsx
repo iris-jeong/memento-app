@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import Filters from './Filters';
 import Modal from './atoms/Modal';
 import Entry from './Entry';
-import { EntryType } from '@/types/entries';
+import { DailyEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
 import { MonthType } from './monthMenu';
 import useFilter from '@/hooks/useFilter';
@@ -11,11 +11,10 @@ import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useModal } from '@/hooks/useModal';
 
-interface DailyEntriesProps {
-	entries: EntryType[];
-}
-
-export default function DailyEntries({ entries }: DailyEntriesProps) {
+export default function DailyEntries({
+	entries,
+	setEntries,
+}: DailyEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
 	const modalRef = useRef<HTMLDivElement>(null);
 
@@ -46,9 +45,12 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 	return (
 		<section className="bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
 			{isOpen && (
-				// <div className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10">
-				<Modal ref={modalRef} entry={currentEntry} closeModal={closeModal} />
-				// </div>
+				<Modal
+					ref={modalRef}
+					entry={currentEntry}
+					closeModal={closeModal}
+					setEntries={setEntries}
+				/>
 			)}
 
 			<div className="max-w-[1200px] mx-auto">
@@ -74,7 +76,7 @@ export default function DailyEntries({ entries }: DailyEntriesProps) {
 						{entries.length !== 0 ? (
 							entries.map((entry) => (
 								<Entry
-									key={entry.id}
+									key={entry._id}
 									date={entry.date}
 									content={entry.content}
 									tags={entry.tags}

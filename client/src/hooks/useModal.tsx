@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { EntryType } from '@/types/entries';
 
 const initialValue = {
-	id: '',
+	_id: '',
 	userId: '',
 	content: '',
 	date: new Date(),

@@ -38,7 +38,6 @@ export default function EntryForm({ setEntries }: EntryFormProps) {
 			tags: selectedTags,
 		};
 
-		console.log('ENTRY DATA: ', entryData);
 		try {
 			const result = await createEntry(entryData, token);
 

@@ -44,7 +44,7 @@ export default function Home() {
 			<Header />
 			<main>
 				<EntryForm setEntries={setEntries} />
-				<DailyEntries entries={entries} />
+				<DailyEntries entries={entries} setEntries={setEntries} />
 			</main>
 		</div>
 	);

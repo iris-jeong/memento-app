@@ -51,3 +51,29 @@ export async function createEntry(
 
 	return result;
 }
+
+export async function updateEntry(
+	entryId: string,
+	formData: EntryFormData,
+	token: string
+) {
+	const url = `${BASE_URL}/entries/${entryId}`;
+
+	const response = await fetch(url, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(formData),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		console.error('Entry update failed:', result);
+		throw new Error('Failed to update entry.');
+	}
+
+	return result;
+}

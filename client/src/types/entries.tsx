@@ -1,7 +1,7 @@
 import { TagType } from '@/types/tags';
 
 export interface EntryType {
-	id: string;
+	_id: string;
 	userId?: string;
 	content: string;
 	date: Date;
@@ -13,6 +13,11 @@ export interface EntryProps {
 	content: string;
 	tags?: TagType[];
 	handleEntryClick: () => void;
+}
+
+export interface DailyEntriesProps {
+	entries: EntryType[];
+	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
 }
 
 export interface CreateEntryResponse {
