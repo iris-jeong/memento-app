@@ -12,8 +12,11 @@ export interface ButtonProps {
 
 export interface IconButtonProps {
 	icon: StaticImageData;
+	hoverIcon: StaticImageData;
+	activeIcon?: StaticImageData;
 	alt: string;
 	onClick: () => void;
+	classes?: string;
 	width?: number;
 	height?: number;
 }

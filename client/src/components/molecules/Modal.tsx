@@ -1,5 +1,4 @@
 import React, { forwardRef, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ModalProps } from '@/types/modal';
 import { TagType } from '@/types/tags';
@@ -10,6 +9,7 @@ import { formatDate } from '@/utils/formUtils';
 import Tag from '@/components/Tag';
 import TextAreaInput from '@/components/atoms/TextAreaInput';
 import Button from '@/components/atoms/Button';
+import IconButton from '@/components/atoms/IconButton';
 import TagSelector from '@/components/molecules/TagSelector';
 import CloseIcon from '../../../public/close-2.svg';
 import CloseIconHover from '../../../public/close-2-hover.svg';
@@ -23,17 +23,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		const { date, content, tags } = entry;
 		const initialValues: EntryContentData = { content: content };
 		const [selectedTags, setSelectedTags] = useState<TagType[]>(tags);
-		const [closeIsHovered, setCloseIsHovered] = useState<boolean>(false);
-		const [editIsHovered, setEditIsHovered] = useState<boolean>(false);
 		const [isEditMode, setIsEditMode] = useState<boolean>(false);
-		const editIconSrc = isEditMode
-			? EditIconActive
-			: editIsHovered
-			? EditIconHover
-			: EditIcon;
-		const closeIconSrc = closeIsHovered ? CloseIconHover : CloseIcon;
-		const dateLabel = new Date(date).toDateString();
-		const ariaLabel = `${dateLabel} journal entry`;
 		const formattedDate = formatDate(new Date(date));
 
 		const onSubmit = async (formData: EntryContentData) => {
@@ -73,7 +63,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			<div
 				className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10"
 				role="dialog"
-				aria-label={ariaLabel}
+				aria-label={`${new Date(date).toDateString()} journal entry`}
 				aria-modal="true"
 				tabIndex={-1}
 			>
@@ -82,26 +72,22 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					ref={ref}
 				>
 					<div className="flex justify-end">
-						<button type="button" aria-label="Edit entry">
-							<Image
-								src={editIconSrc}
-								alt=""
-								width={36}
-								onMouseEnter={() => setEditIsHovered(true)}
-								onMouseLeave={() => setEditIsHovered(false)}
-								onClick={() => setIsEditMode((prevVal) => !prevVal)}
-							/>
-						</button>
-						<button type="button" className="ml-2" aria-label="Close modal">
-							<Image
-								src={closeIconSrc}
-								alt=""
-								width={36}
-								onClick={() => closeModal()}
-								onMouseEnter={() => setCloseIsHovered(true)}
-								onMouseLeave={() => setCloseIsHovered(false)}
-							/>
-						</button>
+						<IconButton
+							icon={EditIcon}
+							hoverIcon={EditIconHover}
+							activeIcon={EditIconActive}
+							alt="Edit entry"
+							onClick={() => setIsEditMode((prevVal) => !prevVal)}
+							width={36}
+						/>
+						<IconButton
+							icon={CloseIcon}
+							hoverIcon={CloseIconHover}
+							classes="ml-2"
+							alt="Close modal"
+							onClick={() => closeModal()}
+							width={36}
+						/>
 					</div>
 
 					{isEditMode ? (
