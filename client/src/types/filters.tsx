@@ -4,3 +4,14 @@ export interface TagFilterProps {
 	selectedTags: TagType[];
 	setSelectedTags: React.Dispatch<React.SetStateAction<TagType[]>>;
 }
+
+export interface DateFilterProps {
+	selectedYear: number;
+	setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+	selectedMonth: number;
+	setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface DatePickerProps {
+	ref: React.RefObject<HTMLDivElement>;
+}

@@ -11,11 +11,18 @@ import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useModal } from '@/hooks/useModal';
+import DateFilter from '../molecules/DateFilter';
 
 export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
 	const modalRef = useRef<HTMLDivElement>(null);
 	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
+	const [selectedYear, setSelectedYear] = useState<number>(
+		new Date().getFullYear()
+	);
+	const [selectedMonth, setSelectedMonth] = useState<number>(
+		new Date().getMonth()
+	);
 
 	// const tagListRef = useRef<HTMLDivElement>(null);
 	// const monthListRef = useRef<HTMLDivElement>(null);
@@ -56,10 +63,19 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 				<div className=" rounded-md p-1 xs:px-4">
 					<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2 xs:p-0 xs:my-4 mx-auto">
 						<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
-						<TagFilter
-							selectedTags={selectedTags}
-							setSelectedTags={setSelectedTags}
-						/>
+						<div className="flex">
+							<TagFilter
+								selectedTags={selectedTags}
+								setSelectedTags={setSelectedTags}
+							/>
+
+							<DateFilter
+								selectedYear={selectedYear}
+								setSelectedYear={setSelectedYear}
+								selectedMonth={selectedMonth}
+								setSelectedMonth={setSelectedMonth}
+							/>
+						</div>
 						{/* <Filters
 							tagsFilter={tagsFilter}
 							monthsFilter={monthsFilter}
