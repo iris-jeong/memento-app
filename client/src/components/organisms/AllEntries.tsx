@@ -1,11 +1,12 @@
 'use client';
-import { useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Filters from '@/components/Filters';
 import Modal from '@/components/molecules/Modal';
 import Entry from '@/components/Entry';
 import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
 import { MonthType } from '@/components/monthMenu';
+import TagFilter from '@/components/molecules/TagFilter';
 import useFilter from '@/hooks/useFilter';
 import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -14,25 +15,26 @@ import { useModal } from '@/hooks/useModal';
 export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
 	const modalRef = useRef<HTMLDivElement>(null);
+	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
-	const tagListRef = useRef<HTMLDivElement>(null);
-	const monthListRef = useRef<HTMLDivElement>(null);
-	const dayListRef = useRef<HTMLDivElement>(null);
-	const yearListRef = useRef<HTMLDivElement>(null);
+	// const tagListRef = useRef<HTMLDivElement>(null);
+	// const monthListRef = useRef<HTMLDivElement>(null);
+	// const dayListRef = useRef<HTMLDivElement>(null);
+	// const yearListRef = useRef<HTMLDivElement>(null);
 
-	const tagsFilter = useFilter<TagType>([]);
-	const monthsFilter = useFilter<MonthType>([]);
-	const daysFilter = useFilter<number>([]);
-	const yearsFilter = useFilter<number>([]);
+	// const tagsFilter = useFilter<TagType>([]);
+	// const monthsFilter = useFilter<MonthType>([]);
+	// const daysFilter = useFilter<number>([]);
+	// const yearsFilter = useFilter<number>([]);
 
-	const clickOutsideConfigs = [
-		{ ref: tagListRef, handler: () => tagsFilter.closeFilter() },
-		{ ref: monthListRef, handler: () => monthsFilter.closeFilter() },
-		{ ref: dayListRef, handler: () => daysFilter.closeFilter() },
-		{ ref: yearListRef, handler: () => yearsFilter.closeFilter() },
-	];
+	// const clickOutsideConfigs = [
+	// 	{ ref: tagListRef, handler: () => tagsFilter.closeFilter() },
+	// 	{ ref: monthListRef, handler: () => monthsFilter.closeFilter() },
+	// 	{ ref: dayListRef, handler: () => daysFilter.closeFilter() },
+	// 	{ ref: yearListRef, handler: () => yearsFilter.closeFilter() },
+	// ];
 
-	useMultipleClickOutside(clickOutsideConfigs);
+	// useMultipleClickOutside(clickOutsideConfigs);
 	useClickOutside(modalRef, closeModal);
 
 	const handleEntryClick = (entry: EntryType): void => {
@@ -54,8 +56,11 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 				<div className=" rounded-md p-1 xs:px-4">
 					<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2 xs:p-0 xs:my-4 mx-auto">
 						<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
-
-						<Filters
+						<TagFilter
+							selectedTags={selectedTags}
+							setSelectedTags={setSelectedTags}
+						/>
+						{/* <Filters
 							tagsFilter={tagsFilter}
 							monthsFilter={monthsFilter}
 							daysFilter={daysFilter}
@@ -64,7 +69,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 							monthListRef={monthListRef}
 							dayListRef={dayListRef}
 							yearListRef={yearListRef}
-						/>
+						/> */}
 					</div>
 				</div>
 

@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import AddIcon from '../../../public/add.svg';
-import Tag from '../Tag';
 import { TagType, TagSelector } from '@/types/tags';
-import TagOptions from '../atoms/TagOptions';
 import useClickOutside from '@/hooks/useClickOutside';
+import TagOptions from '@/components/atoms/TagOptions';
+import Tag from '@/components/Tag';
+import AddIcon from '../../../public/add.svg';
 
 export default function TagSelector({
 	selectedTags,
@@ -29,7 +29,7 @@ export default function TagSelector({
 				<div className="flex items-center flex-wrap">
 					<button
 						type="button"
-						className="flex items-center mr-4 mb-2"
+						className="flex items-center mr-4"
 						onClick={toggleTagOptions}
 					>
 						<Image src={AddIcon} alt="Add tags icon" width={20} />

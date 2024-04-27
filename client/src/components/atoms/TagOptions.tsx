@@ -1,13 +1,13 @@
+import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { TagType } from '@/types/tags';
 import { TagOptionsProps } from '@/types/tags';
-import Image from 'next/image';
+import { useTags } from '@/hooks/useTags';
+import useTrapFocus from '@/hooks/useTrapFocus';
 import TagIcon from '../../../public/tag.svg';
 import Checkbox from '../../../public/checkbox.svg';
 import CheckboxChecked from '../../../public/checkbox-checked.svg';
 import CheckboxDisabled from '../../../public/checkbox-disabled.svg';
-import { useTags } from '@/hooks/useTags';
-import { useMemo, useState } from 'react';
-import useTrapFocus from '@/hooks/useTrapFocus';
 
 export default function TagOptions({
 	tagOptionsRef,
@@ -61,9 +61,12 @@ export default function TagOptions({
 	useTrapFocus(tagOptionsIsOpen, tagOptionsRef);
 
 	return (
-		<div ref={tagOptionsRef} className="absolute z-50 w-[280px]">
+		<div
+			ref={tagOptionsRef}
+			className={`absolute z-50 w-[280px] mt-1 ${position}`}
+		>
 			<div
-				className={`border-2 border-[#E8E8E8] bg-[#FFFFFF] rounded-md shadow ${position}`}
+				className={'border-2 border-[#E8E8E8] bg-[#FFFFFF] rounded-md shadow'}
 			>
 				<div className="p-2">
 					<input
