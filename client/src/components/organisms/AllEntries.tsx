@@ -43,8 +43,8 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 
 			<div className="max-w-[1200px] mx-auto">
 				<div className=" rounded-md p-1 xs:px-4">
-					<div className="flex flex-col xs:flex-row xs:items-center xs:justify-between p-2 xs:p-0 xs:my-4 mx-auto">
-						<h1 className="font-bold mb-2 xs:mb-0">My Entries</h1>
+					<div className="flex items-center justify-between p-2 xs:p-0 xs:my-4 mx-auto">
+						<h1 className="font-bold">My Entries</h1>
 						<div className="flex">
 							<TagFilter
 								selectedTags={selectedTags}
