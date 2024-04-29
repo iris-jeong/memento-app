@@ -13,5 +13,39 @@ export interface DateFilterProps {
 }
 
 export interface DatePickerProps {
-	ref: React.RefObject<HTMLDivElement>;
+	dateFilterRef: React.RefObject<HTMLDivElement>;
+	selectedYear: number;
+	setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+	selectedMonth: number;
+	setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export const abbreviatedMonthNames = [
+	'Jan',
+	'Feb',
+	'Mar',
+	'Apr',
+	'May',
+	'Jun',
+	'Jul',
+	'Aug',
+	'Sep',
+	'Oct',
+	'Nov',
+	'Dec',
+];
+
+export const fullMonthNames = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];

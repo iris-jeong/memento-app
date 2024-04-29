@@ -24,24 +24,6 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 		new Date().getMonth()
 	);
 
-	// const tagListRef = useRef<HTMLDivElement>(null);
-	// const monthListRef = useRef<HTMLDivElement>(null);
-	// const dayListRef = useRef<HTMLDivElement>(null);
-	// const yearListRef = useRef<HTMLDivElement>(null);
-
-	// const tagsFilter = useFilter<TagType>([]);
-	// const monthsFilter = useFilter<MonthType>([]);
-	// const daysFilter = useFilter<number>([]);
-	// const yearsFilter = useFilter<number>([]);
-
-	// const clickOutsideConfigs = [
-	// 	{ ref: tagListRef, handler: () => tagsFilter.closeFilter() },
-	// 	{ ref: monthListRef, handler: () => monthsFilter.closeFilter() },
-	// 	{ ref: dayListRef, handler: () => daysFilter.closeFilter() },
-	// 	{ ref: yearListRef, handler: () => yearsFilter.closeFilter() },
-	// ];
-
-	// useMultipleClickOutside(clickOutsideConfigs);
 	useClickOutside(modalRef, closeModal);
 
 	const handleEntryClick = (entry: EntryType): void => {
@@ -76,16 +58,6 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 								setSelectedMonth={setSelectedMonth}
 							/>
 						</div>
-						{/* <Filters
-							tagsFilter={tagsFilter}
-							monthsFilter={monthsFilter}
-							daysFilter={daysFilter}
-							yearsFilter={yearsFilter}
-							tagListRef={tagListRef}
-							monthListRef={monthListRef}
-							dayListRef={dayListRef}
-							yearListRef={yearListRef}
-						/> */}
 					</div>
 				</div>
 
