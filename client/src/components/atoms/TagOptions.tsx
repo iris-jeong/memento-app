@@ -15,13 +15,13 @@ export default function TagOptions({
 	setSelectedTags,
 	tagOptionsIsOpen,
 	position,
+	maxTags,
 }: TagOptionsProps) {
 	const [tags, loading] = useTags();
 	const [searchTerm, setSearchTerm] = useState('');
-	const maxTagsAllowed = 3;
 
 	const handleTagChange = (tag: TagType, isChecked: boolean): void => {
-		if (isChecked && selectedTags.length < maxTagsAllowed) {
+		if (isChecked && selectedTags.length < maxTags) {
 			setSelectedTags((prevTags) => [...prevTags, tag]);
 		} else {
 			setSelectedTags((prevTags) => prevTags.filter((t) => t._id !== tag._id));
@@ -85,7 +85,7 @@ export default function TagOptions({
 				>
 					{filteredTags.map((tag) => {
 						const isDisabled =
-							selectedTags.length >= maxTagsAllowed &&
+							selectedTags.length >= maxTags &&
 							!selectedTags.some((selectedTag) => selectedTag._id === tag._id);
 						const isChecked = selectedTags.some(
 							(selectedTag) => selectedTag._id === tag._id
@@ -133,14 +133,14 @@ export default function TagOptions({
 					})}
 				</ul>
 			</div>
-			{selectedTags.length === 3 && (
+			{selectedTags.length === maxTags && maxTags !== tags.length && (
 				<div
 					aria-live="polite"
 					aria-atomic="true"
 					className="flex justify-end mt-1"
 				>
 					<span className="w-fit rounded px-4 py-2 bg-[#1945E2] text-white text-sm tracking-wide">
-						Up to 3 tags allowed
+						{`Up to ${maxTags} tags allowed`}
 					</span>
 				</div>
 			)}

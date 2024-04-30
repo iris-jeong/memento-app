@@ -1,17 +1,13 @@
 'use client';
 import { useMemo, useRef, useState } from 'react';
-import Filters from '@/components/Filters';
 import Modal from '@/components/molecules/Modal';
 import Entry from '@/components/Entry';
 import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
-import { MonthType } from '@/components/monthMenu';
-import TagFilter from '@/components/molecules/TagFilter';
-import useFilter from '@/hooks/useFilter';
-import useMultipleClickOutside from '@/hooks/useMultipleClickOutside';
-import useClickOutside from '@/hooks/useClickOutside';
 import { useModal } from '@/hooks/useModal';
-import DateFilter from '../molecules/DateFilter';
+import useClickOutside from '@/hooks/useClickOutside';
+import TagFilter from '@/components/molecules/TagFilter';
+import DateFilter from '@/components/molecules/DateFilter';
 
 export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
@@ -30,8 +26,20 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 		openModal(entry);
 	};
 
+	const filteredEntries = useMemo(() => {
+		if (selectedTags.length === 0) {
+			return entries;
+		}
+
+		return entries.filter((entry) =>
+			entry.tags.some((tag) =>
+				selectedTags.some((selectedTag) => selectedTag._id === tag._id)
+			)
+		);
+	}, [entries, selectedTags]);
+
 	return (
-		<section className="bg-[#F2F2F2] border-solid border-2 w-full mx-0 xl:px-12">
+		<section className="bg-[#F2F2F2] border-solid border-2 w-full h-screen mx-0 xl:px-12">
 			{isOpen && (
 				<Modal
 					ref={modalRef}
@@ -63,8 +71,8 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 
 				<div className="entries w-full">
 					<div className="w-full md:flex md:flex-wrap md:justify-between">
-						{entries.length !== 0 ? (
-							entries.map((entry) => (
+						{filteredEntries.length !== 0 ? (
+							filteredEntries.map((entry) => (
 								<Entry
 									key={entry._id}
 									date={entry.date}

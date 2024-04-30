@@ -18,6 +18,7 @@ export interface TagOptionsProps {
 	selectedTags: TagType[];
 	setSelectedTags: React.Dispatch<React.SetStateAction<TagType[]>>;
 	tagOptionsIsOpen: boolean;
+	maxTags: number;
 	position?: string;
 }
 

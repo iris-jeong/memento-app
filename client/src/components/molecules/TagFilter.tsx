@@ -34,6 +34,7 @@ export default function TagFilter({
 					selectedTags={selectedTags}
 					setSelectedTags={setSelectedTags}
 					tagOptionsIsOpen={tagOptionsIsOpen}
+					maxTags={5}
 					position="top-full right-0"
 				/>
 			)}

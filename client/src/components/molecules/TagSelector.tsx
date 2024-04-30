@@ -50,6 +50,7 @@ export default function TagSelector({
 					selectedTags={selectedTags}
 					setSelectedTags={setSelectedTags}
 					tagOptionsIsOpen={tagOptionsIsOpen}
+					maxTags={3}
 				/>
 			)}
 		</div>
