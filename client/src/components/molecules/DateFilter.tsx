@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { DateFilterProps } from '@/types/filters';
-import DownArrow from '../../../public/down.svg';
-import DatePicker from '../atoms/DatePicker';
 import useClickOutside from '@/hooks/useClickOutside';
+import DatePicker from '@/components/atoms/DatePicker';
+import DownArrow from '../../../public/down.svg';
+import UpArrow from '../../../public/up.svg';
 
 export default function DateFilter({
 	selectedYear,
@@ -18,7 +19,11 @@ export default function DateFilter({
 
 	return (
 		<div className="relative flex justify-end ml-2">
-			<div className="w-fit border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1">
+			<div
+				className={`w-fit border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1 ${
+					isOpen ? 'border-[#D5D5D5]' : ''
+				}`}
+			>
 				<button
 					type="button"
 					className="flex items-center"
@@ -26,7 +31,7 @@ export default function DateFilter({
 					onClick={() => setIsOpen((prevIsOpen) => !prevIsOpen)}
 				>
 					<span className="mr-1">Date</span>
-					<Image src={DownArrow} alt="" width={18} />
+					<Image src={isOpen ? UpArrow : DownArrow} alt="" width={18} />
 				</button>
 			</div>
 

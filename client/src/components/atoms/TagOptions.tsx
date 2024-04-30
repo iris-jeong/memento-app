@@ -17,7 +17,7 @@ export default function TagOptions({
 	position,
 	maxTags,
 }: TagOptionsProps) {
-	const [tags, loading] = useTags();
+	const [tags] = useTags();
 	const [searchTerm, setSearchTerm] = useState('');
 
 	const handleTagChange = (tag: TagType, isChecked: boolean): void => {
@@ -37,6 +37,10 @@ export default function TagOptions({
 			e.preventDefault();
 			handleTagChange(tag, !isChecked);
 		}
+	};
+
+	const handleClearClick = () => {
+		setSelectedTags([]);
 	};
 
 	const filteredTags = useMemo(() => {
@@ -131,6 +135,18 @@ export default function TagOptions({
 							</li>
 						);
 					})}
+					<li className="py-[4px] px-3 text-center">
+						<button
+							type="button"
+							className={`p-2 tracking-wide ${
+								selectedTags.length === 0 ? 'text-[#D5D5D5]' : 'text-[#565666]'
+							}`}
+							onClick={handleClearClick}
+							disabled={selectedTags.length === 0}
+						>
+							Clear All
+						</button>
+					</li>
 				</ul>
 			</div>
 			{selectedTags.length === maxTags && maxTags !== tags.length && (
