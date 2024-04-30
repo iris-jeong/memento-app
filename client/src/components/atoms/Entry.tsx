@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import Tag from './atoms/Tag';
 import { EntryProps } from '@/types/entries';
 import useMultilineEllipsis from '@/hooks/useMultilineEllipsis';
+import Tag from '@/components/atoms/Tag';
 
 export default function Entry({
 	date,
@@ -15,10 +15,20 @@ export default function Entry({
 	const maxHeight = 200;
 	const truncatedText = useMultilineEllipsis(textRef, content, maxHeight);
 
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleEntryClick();
+		}
+	};
+
 	return (
 		<div
-			className="border-solid border-2 p-4 mx-3 h-[300px] md:w-[46.85%] xl:w-[31%] bg-white rounded-md mb-4 hover:shadow hover:cursor-pointer"
+			className="border-2 p-4 h-[300px] bg-white rounded-md hover:shadow hover:cursor-pointer"
+			role="button"
+			tabIndex={0}
+			aria-label="View entry details"
 			onClick={handleEntryClick}
+			onKeyDown={(e) => handleKeyDown(e)}
 		>
 			<p className="font-bold mb-2">{formattedDate}</p>
 			<p ref={textRef} className="h-[200px] overflow-hidden mb-2">

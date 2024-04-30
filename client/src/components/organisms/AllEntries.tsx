@@ -1,11 +1,11 @@
 'use client';
 import { useMemo, useRef, useState } from 'react';
-import Modal from '@/components/molecules/Modal';
-import Entry from '@/components/Entry';
 import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
 import { useModal } from '@/hooks/useModal';
 import useClickOutside from '@/hooks/useClickOutside';
+import Entry from '@/components/atoms/Entry';
+import Modal from '@/components/molecules/Modal';
 import TagFilter from '@/components/molecules/TagFilter';
 import DateFilter from '@/components/molecules/DateFilter';
 
@@ -39,7 +39,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	}, [entries, selectedTags]);
 
 	return (
-		<section className="bg-[#F2F2F2] border-solid border-2 w-full h-screen mx-0 xl:px-12">
+		<section className="w-full bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
 			{isOpen && (
 				<Modal
 					ref={modalRef}
@@ -50,7 +50,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 			)}
 
 			<div className="max-w-[1200px] mx-auto">
-				<div className=" rounded-md p-1 xs:px-4">
+				<div className="p-1 xs:px-4">
 					<div className="flex items-center justify-between p-2 xs:p-0 xs:my-4 mx-auto">
 						<h1 className="font-bold">My Entries</h1>
 						<div className="flex">
@@ -69,28 +69,26 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 					</div>
 				</div>
 
-				<div className="entries w-full">
-					<div className="w-full md:flex md:flex-wrap md:justify-between">
-						{filteredEntries.length !== 0 ? (
-							filteredEntries.map((entry) => (
-								<Entry
-									key={entry._id}
-									date={entry.date}
-									content={entry.content}
-									tags={entry.tags}
-									handleEntryClick={() => handleEntryClick(entry)}
-								/>
-							))
-						) : (
-							<div className="h-[400px] w-full flex flex-col justify-center items-center">
-								<h2 className="text-xl font-bold">No entries added yet</h2>
-								<p className="w-[370px] text-center">
-									You have not added any entries yet. Add an entry in the form
-									above to view it here.
-								</p>
-							</div>
-						)}
-					</div>
+				<div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-2 xs:px-4">
+					{filteredEntries.length !== 0 ? (
+						filteredEntries.map((entry) => (
+							<Entry
+								key={entry._id}
+								date={entry.date}
+								content={entry.content}
+								tags={entry.tags}
+								handleEntryClick={() => handleEntryClick(entry)}
+							/>
+						))
+					) : (
+						<div className="col-span-full h-[400px] flex flex-col justify-center items-center">
+							<h2 className="text-xl font-bold">No entries added yet</h2>
+							<p className="w-[370px] text-center">
+								You have not added any entries yet. Add an entry in the form
+								above to view it here.
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</section>
