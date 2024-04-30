@@ -38,6 +38,9 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 		);
 	}, [entries, selectedTags]);
 
+	const noEntries = entries.length === 0;
+	const noMatchingEntries = !noEntries && filteredEntries.length === 0;
+
 	return (
 		<section className="w-full bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
 			{isOpen && (
@@ -80,7 +83,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 								handleEntryClick={() => handleEntryClick(entry)}
 							/>
 						))
-					) : (
+					) : noEntries ? (
 						<div className="col-span-full h-[400px] flex flex-col justify-center items-center">
 							<h2 className="text-xl font-bold">No entries added yet</h2>
 							<p className="w-[370px] text-center">
@@ -88,7 +91,15 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 								above to view it here.
 							</p>
 						</div>
-					)}
+					) : noMatchingEntries ? (
+						<div className="col-span-full h-[400px] flex flex-col justify-center items-center">
+							<h2 className="text-xl font-bold">No matching entries</h2>
+							<p className="w-[370px] text-center">
+								There are no entries matching your selected filters. Adjust your
+								filters or add new entries that match.
+							</p>
+						</div>
+					) : null}
 				</div>
 			</div>
 		</section>
