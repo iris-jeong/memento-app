@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { TagType, TagSelector } from '@/types/tags';
 import useClickOutside from '@/hooks/useClickOutside';
 import TagOptions from '@/components/atoms/TagOptions';
-import Tag from '@/components/Tag';
+import Tag from '@/components/atoms/Tag';
 import AddIcon from '../../../public/add.svg';
 
 export default function TagSelector({

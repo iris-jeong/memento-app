@@ -1,6 +1,6 @@
 import DownArrow from '../../public/down.svg';
 import Image from 'next/image';
-import TagMenu from './Tag';
+import TagMenu from './atoms/Tag';
 import { TagType } from '@/types/tags';
 import MonthMenu, { MonthType } from './monthMenu';
 import DayMenu from './DayMenu';

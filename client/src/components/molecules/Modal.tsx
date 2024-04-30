@@ -6,7 +6,7 @@ import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
 import { updateEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
-import Tag from '@/components/Tag';
+import Tag from '@/components/atoms/Tag';
 import TextAreaInput from '@/components/atoms/TextAreaInput';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/atoms/IconButton';

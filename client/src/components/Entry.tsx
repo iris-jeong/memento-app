@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Tag from './Tag';
+import Tag from './atoms/Tag';
 import { EntryProps } from '@/types/entries';
 import useMultilineEllipsis from '@/hooks/useMultilineEllipsis';
 
