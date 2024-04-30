@@ -41,11 +41,9 @@ export default function EntryForm({ setEntries }: EntryFormProps) {
 		try {
 			const result = await createEntry(entryData, token);
 
-			setEntries((prevEntries) => [...prevEntries, result.entry]);
+			setEntries((prevEntries) => [result.entry, ...prevEntries]);
 			resetForm();
 			setSelectedTags([]);
-
-			console.log('Entry submission successful', result);
 		} catch (error) {
 			console.error('Error with submission:', error);
 		}
