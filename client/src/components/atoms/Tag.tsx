@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { TagProps } from '@/types/tags';
-import CloseIcon from '../../public/close.svg';
+import CloseIcon from '../../../public/close.svg';
 
 export default function Tag({ tag, removeTag }: TagProps) {
 	return (
