@@ -49,7 +49,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const noMatchingEntries = !noEntries && filteredEntries.length === 0;
 
 	return (
-		<section className="w-full bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
+		<section className="w-full xs:h-screen bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
 			{isOpen && (
 				<Modal
 					ref={modalRef}
