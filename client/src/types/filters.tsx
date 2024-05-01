@@ -8,16 +8,16 @@ export interface TagFilterProps {
 export interface DateFilterProps {
 	selectedYear: number;
 	setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
-	selectedMonth: number;
-	setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
+	selectedMonth: number | null;
+	setSelectedMonth: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export interface DatePickerProps {
 	dateFilterRef: React.RefObject<HTMLDivElement>;
 	selectedYear: number;
 	setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
-	selectedMonth: number;
-	setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
+	selectedMonth: number | null;
+	setSelectedMonth: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const abbreviatedMonthNames = [

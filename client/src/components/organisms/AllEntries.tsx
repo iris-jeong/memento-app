@@ -16,9 +16,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const [selectedYear, setSelectedYear] = useState<number>(
 		new Date().getFullYear()
 	);
-	const [selectedMonth, setSelectedMonth] = useState<number>(
-		new Date().getMonth()
-	);
+	const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
 
 	useClickOutside(modalRef, closeModal);
 
@@ -27,16 +25,25 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	};
 
 	const filteredEntries = useMemo(() => {
-		if (selectedTags.length === 0) {
-			return entries;
-		}
+		return entries.filter((entry) => {
+			const entryDate = new Date(entry.date);
+			const entryYear = entryDate.getFullYear();
+			const entryMonth = entryDate.getMonth();
 
-		return entries.filter((entry) =>
-			entry.tags.some((tag) =>
-				selectedTags.some((selectedTag) => selectedTag._id === tag._id)
-			)
-		);
-	}, [entries, selectedTags]);
+			const matchesDate =
+				selectedYear === null ||
+				selectedMonth === null ||
+				(entryYear === selectedYear && entryMonth === selectedMonth);
+
+			const matchesTags =
+				selectedTags.length === 0 ||
+				entry.tags.some((tag) =>
+					selectedTags.some((selectedTag) => selectedTag._id === tag._id)
+				);
+
+			return matchesDate && matchesTags;
+		});
+	}, [entries, selectedTags, selectedYear, selectedMonth]);
 
 	const noEntries = entries.length === 0;
 	const noMatchingEntries = !noEntries && filteredEntries.length === 0;
