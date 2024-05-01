@@ -4,7 +4,7 @@ import { ModalProps } from '@/types/modal';
 import { TagType } from '@/types/tags';
 import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
-import { updateEntry } from '@/api/entries';
+import { deleteEntry, updateEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
 import Tag from '@/components/atoms/Tag';
 import TextAreaInput from '@/components/atoms/TextAreaInput';
@@ -16,6 +16,9 @@ import CloseIconHover from '../../../public/close-2-hover.svg';
 import EditIcon from '../../../public/edit.svg';
 import EditIconHover from '../../../public/edit-hover.svg';
 import EditIconActive from '../../../public/edit-active.svg';
+import Delete from '../../../public/trash.svg';
+import DeleteHover from '../../../public/trash-hover.svg';
+import DeleteActive from '../../../public/trash-active.svg';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	({ entry, closeModal, setEntries }, ref) => {
@@ -25,6 +28,26 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		const [selectedTags, setSelectedTags] = useState<TagType[]>(tags);
 		const [isEditMode, setIsEditMode] = useState<boolean>(false);
 		const formattedDate = formatDate(new Date(date));
+
+		const handleDeleteClick = async (entryId: string) => {
+			const token = localStorage.getItem('token');
+
+			if (!token) {
+				console.error('Authentication required');
+				router.push('/login');
+				return;
+			}
+
+			try {
+				await deleteEntry(token, entryId);
+				setEntries((prevEntries) =>
+					prevEntries.filter((e) => e._id !== entryId)
+				);
+				closeModal();
+			} catch (error) {
+				console.error('Error with deleting', error);
+			}
+		};
 
 		const onSubmit = async (formData: EntryContentData) => {
 			const token = localStorage.getItem('token');
@@ -73,9 +96,18 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				>
 					<div className="flex justify-end">
 						<IconButton
+							icon={Delete}
+							hoverIcon={DeleteHover}
+							activeIcon={DeleteActive}
+							alt="Delete entry"
+							onClick={() => handleDeleteClick(entry._id)}
+							width={36}
+						/>
+						<IconButton
 							icon={EditIcon}
 							hoverIcon={EditIconHover}
 							activeIcon={EditIconActive}
+							classes="ml-2"
 							alt="Edit entry"
 							onClick={() => setIsEditMode((prevVal) => !prevVal)}
 							width={36}

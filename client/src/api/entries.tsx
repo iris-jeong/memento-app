@@ -77,3 +77,20 @@ export async function updateEntry(
 
 	return result;
 }
+
+export async function deleteEntry(token: string, entryId: string) {
+	const url = `${BASE_URL}/entries/${entryId}`;
+
+	const response = await fetch(url, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (!response.ok) {
+		console.error('Entry delete failed:', response);
+		throw new Error('Failed to delete entry.');
+	}
+}
