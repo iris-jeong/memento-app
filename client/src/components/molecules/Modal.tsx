@@ -84,7 +84,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
 		return (
 			<div
-				className="absolute inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10"
+				className="fixed inset-0 bg-black bg-opacity-30 w-full flex justify-center items-center z-10"
 				role="dialog"
 				aria-label={`${new Date(date).toDateString()} journal entry`}
 				aria-modal="true"
