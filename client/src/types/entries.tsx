@@ -20,6 +20,11 @@ export interface AllEntriesProps {
 	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
 }
 
+export interface EntryListProps {
+	entries: EntryType[];
+	filteredEntries: EntryType[];
+	onClick: (entry: EntryType) => void;
+}
 export interface CreateEntryResponse {
 	entry: EntryType;
 	location: string;
