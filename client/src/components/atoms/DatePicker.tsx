@@ -29,6 +29,10 @@ export default function DatePicker({
 		setSelectedMonth(monthIndex);
 	};
 
+	const handleClearClick = () => {
+		setSelectedMonth(null);
+	};
+
 	return (
 		<div ref={dateFilterRef} className="absolute z-50 top-full right-0">
 			<div
@@ -84,6 +88,19 @@ export default function DatePicker({
 						);
 					})}
 				</ul>
+
+				<div className="w-full flex justify-center mt-3">
+					<button
+						type="button"
+						className={`tracking-wide ${
+							selectedMonth ? 'text-[#565666]' : 'text-[#D5D5D5]'
+						}`}
+						onClick={handleClearClick}
+						disabled={selectedMonth === null}
+					>
+						Clear Selection
+					</button>
+				</div>
 			</div>
 		</div>
 	);

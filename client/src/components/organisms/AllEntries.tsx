@@ -20,6 +20,11 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 
 	useClickOutside(modalRef, closeModal);
 
+	const handleResetClick = () => {
+		setSelectedMonth(null);
+		setSelectedTags([]);
+	};
+
 	const handleEntryClick = (entry: EntryType): void => {
 		openModal(entry);
 	};
@@ -45,6 +50,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 		});
 	}, [entries, selectedTags, selectedYear, selectedMonth]);
 
+	const hasFilters = selectedMonth || selectedTags.length !== 0;
 	const noEntries = entries.length === 0;
 	const noMatchingEntries = !noEntries && filteredEntries.length === 0;
 
@@ -64,6 +70,18 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 					<div className="flex items-center justify-between p-2 xs:p-0 xs:my-4 mx-auto">
 						<h1 className="font-bold">My Entries</h1>
 						<div className="flex">
+							<button
+								type="button"
+								aria-label="Reset all filter selections"
+								className={`mr-4 underline ${
+									hasFilters ? 'text-[#454545]' : 'text-[#D5D5D5]'
+								}`}
+								onClick={handleResetClick}
+								disabled={!hasFilters}
+							>
+								Reset All
+							</button>
+
 							<TagFilter
 								selectedTags={selectedTags}
 								setSelectedTags={setSelectedTags}
