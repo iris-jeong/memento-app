@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { TagType } from '@/types/tags';
 import { EntryFormProps } from '@/types/forms';
 import { EntryContentData } from '@/types/forms';
+import { useAuth } from '@/hooks/useAuth';
 import useForm from '@/hooks/useForm';
 import { createEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
@@ -12,6 +13,7 @@ import TextAreaInput from '@/components/atoms/TextAreaInput';
 import TagSelector from '@/components/molecules/TagSelector';
 
 export default function EntryForm({ setEntries }: EntryFormProps) {
+	const { user, isAuthenticated, token } = useAuth();
 	const router = useRouter();
 	const todaysDate = new Date();
 	const initialValues: EntryContentData = {
@@ -20,19 +22,14 @@ export default function EntryForm({ setEntries }: EntryFormProps) {
 	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
 	const onSubmit = async (formData: EntryContentData) => {
-		const token = localStorage.getItem('token');
-		const storedUser = localStorage.getItem('user');
-
-		// If there's no token or user, redirect user to login page.
-		if (!token || !storedUser) {
+		if (!isAuthenticated) {
 			console.error('Authentication required');
 			router.push('/login');
 			return;
 		}
 
-		const user = JSON.parse(storedUser);
 		const entryData = {
-			userId: user.id,
+			userId: user?.id,
 			date: todaysDate,
 			content: formData.content,
 			tags: selectedTags,

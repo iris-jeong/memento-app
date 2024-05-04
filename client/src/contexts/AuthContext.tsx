@@ -1,27 +1,11 @@
 'use client';
 import { createContext, useState, PropsWithChildren, useEffect } from 'react';
-
-interface User {
-	firstName: string;
-	lastName: string;
-	email: string;
-}
-
-interface AuthState {
-	isAuthenticated: boolean;
-	user: User | null;
-}
-
-export type AuthContextType = {
-	isAuthenticated: boolean;
-	user: User | null;
-	login: (token: string, user: User) => void;
-	logout: () => void;
-};
+import { User, AuthState, AuthContextType } from '@/types/auth';
 
 export const AuthContext = createContext<AuthContextType>({
 	isAuthenticated: false,
 	user: null,
+	token: '',
 	login: () => {},
 	logout: () => {},
 });
@@ -30,6 +14,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [authState, setAuthState] = useState<AuthState>({
 		isAuthenticated: false,
 		user: null,
+		token: '',
 	});
 
 	useEffect(() => {
@@ -37,20 +22,24 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		const token = localStorage.getItem('token');
 		const userData = localStorage.getItem('user');
 		if (token && userData) {
-			setAuthState({ isAuthenticated: true, user: JSON.parse(userData) });
+			setAuthState({
+				isAuthenticated: true,
+				user: JSON.parse(userData),
+				token: token,
+			});
 		}
 	}, []);
 
 	const login = (token: string, user: User) => {
 		localStorage.setItem('token', token);
 		localStorage.setItem('user', JSON.stringify(user));
-		setAuthState({ isAuthenticated: true, user });
+		setAuthState({ isAuthenticated: true, user, token });
 	};
 
 	const logout = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
-		setAuthState({ isAuthenticated: false, user: null });
+		setAuthState({ isAuthenticated: false, user: null, token: '' });
 	};
 
 	return (

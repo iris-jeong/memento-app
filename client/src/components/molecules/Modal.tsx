@@ -19,9 +19,11 @@ import EditIconActive from '../../../public/edit-active.svg';
 import Delete from '../../../public/trash.svg';
 import DeleteHover from '../../../public/trash-hover.svg';
 import DeleteActive from '../../../public/trash-active.svg';
+import { useAuth } from '@/hooks/useAuth';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	({ entry, closeModal, setEntries }, ref) => {
+		const { isAuthenticated, token, user } = useAuth();
 		const router = useRouter();
 		const { date, content, tags } = entry;
 		const initialValues: EntryContentData = { content: content };
@@ -30,9 +32,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		const formattedDate = formatDate(new Date(date));
 
 		const handleDeleteClick = async (entryId: string) => {
-			const token = localStorage.getItem('token');
-
-			if (!token) {
+			if (!isAuthenticated) {
 				console.error('Authentication required');
 				router.push('/login');
 				return;
@@ -50,18 +50,14 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		};
 
 		const onSubmit = async (formData: EntryContentData) => {
-			const token = localStorage.getItem('token');
-			const storedUser = localStorage.getItem('user');
-
-			if (!token || !storedUser) {
+			if (!isAuthenticated) {
 				console.error('Authentication required');
 				router.push('/login');
 				return;
 			}
 
-			const user = JSON.parse(storedUser);
 			const updatedEntry = {
-				userId: user.id,
+				userId: user?.id,
 				date: date,
 				content: formData.content,
 				tags: selectedTags,

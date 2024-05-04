@@ -1,15 +1,16 @@
 import { getTags } from '@/api/tags';
 import { TagType } from '@/types/tags';
 import { useEffect, useState } from 'react';
+import { useAuth } from './useAuth';
 
 export const useTags = (): [TagType[], boolean] => {
+	const { isAuthenticated, token } = useAuth();
 	const [tags, setTags] = useState<TagType[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		const fetchAndCacheTags = async () => {
-			const token = localStorage.getItem('token');
-			if (!token) {
+			if (!isAuthenticated) {
 				console.error('Authentication required');
 				setLoading(false);
 				return;

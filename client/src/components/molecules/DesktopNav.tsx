@@ -1,5 +1,5 @@
-import NavLinks from '../atoms/NavLinks';
 import { DesktopNavProps } from '@/types/navigation';
+import NavLinks from '@/components/atoms/NavLinks';
 
 export default function DesktopNav({ links }: DesktopNavProps) {
 	return (

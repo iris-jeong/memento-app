@@ -4,7 +4,6 @@ import { AllEntriesProps, EntryType } from '@/types/entries';
 import { TagType } from '@/types/tags';
 import { useModal } from '@/hooks/useModal';
 import useClickOutside from '@/hooks/useClickOutside';
-import Entry from '@/components/atoms/Entry';
 import Modal from '@/components/molecules/Modal';
 import TagFilter from '@/components/molecules/TagFilter';
 import DateFilter from '@/components/molecules/DateFilter';

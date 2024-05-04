@@ -7,7 +7,7 @@ export interface EntryFormProps {
 }
 
 export type EntryFormData = {
-	userId: string;
+	userId?: string;
 	date: Date;
 	content: string;
 	tags: TagType[];

@@ -1,10 +1,10 @@
+import { MouseEvent } from 'react';
+import Image from 'next/image';
+import { useRouter, usePathname } from 'next/navigation';
+import { NavLink } from '@/types/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import DesktopNav from '@/components/molecules/DesktopNav';
 import MobileNav from '@/components/molecules/MobileNav';
-import { MouseEvent } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { NavLink } from '@/types/navigation';
-import Image from 'next/image';
 import WaveIcon from '../../../public/wave.svg';
 
 const landingPageLinks: NavLink[] = [
@@ -29,7 +29,6 @@ export default function Header() {
 
 	const links = isAuthenticated ? homePageLinks : landingPageLinks;
 
-	// Determine if the current page is the login or sign up page
 	const pathname = usePathname();
 	const isLoginPage = pathname === '/login';
 	const isSignUpPage = pathname === '/register';
