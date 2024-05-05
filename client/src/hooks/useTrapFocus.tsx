@@ -18,6 +18,8 @@ export default function useTrapFocus(
 				'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"]), li[tabindex]'
 			) as NodeListOf<HTMLElement>;
 
+			console.log('focusable elements:', focusableElements);
+
 			if (focusableElements.length > 0) {
 				const firstElement = focusableElements[0];
 				const lastElement = focusableElements[focusableElements.length - 1];
@@ -49,7 +51,7 @@ export default function useTrapFocus(
 			childList: true,
 			subtree: true,
 			attributes: true,
-			attributeFilter: ['tabindex'], // Filter to observe changes to tabindex if relevant.
+			attributeFilter: ['tabindex', 'disabled'], // Filter to observe changes to tabindex if relevant.
 		});
 
 		return () => {
