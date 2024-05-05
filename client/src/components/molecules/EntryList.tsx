@@ -7,7 +7,7 @@ export default function EntryList({
 	onClick,
 }: EntryListProps) {
 	const noEntries = entries.length === 0;
-	const noMatchingEntries = !noEntries && entries.length === 0;
+	const noMatchingEntries = !noEntries && filteredEntries.length === 0;
 
 	return (
 		<div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-2 xs:px-4">
