@@ -7,7 +7,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import Modal from '@/components/molecules/Modal';
 import TagFilter from '@/components/molecules/TagFilter';
 import DateFilter from '@/components/molecules/DateFilter';
-import EntryList from '../molecules/EntryList';
+import EntryList from '@/components/molecules/EntryList';
 
 export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
@@ -53,7 +53,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 	const hasFilters = selectedMonth || selectedTags.length !== 0;
 
 	return (
-		<section className="w-full xs:h-screen bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
+		<section className="w-full h-fit bg-[#F2F2F2] border-2 pb-8 mx-0 xl:px-12">
 			{isOpen && (
 				<Modal
 					ref={modalRef}

@@ -3,12 +3,12 @@ import {
 	abbreviatedMonthNames,
 	fullMonthNames,
 } from '@/types/filters';
+import useTrapFocus from '@/hooks/useTrapFocus';
 import IconButton from '@/components/atoms/IconButton';
 import LeftArrow from '../../../public/left-arrow.svg';
 import LeftArrowHover from '../../../public/left-arrow-hover.svg';
 import RightArrow from '../../../public/right-arrow.svg';
 import RightArrowHover from '../../../public/right-arrow-hover.svg';
-import useTrapFocus from '@/hooks/useTrapFocus';
 
 export default function DatePicker({
 	dateFilterRef,

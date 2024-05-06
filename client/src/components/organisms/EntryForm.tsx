@@ -41,8 +41,10 @@ export default function EntryForm({ setEntries }: EntryFormProps) {
 			setEntries((prevEntries) => [result.entry, ...prevEntries]);
 			resetForm();
 			setSelectedTags([]);
+			window.showToast('New entry created successfully', 'success');
 		} catch (error) {
 			console.error('Error with submission:', error);
+			window.showToast('Error creating new entry.', 'error');
 		}
 	};
 

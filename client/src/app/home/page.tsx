@@ -6,6 +6,7 @@ import { EntryType } from '@/types/entries';
 import Header from '@/components/organisms/Header';
 import EntryForm from '@/components/organisms/EntryForm';
 import AllEntries from '@/components/organisms/AllEntries';
+import Toast from '@/components/atoms/Toast';
 
 export default function Home() {
 	const [entries, setEntries] = useState<EntryType[]>([]);
@@ -45,6 +46,7 @@ export default function Home() {
 				<EntryForm setEntries={setEntries} />
 				<AllEntries entries={entries} setEntries={setEntries} />
 			</main>
+			<Toast />
 		</div>
 	);
 }
