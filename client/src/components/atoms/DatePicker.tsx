@@ -8,6 +8,7 @@ import LeftArrow from '../../../public/left-arrow.svg';
 import LeftArrowHover from '../../../public/left-arrow-hover.svg';
 import RightArrow from '../../../public/right-arrow.svg';
 import RightArrowHover from '../../../public/right-arrow-hover.svg';
+import useTrapFocus from '@/hooks/useTrapFocus';
 
 export default function DatePicker({
 	dateFilterRef,
@@ -31,6 +32,8 @@ export default function DatePicker({
 	const handleClearClick = () => {
 		setSelectedMonth(null);
 	};
+
+	useTrapFocus(true, dateFilterRef);
 
 	return (
 		<div ref={dateFilterRef} className="absolute z-50 top-full right-0">
@@ -79,6 +82,7 @@ export default function DatePicker({
 								className={`flex items-center justify-center h-12 rounded cursor-pointer hover:bg-[#f3f3f3] hover:shadow-sm ${
 									isSelectedMonth ? 'font-semibold bg-[#f3f3f3] shadow-sm' : ''
 								}`}
+								tabIndex={0}
 								onClick={() => handleMonthClick(index)}
 								aria-selected={isSelectedMonth ? 'true' : 'false'}
 							>
