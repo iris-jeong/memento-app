@@ -4,6 +4,7 @@ import { ChangeEvent } from 'react';
 
 export interface EntryFormProps {
 	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
+	highlightEntry: (entryId: string) => void;
 }
 
 export type EntryFormData = {

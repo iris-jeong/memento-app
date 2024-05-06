@@ -14,7 +14,7 @@ export default function Toast() {
 
 			setTimeout(() => {
 				setToast(null);
-			}, 93000);
+			}, 3000);
 		},
 		[]
 	);

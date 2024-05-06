@@ -10,8 +10,18 @@ import Toast from '@/components/atoms/Toast';
 
 export default function Home() {
 	const [entries, setEntries] = useState<EntryType[]>([]);
+	const [highlightedEntryId, setHighlightedEntryId] = useState<string | null>(
+		null
+	);
 	const [isLoading, setIsLoading] = useState(true);
 	const router = useRouter();
+
+	const highlightEntry = (entryId: string) => {
+		setHighlightedEntryId(entryId);
+		setTimeout(() => {
+			setHighlightedEntryId(null);
+		}, 3000);
+	};
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -43,8 +53,12 @@ export default function Home() {
 		<div className="relative">
 			<Header />
 			<main>
-				<EntryForm setEntries={setEntries} />
-				<AllEntries entries={entries} setEntries={setEntries} />
+				<EntryForm setEntries={setEntries} highlightEntry={highlightEntry} />
+				<AllEntries
+					entries={entries}
+					setEntries={setEntries}
+					highlightedEntryId={highlightedEntryId}
+				/>
 			</main>
 			<Toast />
 		</div>

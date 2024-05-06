@@ -8,6 +8,7 @@ export default function Entry({
 	content,
 	tags,
 	handleEntryClick,
+	classNames,
 }: EntryProps) {
 	const dateObj = new Date(date);
 	const formattedDate = dateObj.toLocaleDateString();
@@ -23,7 +24,7 @@ export default function Entry({
 
 	return (
 		<div
-			className="border-2 p-4 h-[300px] bg-white rounded-md hover:shadow hover:cursor-pointer"
+			className={`border-2 p-4 h-[300px] bg-white rounded-md hover:shadow hover:cursor-pointer ${classNames}`}
 			role="button"
 			tabIndex={0}
 			aria-label="View entry details"

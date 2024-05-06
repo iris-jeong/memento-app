@@ -9,7 +9,11 @@ import TagFilter from '@/components/molecules/TagFilter';
 import DateFilter from '@/components/molecules/DateFilter';
 import EntryList from '@/components/molecules/EntryList';
 
-export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
+export default function AllEntries({
+	entries,
+	setEntries,
+	highlightedEntryId,
+}: AllEntriesProps) {
 	const { isOpen, currentEntry, openModal, closeModal } = useModal();
 	const modalRef = useRef<HTMLDivElement>(null);
 	const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
@@ -99,6 +103,7 @@ export default function AllEntries({ entries, setEntries }: AllEntriesProps) {
 					entries={entries}
 					filteredEntries={filteredEntries}
 					onClick={handleEntryClick}
+					highlightedEntryId={highlightedEntryId}
 				/>
 			</div>
 		</section>

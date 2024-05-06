@@ -13,17 +13,20 @@ export interface EntryProps {
 	content: string;
 	tags?: TagType[];
 	handleEntryClick: () => void;
+	classNames: string;
 }
 
 export interface AllEntriesProps {
 	entries: EntryType[];
 	setEntries: React.Dispatch<React.SetStateAction<EntryType[]>>;
+	highlightedEntryId: string | null;
 }
 
 export interface EntryListProps {
 	entries: EntryType[];
 	filteredEntries: EntryType[];
 	onClick: (entry: EntryType) => void;
+	highlightedEntryId: string | null;
 }
 export interface CreateEntryResponse {
 	entry: EntryType;

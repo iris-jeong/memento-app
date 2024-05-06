@@ -12,7 +12,10 @@ import Button from '@/components/atoms/Button';
 import TextAreaInput from '@/components/atoms/TextAreaInput';
 import TagSelector from '@/components/molecules/TagSelector';
 
-export default function EntryForm({ setEntries }: EntryFormProps) {
+export default function EntryForm({
+	setEntries,
+	highlightEntry,
+}: EntryFormProps) {
 	const { user, isAuthenticated, token } = useAuth();
 	const router = useRouter();
 	const todaysDate = new Date();
@@ -41,6 +44,7 @@ export default function EntryForm({ setEntries }: EntryFormProps) {
 			setEntries((prevEntries) => [result.entry, ...prevEntries]);
 			resetForm();
 			setSelectedTags([]);
+			highlightEntry(result.entry._id);
 			window.showToast('New entry created successfully', 'success');
 		} catch (error) {
 			console.error('Error with submission:', error);
