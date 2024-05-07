@@ -20,7 +20,7 @@ export default function Home() {
 		setHighlightedEntryId(entryId);
 		setTimeout(() => {
 			setHighlightedEntryId(null);
-		}, 3000);
+		}, 4000);
 	};
 
 	useEffect(() => {

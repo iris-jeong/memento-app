@@ -43,6 +43,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				setEntries((prevEntries) =>
 					prevEntries.filter((e) => e._id !== entryId)
 				);
+				window.showToast('Entry deleted successfully', 'success');
 				closeModal();
 			} catch (error) {
 				console.error('Error with deleting', error);
@@ -139,7 +140,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 							</Button>
 						</form>
 					) : (
-						<div className="p-4">
+						<div className="px-4">
 							<div className="font-semibold">{formattedDate}</div>
 							<p className="py-4">{content}</p>
 							<ul className="flex mt-4">
