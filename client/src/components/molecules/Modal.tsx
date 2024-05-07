@@ -47,6 +47,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				closeModal();
 			} catch (error) {
 				console.error('Error with deleting', error);
+				window.showToast('Error with deleting entry', 'error');
 			}
 		};
 
@@ -69,10 +70,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				setEntries((prevEntries) =>
 					prevEntries.map((e) => (e._id === entry._id ? result : e))
 				);
+				window.showToast('Entry updated successfully', 'success');
 				resetForm();
 				closeModal();
 			} catch (error) {
 				console.error('Error with update');
+				window.showToast('Error with updating entry', 'error');
 			}
 		};
 
