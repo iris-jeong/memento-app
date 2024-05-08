@@ -1,10 +1,26 @@
 'use client';
 import Image from 'next/image';
-import Journal from '../../public/journaling.svg';
+import { BeatLoader } from 'react-spinners';
+import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 import Header from '@/components/organisms/Header';
 import Button from '@/components/atoms/Button';
+import Journal from '../../public/journaling.svg';
 
 export default function Landing() {
+	const { isLoading, isRedirecting } = useAuthRedirect('/home');
+
+	if (isLoading || isRedirecting) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<BeatLoader
+					loading={true}
+					color="#1945E2"
+					aria-label="Loading Spinner"
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col h-screen">
 			<Header />
