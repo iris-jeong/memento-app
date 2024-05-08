@@ -1,13 +1,15 @@
 'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { BeatLoader } from 'react-spinners';
+import { LoginFormData } from '@/types/forms';
+import { useAuth } from '@/hooks/useAuth';
+import useForm from '@/hooks/useForm';
 import { loginUser } from '@/api/auth';
 import Button from '@/components/atoms/Button';
 import TextInput from '@/components/atoms/TextInput';
 import Header from '@/components/organisms/Header';
-import { useAuth } from '@/hooks/useAuth';
-import useForm from '@/hooks/useForm';
-import { LoginFormData } from '@/types/forms';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 
 export default function Login() {
 	const initialValues: LoginFormData = {
@@ -25,12 +27,12 @@ export default function Login() {
 	const [loginError, setLoginError] = useState<string>('');
 	const auth = useAuth();
 	const router = useRouter();
+	const { isLoading, isRedirecting } = useAuthRedirect('/home');
 
 	const onSubmit = async (formData: LoginFormData) => {
 		try {
 			const { token, user } = await loginUser(formData);
 
-			// Store the token & user
 			if (token && user) {
 				localStorage.setItem('token', token);
 				localStorage.setItem('user', JSON.stringify(user));
@@ -43,12 +45,23 @@ export default function Login() {
 		}
 	};
 
-	const { formData, handleChange, handleSubmit, hasErrors, formErrors } =
-		useForm({
-			initialValues,
-			onSubmit,
-			onFieldChange: () => setLoginError(''),
-		});
+	const { formData, handleChange, handleSubmit, hasErrors } = useForm({
+		initialValues,
+		onSubmit,
+		onFieldChange: () => setLoginError(''),
+	});
+
+	if (isLoading || isRedirecting) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<BeatLoader
+					loading={true}
+					color="#1945E2"
+					aria-label="Loading Spinner"
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<>

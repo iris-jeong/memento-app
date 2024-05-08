@@ -1,8 +1,10 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { BeatLoader } from 'react-spinners';
 import { RegisterFormData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
+import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 import { registerUser } from '@/api/auth';
 import Header from '@/components/organisms/Header';
 import TextInput from '@/components/atoms/TextInput';
@@ -27,6 +29,7 @@ export default function Register() {
 	];
 	const auth = useAuth();
 	const router = useRouter();
+	const { isLoading, isRedirecting } = useAuthRedirect('/home');
 
 	const onSubmit = async (formData: RegisterFormData) => {
 		try {
@@ -48,6 +51,18 @@ export default function Register() {
 			initialValues,
 			onSubmit,
 		});
+
+	if (isLoading || isRedirecting) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<BeatLoader
+					loading={true}
+					color="#1945E2"
+					aria-label="Loading Spinner"
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<>
