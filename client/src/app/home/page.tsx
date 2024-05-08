@@ -1,20 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getEntries } from '@/api/entries';
 import { EntryType } from '@/types/entries';
+import { useAuth } from '@/hooks/useAuth';
+import { getEntries } from '@/api/entries';
 import Header from '@/components/organisms/Header';
 import EntryForm from '@/components/organisms/EntryForm';
 import AllEntries from '@/components/organisms/AllEntries';
 import Toast from '@/components/atoms/Toast';
 
 export default function Home() {
+	const { isAuthenticated, token } = useAuth();
+	const router = useRouter();
+
 	const [entries, setEntries] = useState<EntryType[]>([]);
 	const [highlightedEntryId, setHighlightedEntryId] = useState<string | null>(
 		null
 	);
 	const [isLoading, setIsLoading] = useState(true);
-	const router = useRouter();
 
 	const highlightEntry = (entryId: string) => {
 		setHighlightedEntryId(entryId);
@@ -24,8 +27,7 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (!token) {
+		if (!isAuthenticated) {
 			console.error('Authentication required');
 			router.push('/login');
 			return;
@@ -33,7 +35,6 @@ export default function Home() {
 
 		const fetchEntries = async () => {
 			setIsLoading(true);
-
 			try {
 				const data = await getEntries(token);
 				setEntries(data);

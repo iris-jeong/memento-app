@@ -4,6 +4,7 @@ import { ModalProps } from '@/types/modal';
 import { TagType } from '@/types/tags';
 import { EntryContentData } from '@/types/forms';
 import useForm from '@/hooks/useForm';
+import { useAuth } from '@/hooks/useAuth';
 import { deleteEntry, updateEntry } from '@/api/entries';
 import { formatDate } from '@/utils/formUtils';
 import Tag from '@/components/atoms/Tag';
@@ -19,7 +20,6 @@ import EditIconActive from '../../../public/edit-active.svg';
 import Delete from '../../../public/trash.svg';
 import DeleteHover from '../../../public/trash-hover.svg';
 import DeleteActive from '../../../public/trash-active.svg';
-import { useAuth } from '@/hooks/useAuth';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	({ entry, closeModal, setEntries }, ref) => {

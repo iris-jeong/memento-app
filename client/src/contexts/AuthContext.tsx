@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	});
 
 	useEffect(() => {
-		// Rehydrate state from local storage
+		// Rehydrate state from local storage.
 		const token = localStorage.getItem('token');
 		const userData = localStorage.getItem('user');
 		if (token && userData) {
