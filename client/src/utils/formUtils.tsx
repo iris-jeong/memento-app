@@ -1,5 +1,3 @@
-import { RegisterFormData, LoginFormData } from '@/types/forms';
-
 export const validateFormField = (fieldName: string, value: string) => {
 	switch (fieldName) {
 		case 'firstName':

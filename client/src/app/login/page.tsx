@@ -11,25 +11,29 @@ import TextInput from '@/components/atoms/TextInput';
 import Header from '@/components/organisms/Header';
 import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 
+const formFields: Array<{
+	id: keyof LoginFormData;
+	label: string;
+	type: string;
+}> = [
+	{ id: 'email', label: 'Email', type: 'text' },
+	{ id: 'password', label: 'Password', type: 'password' },
+];
+
 export default function Login() {
 	const initialValues: LoginFormData = {
 		email: '',
 		password: '',
 	};
-	const formFields: Array<{
-		id: keyof LoginFormData;
-		label: string;
-		type: string;
-	}> = [
-		{ id: 'email', label: 'Email', type: 'text' },
-		{ id: 'password', label: 'Password', type: 'password' },
-	];
+
 	const [loginError, setLoginError] = useState<string>('');
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const auth = useAuth();
 	const router = useRouter();
 	const { isLoading, isRedirecting } = useAuthRedirect('/home');
 
 	const onSubmit = async (formData: LoginFormData) => {
+		setIsSubmitting(true);
 		try {
 			const { token, user } = await loginUser(formData);
 
@@ -40,16 +44,21 @@ export default function Login() {
 				router.push('/home');
 			}
 		} catch (error) {
-			setLoginError('Invalid email or password');
+			setLoginError(
+				'Your email and/or password is incorrect. Please try again.'
+			);
 			console.error('Error before or during fetch:', error);
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
-	const { formData, handleChange, handleSubmit, hasErrors } = useForm({
-		initialValues,
-		onSubmit,
-		onFieldChange: () => setLoginError(''),
-	});
+	const { formData, handleChange, handleSubmit, hasErrors, formErrors } =
+		useForm({
+			initialValues,
+			onSubmit,
+			onFieldChange: () => setLoginError(''),
+		});
 
 	if (isLoading || isRedirecting) {
 		return (
@@ -97,8 +106,8 @@ export default function Login() {
 								<small className="text-red-600">{loginError}</small>
 							)}
 
-							<Button type="submit" variant="secondary" disabled={hasErrors}>
-								Log In
+							<Button type="submit" variant="secondary" disabled={isSubmitting}>
+								{isSubmitting ? 'Logging In...' : 'Log In'}
 							</Button>
 						</form>
 					</div>

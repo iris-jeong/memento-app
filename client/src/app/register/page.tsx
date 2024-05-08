@@ -9,6 +9,18 @@ import { registerUser } from '@/api/auth';
 import Header from '@/components/organisms/Header';
 import TextInput from '@/components/atoms/TextInput';
 import Button from '@/components/atoms/Button';
+import { useState } from 'react';
+
+const formFields: Array<{
+	id: keyof RegisterFormData;
+	label: string;
+	type: string;
+}> = [
+	{ id: 'firstName', label: 'First Name', type: 'text' },
+	{ id: 'lastName', label: 'Last Name', type: 'text' },
+	{ id: 'email', label: 'Email', type: 'text' },
+	{ id: 'password', label: 'Password', type: 'password' },
+];
 
 export default function Register() {
 	const initialValues: RegisterFormData = {
@@ -17,25 +29,17 @@ export default function Register() {
 		email: '',
 		password: '',
 	};
-	const formFields: Array<{
-		id: keyof RegisterFormData;
-		label: string;
-		type: string;
-	}> = [
-		{ id: 'firstName', label: 'First Name', type: 'text' },
-		{ id: 'lastName', label: 'Last Name', type: 'text' },
-		{ id: 'email', label: 'Email', type: 'text' },
-		{ id: 'password', label: 'Password', type: 'password' },
-	];
+
 	const auth = useAuth();
 	const router = useRouter();
 	const { isLoading, isRedirecting } = useAuthRedirect('/home');
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const onSubmit = async (formData: RegisterFormData) => {
+		setIsSubmitting(true);
 		try {
 			const { token, user } = await registerUser(formData);
 
-			// Store the token & user
 			if (token && user) {
 				localStorage.setItem('token', token);
 				auth.login(token, user);
@@ -43,6 +47,8 @@ export default function Register() {
 			}
 		} catch (error) {
 			console.error('Error:', error);
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -94,8 +100,8 @@ export default function Register() {
 								/>
 							))}
 
-							<Button type="submit" variant="secondary" disabled={hasErrors}>
-								Sign Up
+							<Button type="submit" variant="secondary" disabled={isSubmitting}>
+								{isSubmitting ? 'Signing Up...' : 'Sign Up'}
 							</Button>
 						</form>
 					</div>
