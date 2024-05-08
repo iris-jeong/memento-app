@@ -29,7 +29,7 @@ export default function Home() {
 	useEffect(() => {
 		if (!isAuthenticated) {
 			console.error('Authentication required');
-			router.push('/login');
+			router.replace('/login');
 			return;
 		}
 
@@ -46,7 +46,7 @@ export default function Home() {
 		};
 
 		fetchEntries();
-	}, [router]);
+	}, [router, isAuthenticated]);
 
 	if (isLoading) return <div>Loading...</div>;
 

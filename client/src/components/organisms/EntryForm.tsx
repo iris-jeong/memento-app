@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TagType } from '@/types/tags';
 import { EntryFormProps } from '@/types/forms';
@@ -27,7 +27,7 @@ export default function EntryForm({
 	const onSubmit = async (formData: EntryContentData) => {
 		if (!isAuthenticated) {
 			console.error('Authentication required');
-			router.push('/login');
+			router.replace('/login');
 			return;
 		}
 
@@ -48,6 +48,7 @@ export default function EntryForm({
 			window.showToast('New entry created successfully', 'success');
 		} catch (error) {
 			console.error('Error with submission:', error);
+			router.replace('/login');
 			window.showToast('Error creating new entry.', 'error');
 		}
 	};

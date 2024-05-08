@@ -1,11 +1,13 @@
-import { User } from '../models/User.js';
-import { validateLogin, validateUser } from '../validation/userValidation.js';
 import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
+import { User } from '../models/User.js';
+import { validateLogin, validateUser } from '../validation/userValidation.js';
 
-// Register user
+const expiryTime = '24h';
+
+// Register user.
 const register = asyncHandler(async (req, res) => {
 	const { error } = validateUser(req.body);
 	if (error) {
@@ -14,12 +16,12 @@ const register = asyncHandler(async (req, res) => {
 
 	const { firstName, lastName, email, password } = req.body;
 
-	// Check for duplicate
+	// Check for duplicate.
 	const emailNormalized = email.trim().toLowerCase();
 	const duplicate = await User.findOne({ emailNormalized });
 	if (duplicate) return res.status(409).json({ message: 'Duplicate email' });
 
-	// Create and store new user
+	// Create and store new user.
 	const userObject = {
 		firstName: firstName.trim(),
 		lastName: lastName.trim(),
@@ -32,7 +34,7 @@ const register = asyncHandler(async (req, res) => {
 	const token = jwt.sign(
 		{ userId: savedUser._id, email: savedUser.email },
 		config.get('jwt.secret'),
-		{ expiresIn: '48h' }
+		{ expiresIn: expiryTime }
 	);
 
 	res.status(201).json({
@@ -47,7 +49,7 @@ const register = asyncHandler(async (req, res) => {
 	});
 });
 
-// Log in user
+// Log in user.
 const login = asyncHandler(async (req, res) => {
 	const { error } = validateLogin(req.body);
 	if (error) {
@@ -58,22 +60,20 @@ const login = asyncHandler(async (req, res) => {
 	email = email.trim().toLowerCase();
 
 	const user = await User.findOne({ email });
-
 	if (!user) {
 		return res.status(400).json({ message: 'Invalid email or password' });
 	}
 
 	const validPassword = await bcrypt.compare(password, user.password);
-
 	if (!validPassword) {
 		return res.status(400).json({ message: 'Invalid password or email' });
 	}
 
-	// Generate JSON web token
+	// Generate JSON web token.
 	const token = jwt.sign(
 		{ _id: user._id, email: user.email },
 		config.get('jwt.secret'),
-		{ expiresIn: '12h' }
+		{ expiresIn: expiryTime }
 	);
 
 	res.json({

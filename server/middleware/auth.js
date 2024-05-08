@@ -8,17 +8,19 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
 		req.headers.authorization.startsWith('Bearer')
 	) {
 		try {
-			// Get token from header
+			// Get token from header.
 			const token = req.headers.authorization.split(' ')[1];
 
-			// Verify token
+			// Verify token.
 			const decoded = jwt.verify(token, config.get('jwt.secret'));
 
-			// Add user from payload
+			// Add user from payload.
 			req.user = decoded;
 			next();
 		} catch (error) {
-			res.status(401).json({ message: 'Not authorized, token failed' });
+			if (error.name === 'TokenExpiredError') {
+				res.status(401).json({ message: 'Token expired' });
+			}
 		}
 	} else {
 		res.status(401).json({ message: 'Not authorized, no token' });
