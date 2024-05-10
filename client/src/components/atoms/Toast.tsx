@@ -28,7 +28,7 @@ export default function Toast() {
 		<div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
 			{toast && (
 				<div
-					className={`flex justify-between max-w-xs w-[400px] border-2 text-white rounded-lg shadow-lg p-4 transition-opacity duration-300 ${
+					className={`flex justify-between max-w-xs w-[400px] border-2 rounded-lg shadow-lg p-4 transition-opacity duration-300 ${
 						toast.type === 'success'
 							? 'border-[#52654B] bg-[#DEF3D6] text-[#52654B]'
 							: 'border-[#970000] bg-[#FFE3E3] text-[#970000]'
