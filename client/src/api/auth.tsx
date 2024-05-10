@@ -7,6 +7,8 @@ export async function registerUser(
 	formData: RegisterFormData
 ): Promise<Response> {
 	const url = `${BASE_URL}/auth/register`;
+	console.log('BASE URL:', BASE_URL);
+
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: {

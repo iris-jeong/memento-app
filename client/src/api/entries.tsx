@@ -5,8 +5,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getEntries(token: string): Promise<EntryType[]> {
 	const url = `${BASE_URL}/entries`;
+	console.log('BASE URL:', BASE_URL);
 
-	const response = await fetch('http://localhost:3001/api/entries', {
+	const response = await fetch(url, {
 		headers: {
 			Authorization: `Bearer ${localStorage.getItem('token')}`,
 		},

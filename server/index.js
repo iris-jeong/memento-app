@@ -31,13 +31,13 @@ if (process.env.NODE_ENV === 'development') {
 // Connect to MongoDB
 const mongoUri = config.get('db.uri');
 mongoose
-	.connect(mongoUri)
+	.connect(mongoUri, { dbName: config.get('db.name') })
 	.then(() => dbDebug(`Connected to ${mongoUri}...`))
 	.catch(() => dbDebug("Couldn't connect"));
 
 // Routes
 app.get('/', (req, res) => {
-	console.log(process.env.NODE_ENV);
+	console.log('ENVIRONMENT:', process.env.NODE_ENV);
 
 	res.send('Hello World!');
 });
@@ -50,3 +50,5 @@ app.use(error);
 // Start the server
 const PORT = config.get('port');
 app.listen(PORT, () => startupDebug(`Listening on port ${PORT}...`));
+console.log('ENVIRONMENT:', process.env.NODE_ENV);
+console.log('PORT:', PORT);
