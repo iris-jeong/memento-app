@@ -34,12 +34,14 @@ export default function Register() {
 	const router = useRouter();
 	const { isLoading, isRedirecting } = useAuthRedirect('/home');
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+	const [hasRegistrationError, setHasRegistrationError] =
+		useState<boolean>(false);
 
 	const onSubmit = async (formData: RegisterFormData) => {
 		setIsSubmitting(true);
 		try {
 			const { token, user } = await registerUser(formData);
-
+			setHasRegistrationError(false);
 			if (token && user) {
 				localStorage.setItem('token', token);
 				auth.login(token, user);
@@ -47,6 +49,7 @@ export default function Register() {
 			}
 		} catch (error) {
 			console.error('Error:', error);
+			setHasRegistrationError(true);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -100,6 +103,13 @@ export default function Register() {
 								/>
 							))}
 
+							{hasRegistrationError && (
+								<div className="mb-2">
+									<small className="text-red-600">
+										Email is already in use.
+									</small>
+								</div>
+							)}
 							<Button type="submit" variant="secondary" disabled={isSubmitting}>
 								{isSubmitting ? 'Signing Up...' : 'Sign Up'}
 							</Button>
