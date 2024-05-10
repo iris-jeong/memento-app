@@ -36,11 +36,6 @@ mongoose
 	.catch(() => dbDebug("Couldn't connect"));
 
 // Routes
-app.get('/', (req, res) => {
-	console.log('ENVIRONMENT:', process.env.NODE_ENV);
-
-	res.send('Hello World!');
-});
 app.use('/api/auth', auth);
 app.use('/api/entries', authMiddleware, entries);
 app.use('/api/tags', authMiddleware, tags);
@@ -50,5 +45,3 @@ app.use(error);
 // Start the server
 const PORT = config.get('port');
 app.listen(PORT, () => startupDebug(`Listening on port ${PORT}...`));
-console.log('ENVIRONMENT:', process.env.NODE_ENV);
-console.log('PORT:', PORT);

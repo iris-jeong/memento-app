@@ -5,7 +5,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getEntries(token: string): Promise<EntryType[]> {
 	const url = `${BASE_URL}/entries`;
-	console.log('BASE URL:', BASE_URL);
 
 	const response = await fetch(url, {
 		headers: {
@@ -16,7 +15,6 @@ export async function getEntries(token: string): Promise<EntryType[]> {
 	const result = await response.json();
 
 	if (!response.ok) {
-		console.error('Error fetching entries', result);
 		throw new Error('Failed to retrieve entries');
 	}
 
@@ -46,7 +44,6 @@ export async function createEntry(
 	const result = await response.json();
 
 	if (!response.ok) {
-		console.error('Entry submission failed:', result);
 		throw new Error('Failed to create a new entry.');
 	}
 
@@ -72,7 +69,6 @@ export async function updateEntry(
 	const result = await response.json();
 
 	if (!response.ok) {
-		console.error('Entry update failed:', result);
 		throw new Error('Failed to update entry.');
 	}
 
@@ -91,7 +87,6 @@ export async function deleteEntry(token: string, entryId: string) {
 	});
 
 	if (!response.ok) {
-		console.error('Entry delete failed:', response);
 		throw new Error('Failed to delete entry.');
 	}
 }

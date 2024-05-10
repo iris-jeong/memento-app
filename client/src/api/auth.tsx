@@ -7,7 +7,6 @@ export async function registerUser(
 	formData: RegisterFormData
 ): Promise<Response> {
 	const url = `${BASE_URL}/auth/register`;
-	console.log('BASE URL:', BASE_URL);
 
 	const response = await fetch(url, {
 		method: 'POST',
@@ -21,9 +20,7 @@ export async function registerUser(
 		const errorResult = await response.json();
 		throw new Error('Registration failed: ' + JSON.stringify(errorResult));
 	}
-
 	const result: Response = await response.json();
-	console.log('Registration successful', result);
 
 	return result;
 }
@@ -42,9 +39,7 @@ export async function loginUser(formData: LoginFormData): Promise<Response> {
 		const errorResult = await response.json();
 		throw new Error('Login failed: ' + JSON.stringify(errorResult));
 	}
-
 	const result: Response = await response.json();
-	console.log('Sign in successful', result);
 
 	return result;
 }
