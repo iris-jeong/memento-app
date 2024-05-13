@@ -72,17 +72,17 @@ export default function AllEntries({
 					<div className="flex items-center justify-between p-2 xs:p-0 xs:my-4 mx-auto">
 						<h1 className="font-bold">My Entries</h1>
 						<div className="flex">
-							<button
-								type="button"
-								aria-label="Reset all filter selections"
-								className={`mr-4 underline ${
-									hasFilters ? 'text-[#454545]' : 'text-[#D5D5D5]'
-								}`}
-								onClick={handleResetClick}
-								disabled={!hasFilters}
-							>
-								Reset All
-							</button>
+							{hasFilters && (
+								<button
+									type="button"
+									aria-label="Reset all filter selections"
+									className="mr-4 underline text-[#454545]"
+									onClick={handleResetClick}
+									disabled={!hasFilters}
+								>
+									Clear All
+								</button>
+							)}
 
 							<TagFilter
 								selectedTags={selectedTags}

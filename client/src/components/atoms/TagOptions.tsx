@@ -46,16 +46,12 @@ export default function TagOptions({
 	const filteredTags = useMemo(() => {
 		if (!searchTerm.trim()) return tags;
 
-		// Regex pattern to match tags containing all letters of searchTerm in any order.
 		const pattern = searchTerm
 			.trim()
 			.toLowerCase()
 			.split('')
-			.reduce((acc, char) => {
-				// Escape special regex characters just in case they are typed into the search.
-				const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				return acc + '(?=.*' + escapedChar + ')';
-			}, '');
+			.map((char) => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special regex characters
+			.join('.*');
 
 		const regex = new RegExp(pattern, 'i');
 

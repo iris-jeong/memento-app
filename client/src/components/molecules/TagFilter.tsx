@@ -19,8 +19,8 @@ export default function TagFilter({
 		<div className="relative flex justify-end">
 			<div
 				className={`w-fit border-2 rounded-full bg-[#F9F9F9] pl-3 pr-2 py-1 ${
-					isOpen ? 'border-[#D5D5D5]' : ''
-				}`}
+					selectedTags.length !== 0 ? 'border-[#1945E2]' : ''
+				} ${isOpen ? 'border-[#D5D5D5]' : ''}`}
 			>
 				<button
 					type="button"

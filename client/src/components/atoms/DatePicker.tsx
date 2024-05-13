@@ -26,7 +26,11 @@ export default function DatePicker({
 	};
 
 	const handleMonthClick = (monthIndex: number) => {
-		setSelectedMonth(monthIndex);
+		if (monthIndex !== selectedMonth) {
+			setSelectedMonth(monthIndex);
+		} else {
+			handleClearClick();
+		}
 	};
 
 	const handleClearClick = () => {
@@ -96,7 +100,7 @@ export default function DatePicker({
 					<button
 						type="button"
 						className={`tracking-wide ${
-							selectedMonth ? 'text-[#565666]' : 'text-[#D5D5D5]'
+							selectedMonth !== null ? 'text-[#565666]' : 'text-[#D5D5D5]'
 						}`}
 						onClick={handleClearClick}
 						disabled={selectedMonth === null}
