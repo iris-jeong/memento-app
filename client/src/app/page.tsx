@@ -25,9 +25,9 @@ export default function Landing() {
 		<div className="flex flex-col h-screen">
 			<Header />
 
-			<div id="content">
-				<main className="flex flex-grow justify-center items-center">
-					<div className="flex flex-col items-center h-fit px-6">
+			<div id="content" className="h-screen flex justify-center items-center">
+				<main className="grow">
+					<div className="flex flex-col items-center px-6">
 						<Image src={Journal} alt="Journal" width={400} />
 						<div className="text-center">
 							<h1 className="font-sourceSerif font-bold text-4xl xs:text-5xl text-[#2A2A2A] mb-4">
