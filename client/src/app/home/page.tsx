@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { BeatLoader } from 'react-spinners';
 import { EntryType } from '@/types/entries';
 import { useAuth } from '@/hooks/useAuth';
 import { getEntries } from '@/api/entries';
@@ -48,7 +49,7 @@ export default function Home() {
 		fetchEntries();
 	}, [router, isAuthenticated]);
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <BeatLoader />;
 
 	return (
 		<div className="relative">
