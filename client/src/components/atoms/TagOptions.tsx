@@ -4,10 +4,11 @@ import { TagType } from '@/types/tags';
 import { TagOptionsProps } from '@/types/tags';
 import { useTags } from '@/hooks/useTags';
 import useTrapFocus from '@/hooks/useTrapFocus';
+import useTagIcons from '@/hooks/useTagIcons';
 import Checkbox from '../../../public/checkbox.svg';
 import CheckboxChecked from '../../../public/checkbox-checked.svg';
 import CheckboxDisabled from '../../../public/checkbox-disabled.svg';
-import useTagIcons from '@/hooks/useTagIcons';
+import Warning from '../../../public/warning.svg';
 
 export default function TagOptions({
 	tagOptionsRef,
@@ -152,9 +153,12 @@ export default function TagOptions({
 					aria-atomic="true"
 					className="flex justify-end mt-1"
 				>
-					<span className="w-fit rounded px-4 py-2 bg-[#1945E2] text-white text-sm tracking-wide">
-						{`Up to ${maxTags} tags allowed`}
-					</span>
+					<div className="flex w-fit rounded px-4 py-3 bg-[#FFECBB] shadow-lg">
+						<Image src={Warning} alt="" width={20} />
+						<span className="ml-1 text-[#744D02] text-sm font-semibold tracking-wide">
+							{`Up to ${maxTags} tags allowed`}
+						</span>
+					</div>
 				</div>
 			)}
 		</div>

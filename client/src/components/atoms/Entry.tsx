@@ -24,7 +24,7 @@ export default function Entry({
 
 	return (
 		<div
-			className={`border-2 p-4 h-[300px] bg-white rounded-md hover:shadow hover:cursor-pointer ${classNames}`}
+			className={`border-2 p-4 bg-white rounded-md hover:shadow hover:cursor-pointer ${classNames}`}
 			role="button"
 			tabIndex={0}
 			aria-label="View entry details"
@@ -32,7 +32,7 @@ export default function Entry({
 			onKeyDown={(e) => handleKeyDown(e)}
 		>
 			<p className="font-bold mb-2">{formattedDate}</p>
-			<p ref={textRef} className="h-[200px] overflow-hidden mb-2">
+			<p ref={textRef} className="h-[150px] overflow-hidden mb-2">
 				{truncatedText}
 			</p>
 			<div className="flex -ml-1">

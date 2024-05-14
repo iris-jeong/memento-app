@@ -91,7 +91,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				tabIndex={-1}
 			>
 				<div
-					className="z-40 mx-2 p-4 sm:p-8 w-full xs:max-w-[650px] min-h-[336px] bg-white border-solid border-2 rounded-lg"
+					className="z-40 mx-1 py-4 px-2 xs:mx-2 xs:p-4 sm:p-8 w-full xs:max-w-[650px] bg-white border-solid border-2 rounded-lg"
 					ref={ref}
 				>
 					<div className="flex justify-end">

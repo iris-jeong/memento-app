@@ -7,9 +7,9 @@ export default function Tag({ tag, removeTag }: TagProps) {
 	const tagIcon = useSmallTagIcons(tag.name);
 
 	return (
-		<li className="w-fit flex items-center border-solid border-2 bg-[#F9F9F9] rounded-full px-3 py-1 text-[10px] xxs:text-xs mr-2">
+		<li className="w-fit flex items-center border-solid border-2 bg-[#F9F9F9] rounded-full px-2 py-1 mr-2">
 			<Image src={tagIcon} alt="" width={15} className="mr-1" />
-			<p className="">{tag.name}</p>
+			<p className="text-[11px] xxs:text-xs">{tag.name}</p>
 
 			{removeTag && (
 				<button

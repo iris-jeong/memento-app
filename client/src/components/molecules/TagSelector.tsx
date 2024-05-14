@@ -29,7 +29,7 @@ export default function TagSelector({
 				<div className="flex items-center flex-wrap">
 					<button
 						type="button"
-						className="flex items-center mr-4"
+						className="flex items-center mr-4 mb-1"
 						onClick={toggleTagOptions}
 					>
 						<Image src={AddIcon} alt="Add tags icon" width={20} />
