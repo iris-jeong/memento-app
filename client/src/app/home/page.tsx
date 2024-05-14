@@ -49,7 +49,16 @@ export default function Home() {
 		fetchEntries();
 	}, [router, isAuthenticated]);
 
-	if (isLoading) return <BeatLoader />;
+	if (isLoading)
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<BeatLoader
+					loading={true}
+					color="#1945E2"
+					aria-label="Loading Spinner"
+				/>
+			</div>
+		);
 
 	return (
 		<div className="relative">
