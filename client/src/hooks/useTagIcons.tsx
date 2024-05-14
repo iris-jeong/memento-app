@@ -26,8 +26,8 @@ const smallTagIconsMap: Record<string, StaticImageData> = {
 	Realization: GreenTagSm,
 };
 
-export default function useTagIcons(tagName: string) {
-	return tagIconsMap[tagName] || null;
+export default function useTagIcons() {
+	return tagIconsMap;
 }
 
 export function useSmallTagIcons(tagName: string) {

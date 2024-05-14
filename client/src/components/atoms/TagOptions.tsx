@@ -61,6 +61,8 @@ export default function TagOptions({
 
 	useTrapFocus(tagOptionsIsOpen, tagOptionsRef);
 
+	const tagIcons = useTagIcons();
+
 	return (
 		<div
 			ref={tagOptionsRef}
@@ -96,7 +98,6 @@ export default function TagOptions({
 							: isChecked
 							? CheckboxChecked
 							: Checkbox;
-						const tagIcon = useTagIcons(tag.name);
 
 						return (
 							<li
@@ -116,7 +117,12 @@ export default function TagOptions({
 								className="flex items-center justify-between py-[6px] px-3 hover:bg-[#f3f3f3] cursor-pointer"
 							>
 								<span className="flex">
-									<Image src={tagIcon} width={20} aria-hidden="true" alt="" />
+									<Image
+										src={tagIcons[tag.name]}
+										width={20}
+										aria-hidden="true"
+										alt=""
+									/>
 									<label
 										className={`ml-1 ${
 											isDisabled ? 'cursor-default' : 'cursor-pointer'
