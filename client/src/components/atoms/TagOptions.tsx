@@ -4,10 +4,10 @@ import { TagType } from '@/types/tags';
 import { TagOptionsProps } from '@/types/tags';
 import { useTags } from '@/hooks/useTags';
 import useTrapFocus from '@/hooks/useTrapFocus';
-import TagIcon from '../../../public/tag.svg';
 import Checkbox from '../../../public/checkbox.svg';
 import CheckboxChecked from '../../../public/checkbox-checked.svg';
 import CheckboxDisabled from '../../../public/checkbox-disabled.svg';
+import useTagIcons from '@/hooks/useTagIcons';
 
 export default function TagOptions({
 	tagOptionsRef,
@@ -83,7 +83,7 @@ export default function TagOptions({
 					role="listbox"
 					aria-multiselectable="true"
 				>
-					{filteredTags.map((tag) => {
+					{filteredTags.map((tag, i) => {
 						const isDisabled =
 							selectedTags.length >= maxTags &&
 							!selectedTags.some((selectedTag) => selectedTag._id === tag._id);
@@ -95,6 +95,7 @@ export default function TagOptions({
 							: isChecked
 							? CheckboxChecked
 							: Checkbox;
+						const tagIcon = useTagIcons(tag.name);
 
 						return (
 							<li
@@ -114,7 +115,7 @@ export default function TagOptions({
 								className="flex items-center justify-between py-[6px] px-3 hover:bg-[#f3f3f3] cursor-pointer"
 							>
 								<span className="flex">
-									<Image src={TagIcon} width={20} aria-hidden="true" alt="" />
+									<Image src={tagIcon} width={20} aria-hidden="true" alt="" />
 									<label
 										className={`ml-1 ${
 											isDisabled ? 'cursor-default' : 'cursor-pointer'

@@ -18,6 +18,7 @@ const config: Config = {
 				sourceSansPro: ['Source Sans Pro', 'sans serif'],
 			},
 			screens: {
+				xxs: '500px',
 				xs: '586px',
 			},
 		},
