@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 // Connect to MongoDB
 const mongoUri = config.get('db.uri');
 mongoose
-	.connect(mongoUri, { dbName: config.get('db.name') })
+	.connect(mongoUri)
 	.then(() => dbDebug(`Connected to ${mongoUri}...`))
 	.catch(() => dbDebug("Couldn't connect"));
 

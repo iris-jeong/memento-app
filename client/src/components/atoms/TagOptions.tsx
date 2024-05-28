@@ -120,6 +120,7 @@ export default function TagOptions({
 									<Image
 										src={tagIcons[tag.name]}
 										width={20}
+										height={20}
 										aria-hidden="true"
 										alt=""
 									/>
@@ -134,7 +135,12 @@ export default function TagOptions({
 								</span>
 
 								<span>
-									<Image src={checkboxSrc} width={20} alt="Checkbox" />
+									<Image
+										src={checkboxSrc}
+										width={20}
+										height={20}
+										alt="Checkbox"
+									/>
 								</span>
 							</li>
 						);

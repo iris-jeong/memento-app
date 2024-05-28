@@ -8,7 +8,7 @@ import MobileNav from '@/components/molecules/MobileNav';
 import WaveIcon from '../../../public/wave.svg';
 
 const landingPageLinks: NavLink[] = [
-	{ href: '#', label: 'About' },
+	// { href: '#', label: 'About' },
 	{ href: '/login', label: 'Log In' },
 	{ href: '/register', label: 'Sign Up' },
 ];
